@@ -14,17 +14,18 @@ export const CommentBody = styled.div`
 `
 
 export const P = styled.p`
-    background: #f0f2f5;
+    background: ${(props) => props.theme.gray};
     margin-bottom: 0;
     border-radius: 8px;
     padding: 10px 16px;
     color: #000;
     display: inline-block;
+    color: ${(props) => props.theme.color}
 `
 export const Name = styled.span`
  display: block;
  font-weight: 700;
- color: #000;
+ color: ${(props) => props.theme.color};
 
 `
 export const Image = styled.div`

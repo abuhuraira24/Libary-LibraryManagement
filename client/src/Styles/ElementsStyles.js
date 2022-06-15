@@ -92,8 +92,9 @@ export const Label = styled.label`
 
 export const Input = styled.input`
     width: 100%;
-    border: 1px solid #ddd;
+    border: none;
     padding: 1rem;
+    background: ${(props) => props.theme.gray};
 `
 
 export const FormTitle = styled.h2`

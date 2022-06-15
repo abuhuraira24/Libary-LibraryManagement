@@ -25,7 +25,7 @@ import QueryPage from './components/SearchPage/QueryPage';
 import People from './components/People';
 import PostDetails from './components/PostDetails';
 import SmallNavbar from './components/Navbar/SmallNavbar';
-
+import Profile from './components/Profile';
 
 function App() {
 
@@ -37,6 +37,7 @@ function App() {
          <NavBar />
         <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/profile/:id' element={<Profile />} />
         <Route path='/search' element={<QueryPage />} />
         <Route path='/search/people' element={<People />} />
         <Route path='/post/:id' element={<PostDetails />} />

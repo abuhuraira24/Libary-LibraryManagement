@@ -33,7 +33,7 @@ button{
    border: none
 }
 input:focus{
-    border: 1px solid #ddd;
+    border: none !important;
    outline: none;
 }
 ul{

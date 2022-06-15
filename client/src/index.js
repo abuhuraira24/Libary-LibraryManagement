@@ -18,12 +18,18 @@ import {
 
 import client from './hooks/ApolloClient';
 
+import {ThemeProvider} from "styled-components"
+
+import {theme} from "./components/Theme/index"
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
      <ApolloProvider client={client}>
       <GlobalStyles />
-          <App />
+          <ThemeProvider theme={theme}>
+             <App />
+          </ThemeProvider>
      </ApolloProvider>
   </React.StrictMode>
 );

@@ -25,7 +25,7 @@ cursor: pointer;
  i{
    font-size : 22px;
     height: 21px;
-    color: ${(props) => props.liked ? "#2c51ca": "#212529"};
+    color: ${(props) => props.liked ? "#2c51ca": props.theme.color};
     cursor: pointer;
  }
 `
@@ -42,6 +42,7 @@ export const Comment = styled.div`
 
 export const Span = styled.span`
  margin-left: 8px;
+ color: ${(props) => props.theme.color};
 `
 
 export const CommentBox = styled.div`
@@ -51,7 +52,7 @@ export const CommentBox = styled.div`
 export const Form = styled.form``
 
 export const CommentInput = styled.input`
-    background: #f0f2f5;
+    background: ${(props) => props.theme.gray};
     border: none;
     border-radius: 50px;
     height: 50px;
@@ -72,8 +73,27 @@ export const CardBody = styled.div`
     flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
-    background-color: #fff;
+    background: ${(props) => props.theme.gray};
     background-clip: border-box;
     border: 1px solid rgba(0,0,0,.125);
     border-radius: 0.25rem;
+`
+
+export const UserName = styled.div`
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 40px;
+    color: ${(props) => props.theme.color};
+`
+
+export const CardTitle = styled.div`
+   font-weight: 700;
+    font-size: 30px;
+    a{
+      color: ${(props) => props.theme.color};
+    }
+`
+
+export const CardSubtitle = styled.h6`
+   color: ${(props) => props.theme.color} !important;
 `

@@ -58,6 +58,7 @@ import "../SearchPage/index.scss"
 
 // export default QueryPage;
 import Posts from "./Posts";
+import { Menu, Navlink, SearchWrapper } from "./Styles";
 
 const searchedPosts = (data,searchParams,loading) => {
 
@@ -80,36 +81,40 @@ const QueryPage = () => {
  
 
     return (
-        <div className='searched'>
-             <Container>
-             <Row>
-              <Col className="col-md-12 col-12">
-                  <div className="searchTitle mb-4">
-                    <h2>Search results for {searchParams.get('q')}</h2>
-                  </div>
-              </Col>
-            </Row>
-              <Row>
-                <Col w="20" md="20" none>
-                  <h4>Menu</h4>
+          <SearchWrapper>
+            <Container>
+               <Row>
+                <Col className="col-md-12 col-12">
+                    <div className="searchTitle mb-4">
+                      <h2>Search results for {searchParams.get('q')}</h2>
+                    </div>
                 </Col>
-                <Col w="80" md="80" sm-12>
-                   <Row>
-                     <Col className="col-12">
-                       <Row>
-                        {typeof posts !== 'undefined' &&  posts.map((post, index) => (
-                            <Col key={index} className='col-12'>
-                              <Posts post={post} />
-                            </Col>
-                          ))}
-                          
-                       </Row>
-                     </Col>
-                   </Row>
+                <Col>
                 </Col>
-              </Row>
+               </Row>
+               
+                <Row>
+                  <Col w="10">
+                  </Col>
+                  <Col w="80" md="80" sm-12>
+                    <Row>
+                      <Col className="col-12">
+                        <Row>
+                          {typeof posts !== 'undefined' &&  posts.map((post, index) => (
+                              <Col key={index} className='col-12'>
+                                <Posts post={post} />
+                              </Col>
+                            ))}
+                            
+                        </Row>
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col w="10">
+                  </Col>
+                </Row>
              </Container>
-        </div>
+          </SearchWrapper>
     )
 }
 

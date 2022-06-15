@@ -3,6 +3,7 @@ import { gql, useQuery, useMutation } from '@apollo/client';
 import Posts from '../Post';
 
 import {Container, Row, Col} from "../../Styles/ElementsStyles";
+import { PostWrapper } from './styles';
 
 const Home = () => {
 
@@ -10,9 +11,7 @@ const Home = () => {
 
 
     return (
-        <div className="mt-6">
-          {/* <Hero /> */}
-          
+      <PostWrapper>
           <Container>
             <Row>
               <Col w='15' sm="none">
@@ -24,7 +23,8 @@ const Home = () => {
               </Col>
             </Row>
           </Container>
-        </div>
+      </PostWrapper>
+    
     );
 }
 

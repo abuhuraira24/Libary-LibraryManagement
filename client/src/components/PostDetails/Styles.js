@@ -4,7 +4,7 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
  margin-top: 5rem;
  padding-top: 5rem;
- background: #ffffff;
+ background: ${(props) => props.theme.bg}
 `
 
 export const UserProfile = styled.div`
@@ -31,6 +31,7 @@ export const UserImage = styled.div`
 export const AuthorName = styled.div``
 export const H5 = styled.h5`
   font-weight : 600;
+  color: ${(props) => props.theme.color};
 `
 
 export const Span = styled.span``
@@ -38,8 +39,11 @@ export const Span = styled.span``
 export const PostTitle = styled.h2`
     font-size: 40px;
     font-weight: 800;
+    color: ${(props) => props.theme.color};
 `
-export const P = styled.p``
+export const P = styled.p`
+color: ${(props) => props.theme.color};
+`
 
 export const PostBody = styled.div`
  margin-top: 1rem;
@@ -57,6 +61,7 @@ export const ProfileWrapper = styled.div`
 
 export const Profilee = styled.div`
  padding-bottom: 1rem;
+ background: ${(props) => props.theme.gray};
 `;
 
 
@@ -65,7 +70,7 @@ export const Cover = styled.div`
   width: 100%;
   height: 60px;
   padding-top: 2rem;
-
+  background: ${(props) => props.theme.bg};
 `
 
 export const ProfilePic = styled.div`
@@ -105,6 +110,7 @@ export const H3 = styled.h3`
     text-align: center;
     font-weight: 700;
     font-size: 24px;
+    color: ${(props) => props.theme.color};
 `;
 
 export const Follow = styled.button`
@@ -115,4 +121,6 @@ export const Follow = styled.button`
     border-radius: 5px;
 `
 
-export const Joined = styled.span``
+export const Joined = styled.span`
+ color: ${(props) => props.theme.color};
+`

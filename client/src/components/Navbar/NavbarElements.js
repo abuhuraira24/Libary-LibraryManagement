@@ -3,6 +3,7 @@ import { NavLink as NavLinks } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 import { Link } from "react-router-dom";
 
+
 export const Nav = styled.div`
   top: 0;
   left: 0;
@@ -19,7 +20,7 @@ export const Nav = styled.div`
   @media (max-width : 768px) {
      display: ${(props) => props.smNav && 'block'};
   }
-  background: ${(props) => (props.issticky ? "white" : "#fff")};
+  background: ${(props) => props.theme.bg};
   box-shadow: ${(props) =>
     props.issticky ? "0px 5px 20px rgb(0 0 0 / 15%)" : null};
   position: ${(props) => (props.issticky ? "fixed" : "absolute")};
@@ -44,9 +45,9 @@ export const Logo = styled.div`
 `
 
 export const NavLogo = styled(NavLinks)`
-  font-size: 32px;
+  font-size: 45px;
   font-weight: 600;
-  color: ${(props) => (props.issticky ? "#000" : "#2c51ca")};
+  color: ${(props) => props.theme.color };
   @media (max-width: 991px) {
     color: #2c51ca !important;
   }
@@ -146,6 +147,7 @@ export const Button = styled.button`
     right: 2%;
     i{
       font-size: 22px;
+      color: ${(props) => props.theme.color};
     }
     @media (max-width: 558px) {
       margin-right: 1rem;
@@ -172,6 +174,7 @@ export const SmallAccount = styled.div`
     align-items: center;
     border-radius: 50%;
     margin-right: 1rem;
+    position: relative;
 `
 
 export const UserIcon = styled.i``;
@@ -198,6 +201,34 @@ export const CreatrAccount = styled(Link)`
 `
 
 export const AccountMneu = styled.div``;
+
+export const Ul = styled.ul`
+    position: absolute;
+    background: #fff;
+    width: 336px;
+    height: ${(props) => props.isToggle ? "300px" : "0"};
+    top: 145%;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    visibility: ${(props) => props.isToggle ? "visible" : "hidden"};
+    transition: .5s;
+    overflow-y : scroll;
+    scrollbar-width: none;
+`
+export const Li = styled(Link)`
+ margin-left: 1rem;
+ margin: ${(props) => props.mone}rem;
+ font-size: 22px;
+ border-bottom: ${(props) => props.bbottom && '1px solid #ddd'};
+ padding-bottom: ${(props) => props.bbottom && '1rem'};
+ padding: 1rem;
+ border-radius: 5px;
+ display: block;
+ &&:hover{
+  background: #2c51ca12
+ }
+`
+
 
 // TODO: Large Device
 

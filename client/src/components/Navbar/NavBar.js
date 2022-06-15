@@ -10,13 +10,16 @@ import { AuthContext } from "../../context/auth";
 import {NavLink} from "react-router-dom"
 
 
-import { Nav,NavbarContainer, NavbarMenu, NavItem, NavLogo, LargeSearch,MenuIcon, SearchBar,NavLarge, Form, SearchInput,Button, MyAccount, UserIcon, Icon,SmallAccount } from "./NavbarElements";
+import { Nav,NavbarContainer, NavbarMenu, NavItem, NavLogo, LargeSearch,MenuIcon,NavLarge, Form, SearchInput,Button, UserIcon, Icon,SmallAccount, List, Ul, Li } from "./NavbarElements";
+
+import {Input} from "../../Styles/ElementsStyles"
 
 
 const Navbar = () => {
 
     const [open, setOpen] = useState(false);
 
+    const [isToggle, setToggle] = useState(false)
     const [sticky, setSticky] = useState(false);
 
     const [searchQuery, setQuery] = useState("");
@@ -32,6 +35,14 @@ const Navbar = () => {
     }
     const isClose = () => {
         setOpen(false)
+    }
+
+    const toggle = () => {
+        if(isToggle){
+            setToggle(false)
+        }else{
+            setToggle(true)
+        }
     }
 
     const isHeaderSticky = () => {
@@ -67,7 +78,6 @@ const Navbar = () => {
       
   }
 
-
     return (
         <NavLarge>
          <Nav issticky={sticky.toString()}>
@@ -79,7 +89,7 @@ const Navbar = () => {
               <LargeSearch>
                 <Form onSubmit={submitHandler} >
     
-                    <SearchInput 
+                    <Input 
                         type="search" 
                         placeholder="Search" 
                         name="text"
@@ -91,16 +101,29 @@ const Navbar = () => {
                 </Form>
                 
               </LargeSearch>
-
-               {/* <SmallAccount dispay="">
-                 <UserIcon className="fa-solid fa-user"></UserIcon>
-                </SmallAccount> */}
                  {user && (
                     <>
-                     <SmallAccount dispay="">
+                     <SmallAccount onClick={toggle}>
                       <UserIcon className="fa-solid fa-user"></UserIcon>
+                       <Ul isToggle={isToggle} className="scrollbar-hidden">
+                        <Li mone="1" bbottom="true" to={`/profile/${user.id}`}>
+                            {user.username}
+                         </Li>
+                         <Li to="/dashboard">
+                             Dashboard
+                         </Li>
+                         <Li to="/createpost">
+                           Create Post
+                         </Li>
+                         <Li to="/setting">
+                           Setting
+                         </Li>
+
+                         <Li to='' onClick={logout}>
+                           Logout
+                         </Li>
+                       </Ul>
                      </SmallAccount>
-                     <NavLink to='' onClick={logout}> Logout </NavLink>
                     </>
                  )}
               <MenuIcon>
