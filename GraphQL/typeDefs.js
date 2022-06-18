@@ -1,64 +1,68 @@
-const {gql} = require('apollo-server-express');
+const { gql } = require("apollo-server-express");
 
 module.exports = gql`
+  scalar Upload
+  type User {
+    id: ID!
+    username: String!
+    email: String!
+    token: String!
+  }
+  type Post {
+    firstName: String!
+    lastName: String!
+    # author : String!
+    _id: String!
+    username: String!
+    title: String!
+    body: String!
+    createdAt: String!
+    readTime: String
+    comments: [Comment]!
+    likes: [Like]!
+  }
 
-    type User {
-        id : ID!
-        username : String!
-        email : String!
-        token : String!
-    }
-    type Post {
-        firstName : String!
-        lastName : String!
-        # author : String!
-        _id : String!
-        username : String!
-        title : String!
-        body : String!
-        createdAt : String!,
-        readTime : String,
-        comments : [Comment]!
-        likes : [Like]!
-    }
+  type Comment {
+    username: String!
+    userId: String!
+    body: String!
+    createdAt: String!
+  }
 
-    type Comment {
-        username : String!
-        userId : String!
-        body : String!
-        createdAt : String!
-    }
+  type Like {
+    userId: String!
+    createdAt: String!
+  }
 
-    type Like {
-        userId : String!
-        createdAt : String!
-    }
+  type Query {
+    getPosts: [Post]!
+    getPost: [Post]!
+    getSinglePost(postId: ID!): Post!
+  }
 
+  input RegisterField {
+    firstName: String!
+    lastName: String!
+    email: String!
+    password: String!
+    confirmPassword: String!
+  }
 
-    type Query{
-        getPosts : [Post]!
-        getPost : [Post]!
-        getSinglePost(postId : ID!) : Post!
-    }
+  type File {
+    url: String!
+  }
 
-    input RegisterField {
-        firstName : String!
-        lastName : String!
-        email : String!
-        password : String! 
-        confirmPassword : String!
-    }
+  type Mutation {
+    register(registerInput: RegisterField): User!
 
-    type Mutation {
+    login(email: String!, password: String!): User!
 
-    register(registerInput : RegisterField) : User!
+    createPost(title: String!, body: String!): Post!
 
-    login(email : String! password : String!) : User!
+    createComment(postId: ID!, body: String!): Post!
 
-    createPost(title : String! body : String!) : Post!
+    likePost(postId: ID!): Post!
 
-    createComment(postId : ID! body : String!) : Post!
-
-    likePost(postId : ID!) : Post!
-    }
+    uploadFile(file: Upload!): File!
+  }
 `;

@@ -3,3 +3,9 @@ export const theme = {
     bg: "#242526",
     gray : "#3a3b3c"
 }
+
+// export const theme = {
+//     color: "#000",
+//     bg: "#fff",
+//     gray : "#dddddd52"
+// }

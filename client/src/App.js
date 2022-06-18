@@ -20,14 +20,27 @@ import Login from './components/Login/Login';
 import PublicRouter from './hooks/PublicRouter';
 
 import { AuthProvider } from './context/auth';
+
 import QueryPage from './components/SearchPage/QueryPage';
 
 import People from './components/People';
+
 import PostDetails from './components/PostDetails';
+
 import SmallNavbar from './components/Navbar/SmallNavbar';
+
 import Profile from './components/Profile';
 
+import { useTheme } from "styled-components";
+
 function App() {
+
+  const theme = useTheme()
+
+  useEffect(() => {
+    const body = document.getElementsByTagName('body');
+     body[0].style.backgroundColor = theme.bg;
+ })
 
   return (
     <AuthProvider>
