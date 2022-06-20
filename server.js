@@ -15,7 +15,7 @@ const resolvers = require("./GraphQL/resolvers/index");
 const typeDefs = require("./GraphQL/typeDefs");
 
 require("dotenv").config();
-
+console.log(process.env.API_KEY);
 const startServer = async () => {
   const app = express();
   const httpServer = createServer(app);
