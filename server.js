@@ -1,49 +1,51 @@
-const { ApolloServer } = require('apollo-server-express');
+const { ApolloServer } = require("apollo-server-express");
 
-const express = require('express')
+const express = require("express");
 
-const {mongoose} = require('mongoose')
+const graphqlUploadExpress = require("graphql-upload/graphqlUploadExpress.js");
 
-const {MONGODB} = require('./config')
+const { mongoose } = require("mongoose");
 
-const { createServer } = require('http')
+const { MONGODB } = require("./config");
 
+const { createServer } = require("http");
 
+const resolvers = require("./GraphQL/resolvers/index");
 
-const resolvers = require('./GraphQL/resolvers/index')
+const typeDefs = require("./GraphQL/typeDefs");
 
-const typeDefs = require('./GraphQL/typeDefs')
+require("dotenv").config();
 
-const startServer = async () => { 
-
-  const app = express()
-  const httpServer = createServer(app)
-
+const startServer = async () => {
+  const app = express();
+  const httpServer = createServer(app);
 
   const apolloServer = new ApolloServer({
     typeDefs,
     resolvers,
-    context : ({req}) => ({req})
-  })
+    context: ({ req }) => ({ req }),
+  });
 
+  await apolloServer.start();
 
-  await apolloServer.start()
-
+  app.use(graphqlUploadExpress());
 
   apolloServer.applyMiddleware({
-      app,
-      path: '/'
-  })
+    app,
+    path: "/",
+  });
 
+  mongoose
+    .connect(MONGODB)
+    .then(() => {
+      console.log("MongoDB Connected...");
+      httpServer.listen({ port: process.env.PORT || 5000 });
+    })
+    .then(() => {
+      console.log(
+        `Server listening on localhost:5000${apolloServer.graphqlPath}`
+      );
+    });
+};
 
-  mongoose.connect(MONGODB)
-          .then(() => {
-            console.log('MongoDB Connected...')
-            httpServer.listen({ port: process.env.PORT || 5000 })
-          })
-          .then(() => {
-            console.log(`Server listening on localhost:5000${apolloServer.graphqlPath}`)
-          })
-}
-
-startServer()
+startServer();

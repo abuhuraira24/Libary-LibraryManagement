@@ -33,23 +33,40 @@ const Profile = () => {
   const [cover, setCover] = useState();
   const [avatar, setAvatar] = useState();
 
-  const [uploadFile] = useMutation(FILE_UPLOAD, {
-    onCompleted: (data) => console.log(data),
-    onError(error) {
-      console.log(error);
-    },
-  });
+  // const [uploadFile] = useMutation(FILE_UPLOAD, {
+  //   onCompleted: (data) => console.log(data),
+  //   onError(error) {
+  //     console.log(error);
+  //   },
+  // });
 
   const coverHandler = (e) => {
     console.log(e.target.files);
     setCover(URL.createObjectURL(e.target.files[0]));
   };
 
-  const avatarHandler = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+  // const onChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (!file) return;
+  //   console.log(file);
+  //   uploadFile({ variables: { file } });
+  // };
+  const [mutate] = useMutation(FILE_UPLOAD, {
+    onCompleted: (data) => {
+      console.log(data);
+    },
+    onError(err) {
+      console.log(err.graphQLErrors);
+    },
+  });
+  const onChange = ({
+    target: {
+      validity,
+      files: [file],
+    },
+  }) => {
     console.log(file);
-    uploadFile({ variables: { file } });
+    if (validity.valid) mutate({ variables: { file } });
   };
 
   return (
@@ -71,7 +88,7 @@ const Profile = () => {
                 {avatar && <img src={avatar} alt="me" />}
               </Avatar>
               <UploadAvatar>
-                <UploadInput type="file" onChange={avatarHandler} />
+                <UploadInput type="file" onChange={onChange} />
                 <Camera className="fa-solid fa-camera"></Camera>
               </UploadAvatar>
             </Avatars>
@@ -108,11 +125,10 @@ const Profile = () => {
 };
 
 const FILE_UPLOAD = gql`
-  mutation uploadFile($file: Upload!) {
-    uploadFile(file: $file) {
-      url
+  mutation ($file: Upload!) {
+    uploadIamge(file: $file) {
+      filename
     }
   }
 `;
-
 export default Profile;

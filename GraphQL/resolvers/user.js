@@ -1,21 +1,37 @@
 const path = require("path");
 
-const fs = require("fs");
+const { createWriteStream } = require("fs");
+
+const authChecker = require("../../utils/auth-checker");
+
+const cloudinary = require("cloudinary");
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME || "dza2t1htw",
+  api_key: process.env.API_KEY || "563859764347624",
+  api_secret: process.env.API_SECRET || "ndBih7bre8-OHEII7XS6wS1uTyQ",
+});
 
 module.exports = {
   Mutation: {
-    async uploadFile(parents, { file }) {
-      const { createReadStream, filename, mimetype, encoding } = await file;
+    uploadIamge: async (_, { file }, context) => {
+      let user = authChecker(context);
 
-      const stream = createReadStream();
+      let { createReadStream, filename, mimetype, encoding, path } =
+        await file.file;
 
-      const pathName = path.join(__dirname + `/public.images/${filename}`);
-      const getFile = fs.createWriteStream(pathName);
-      await stream.pipe(getFile);
+      let location = path.join(__dirname, `../../public/${filename}`);
 
-      return {
-        url: `http://localhost:5000/images/${filename}`,
-      };
+      let myFile = createReadStream();
+      await myFile.pipe(createWriteStream(location));
+
+      try {
+        const photo = await cloudinary.v2.uploader.upload(myFile);
+
+        console.log(photo);
+      } catch (error) {
+        throw new Error(error);
+      }
     },
   },
 };

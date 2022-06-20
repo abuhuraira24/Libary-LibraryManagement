@@ -49,9 +49,10 @@ module.exports = gql`
   }
 
   type File {
-    url: String!
+    filename: String!
+    mimetype: String!
+    encoding: String!
   }
-
   type Mutation {
     register(registerInput: RegisterField): User!
 
@@ -63,6 +64,6 @@ module.exports = gql`
 
     likePost(postId: ID!): Post!
 
-    uploadFile(file: Upload!): File!
+    uploadIamge(file: Upload!): File!
   }
 `;

@@ -10,7 +10,7 @@ const getSinglePost = require("../resolvers/SinglePost");
 
 const likePost = require("../resolvers/Post");
 
-const user = require("../resolvers/user");
+const uploadIamge = require("../resolvers/user");
 
 module.exports = {
   Query: {
@@ -23,6 +23,6 @@ module.exports = {
     ...createPost.Mutation,
     ...comments.Mutation,
     ...likePost.Mutation,
-    ...user.Mutation,
+    ...uploadIamge.Mutation,
   },
 };
