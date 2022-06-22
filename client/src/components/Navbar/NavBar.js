@@ -26,11 +26,14 @@ import {
   List,
   Ul,
   Li,
+  NavAvatar,
+  Avatar,
 } from "./NavbarElements";
 
 import { Input } from "../../Styles/ElementsStyles";
 
 import { useTheme } from "styled-components";
+import { gql, useQuery } from "@apollo/client";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -43,9 +46,11 @@ const Navbar = () => {
 
   const [smallDevice, setSmallDevice] = useState(false);
 
-  const theme = useTheme();
+  // Query User avata or data
 
-  const { user, logout, searchText } = useContext(AuthContext);
+  const { data } = useQuery(GET_USER_PIC);
+
+  const { user, logout } = useContext(AuthContext);
 
   const isOpen = () => {
     setOpen(true);
@@ -117,7 +122,13 @@ const Navbar = () => {
           {user && (
             <>
               <SmallAccount onClick={toggle}>
-                <UserIcon className="fa-solid fa-user"></UserIcon>
+                <Avatar>
+                  {data && typeof data.getUser !== "undefined" && (
+                    <NavAvatar src={data.getUser.avatar} alt="user" />
+                  )}
+                </Avatar>
+
+                {/* <UserIcon className="fa-solid fa-user"></UserIcon> */}
                 <Ul isToggle={isToggle} className="scrollbar-hidden">
                   <Li mone="1" bbottom="true" to={`/profile/${user.id}`}>
                     {user.username}
@@ -164,5 +175,13 @@ const Navbar = () => {
     </NavLarge>
   );
 };
+
+const GET_USER_PIC = gql`
+  query {
+    getUser {
+      avatar
+    }
+  }
+`;
 
 export default Navbar;

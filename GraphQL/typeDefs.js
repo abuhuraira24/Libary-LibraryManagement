@@ -1,17 +1,17 @@
 const { gql } = require("apollo-server-express");
 
 module.exports = gql`
-  scalar Upload
   type User {
     id: ID!
     username: String!
     email: String!
     token: String!
+    avatars: [Avatar]
   }
   type Post {
     firstName: String!
     lastName: String!
-    # author : String!
+    avatar: String!
     _id: String!
     username: String!
     title: String!
@@ -24,6 +24,7 @@ module.exports = gql`
 
   type Comment {
     username: String!
+    avatar: String!
     userId: String!
     body: String!
     createdAt: String!
@@ -34,10 +35,15 @@ module.exports = gql`
     createdAt: String!
   }
 
+  type SingleUser {
+    avatar: String!
+    createdAt: String!
+  }
   type Query {
     getPosts: [Post]!
     getPost: [Post]!
     getSinglePost(postId: ID!): Post!
+    getUser: SingleUser!
   }
 
   input RegisterField {
@@ -48,10 +54,13 @@ module.exports = gql`
     confirmPassword: String!
   }
 
+  type Avatar {
+    avatar: String!
+    createdAt: String!
+  }
+
   type File {
-    filename: String!
-    mimetype: String!
-    encoding: String!
+    url: String!
   }
   type Mutation {
     register(registerInput: RegisterField): User!
@@ -64,6 +73,6 @@ module.exports = gql`
 
     likePost(postId: ID!): Post!
 
-    uploadIamge(file: Upload!): File!
+    uploadIamge(url: String!, userId: ID!): File!
   }
 `;

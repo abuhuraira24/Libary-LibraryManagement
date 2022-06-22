@@ -244,6 +244,17 @@ export const Li = styled(Link)`
   }
 `;
 
+export const Avatar = styled.div`
+  overflow: hidden;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+`;
+export const NavAvatar = styled.img`
+  width: 100%;
+  cursor: pointer;
+`;
+
 // TODO: Large Device
 
 export const NavLarge = styled.div`

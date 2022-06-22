@@ -1,90 +1,87 @@
-const { UserInputError } = require('apollo-server-core');
-const Post = require('../../model/Post')
+const { UserInputError } = require("apollo-server-core");
+const Post = require("../../model/Post");
 
-const authChecker = require('../../utils/auth-checker')
+const User = require("../../model/User");
+
+const authChecker = require("../../utils/auth-checker");
 module.exports = {
-    Mutation : {
-    async createPost(_, {body,title}, context){
-       const user = authChecker(context)
-      
-       if (body.trim() === '') {
-        throw new Error('Post body must not be empty');
+  Mutation: {
+    async createPost(_, { body, title }, context) {
+      const user = authChecker(context);
+
+      if (body.trim() === "") {
+        throw new Error("Post body must not be empty");
+      }
+      const text = body;
+
+      const wpm = 225;
+
+      const words = text.trim().split(/\s+/).length;
+
+      const time = Math.ceil(words / wpm);
+
+      const userData = await User.findById(user.id);
+
+      console.log(userData);
+
+      if (user) {
+        const newPost = new Post({
+          firstName: user.firstName,
+          lastName: user.lastName,
+          avatar: userData.avatars[0].avatar,
+          userId: user.id,
+          username: user.username,
+          title,
+          body,
+          comments: [],
+          readTime: time,
+          createdAt: new Date().toISOString(),
+        });
+
+        const post = newPost.save();
+
+        return post;
+      }
+    },
+
+    async likePost(_, { postId }, context) {
+      const user = authChecker(context);
+      const post = await Post.findById(postId);
+
+      if (post) {
+        if (post.likes.find((like) => like.userId === user.id)) {
+          //    if already liked
+          post.likes = post.likes.filter((like) => like.userId !== user.id);
+        } else {
+          // Not liked, like post
+          post.likes.push({
+            userId: user.id,
+            createdAt: new Date().toISOString(),
+          });
         }
-        const text = body;
 
-        const wpm = 225;
-
-        const words = text.trim().split(/\s+/).length;
-
-        const time = Math.ceil(words / wpm);
-        
-        console.log(time);
-
-       if(user){
-           const newPost = new Post({
-               firstName : user.firstName,
-               lastName : user.lastName,
-               userId : user.id,
-               username : user.username,
-               title,
-               body,
-               comments : [],
-               readTime : time,
-               createdAt: new Date().toISOString()
-
-           })
-
-           const post = newPost.save();
-           
-           return post
-       }
-
+        await post.save();
+        return post;
+      } else throw new UserInputError("Post not found");
     },
+  },
 
-    async likePost(_, {postId}, context){
-        const user = authChecker(context);
-        const post = await Post.findById(postId);
+  Query: {
+    async getPosts() {
+      const posts = Post.find().sort({ createdAt: -1 });
 
-        if(post){
-           if(post.likes.find((like) => like.userId === user.id )){
-            //    if already liked
-            post.likes = post.likes.filter((like) => like.userId !== user.id);
-           }else{
-             // Not liked, like post
-             post.likes.push({
-                userId : user.id,
-                createdAt : new Date().toISOString()
-             });
-           }
-
-           await post.save();
-           return post;
-
-        }else throw new UserInputError('Post not found');
-    }
-
+      return posts;
     },
-
-    Query : {
-       async getPosts(){
-           const posts = Post.find().sort({ createdAt: -1 });
-
-           return posts 
-       },
-       async getPost(){
-           
-        const post = Post.find().sort({ createdAt: -1 });
-             console.log(post)
-        return post
-       },
-       async getSinglePost(_, {postId}){
-          const post = Post.findById(postId);
-          if(post){
-            return post
-          }
-       },
-
-       
+    async getPost() {
+      const post = Post.find().sort({ createdAt: -1 });
+      console.log(post);
+      return post;
     },
-
-}
+    async getSinglePost(_, { postId }) {
+      const post = Post.findById(postId);
+      if (post) {
+        return post;
+      }
+    },
+  },
+};

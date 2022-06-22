@@ -12,10 +12,13 @@ const likePost = require("../resolvers/Post");
 
 const uploadIamge = require("../resolvers/user");
 
+const getUser = require("../resolvers/user");
+
 module.exports = {
   Query: {
     ...createPost.Query,
     ...getSinglePost.Query,
+    ...getUser.Query,
   },
   Mutation: {
     ...register.Mutation,

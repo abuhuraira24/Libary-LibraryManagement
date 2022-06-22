@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 
-import { Container, Row, Col } from "../../Styles/ElementsStyles";
+import { Container, Col } from "../../Styles/ElementsStyles";
 
-import img from "./avatar.jpg";
+import Axios from "axios";
+
+import { AuthContext } from "../../context/auth";
 
 import {
   Avatar,
@@ -20,7 +22,6 @@ import {
   H3,
   Li,
   ProfileAvatar,
-  ProfileHeader,
   Span,
   Ul,
   UploadAvatar,
@@ -33,41 +34,53 @@ const Profile = () => {
   const [cover, setCover] = useState();
   const [avatar, setAvatar] = useState();
 
-  // const [uploadFile] = useMutation(FILE_UPLOAD, {
-  //   onCompleted: (data) => console.log(data),
-  //   onError(error) {
-  //     console.log(error);
-  //   },
-  // });
-
   const coverHandler = (e) => {
-    console.log(e.target.files);
+    console.log(e.target.validity);
     setCover(URL.createObjectURL(e.target.files[0]));
   };
 
-  // const onChange = (e) => {
-  //   const file = e.target.files[0];
-  //   if (!file) return;
-  //   console.log(file);
-  //   uploadFile({ variables: { file } });
-  // };
+  const { data } = useQuery(GET_USER);
+
   const [mutate] = useMutation(FILE_UPLOAD, {
     onCompleted: (data) => {
       console.log(data);
     },
     onError(err) {
-      console.log(err.graphQLErrors);
+      console.log(err.graphQLErrors[0]);
     },
   });
-  const onChange = ({
-    target: {
-      validity,
-      files: [file],
-    },
-  }) => {
-    console.log(file);
-    if (validity.valid) mutate({ variables: { file } });
+
+  let { user } = useContext(AuthContext);
+
+  const onChange = (e) => {
+    if (e.target.validity.valid && user) {
+      let file = e.target.files[0];
+      setAvatar(URL.createObjectURL(file));
+
+      let formData = new FormData();
+
+      formData.append("file", file);
+      formData.append("upload_preset", "ml_default");
+
+      Axios.post(
+        "https://api.cloudinary.com/v1_1/dza2t1htw/image/upload",
+        formData
+      ).then((res) => {
+        mutate({
+          variables: {
+            url: res.data.url,
+            userId: user.id,
+          },
+        });
+      });
+    }
   };
+
+  useEffect(() => {
+    if (data && data.getUser) {
+      setAvatar(data.getUser.avatar);
+    }
+  }, [data]);
 
   return (
     <CoverWrapper>
@@ -94,7 +107,10 @@ const Profile = () => {
             </Avatars>
           </Cover>
           <ProfileAvatar>
-            <H3>Abu Huraira</H3>
+            <H3>
+              {" "}
+              {user.firstName} {user.lastName}
+            </H3>
             <Bio>Web Application Developer</Bio>
           </ProfileAvatar>
 
@@ -125,9 +141,18 @@ const Profile = () => {
 };
 
 const FILE_UPLOAD = gql`
-  mutation ($file: Upload!) {
-    uploadIamge(file: $file) {
-      filename
+  mutation ($url: String!, $userId: ID!) {
+    uploadIamge(url: $url, userId: $userId) {
+      url
+    }
+  }
+`;
+
+const GET_USER = gql`
+  query {
+    getUser {
+      avatar
+      createdAt
     }
   }
 `;

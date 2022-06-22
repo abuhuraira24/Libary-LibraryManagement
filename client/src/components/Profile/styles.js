@@ -157,3 +157,7 @@ export const UploadInput = styled.input`
 export const EditIcon = styled.i`
   margin-right: 1rem;
 `;
+
+export const Picture = styled.img`
+  width: 100%;
+`;

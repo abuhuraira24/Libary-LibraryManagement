@@ -1,6 +1,4 @@
-const path = require("path");
-
-const { createWriteStream } = require("fs");
+const User = require("../../model/User");
 
 const authChecker = require("../../utils/auth-checker");
 
@@ -13,24 +11,43 @@ cloudinary.config({
 });
 
 module.exports = {
+  Query: {
+    getUser: async (_, {}, context) => {
+      const user = authChecker(context);
+
+      const data = await User.findById(user.id).sort({ createdAt: -1 });
+      if (data) {
+        return {
+          avatar: data.avatars[0].avatar,
+          createdAt: data.avatars[0].createdAt,
+        };
+      }
+    },
+    // getUser: async (_, {}, context) => {
+    //   const { id } = authChecker(context);
+
+    //   const user = await User.findById(id);
+
+    //   return {
+    //     avatar: user.avatars[0].avatar,
+    //   };
+    // },
+  },
   Mutation: {
-    uploadIamge: async (_, { file }, context) => {
+    uploadIamge: async (_, { url, userId }, context) => {
       let user = authChecker(context);
 
-      let { createReadStream, filename, mimetype, encoding, path } =
-        await file.file;
+      let data = await User.findById(userId);
 
-      let location = path.join(__dirname, `../../public/${filename}`);
-
-      let myFile = createReadStream();
-      await myFile.pipe(createWriteStream(location));
-
-      try {
-        const photo = await cloudinary.v2.uploader.upload(myFile);
-
-        console.log(photo);
-      } catch (error) {
-        throw new Error(error);
+      if (data) {
+        data.avatars.unshift({
+          avatar: url,
+          createdAt: new Date().toISOString(),
+        });
+        await data.save();
+        return {
+          url,
+        };
       }
     },
   },
