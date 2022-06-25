@@ -1,6 +1,7 @@
 const { model, Schema } = require("mongoose");
 
 const postSchema = new Schema({
+  userId: String,
   firstName: {
     type: String,
     required: true,
@@ -32,10 +33,13 @@ const postSchema = new Schema({
     {
       body: String,
       username: String,
+      userId: String,
       avatar: String,
+      author: Boolean,
       createdAt: String,
     },
   ],
+  privacy: String,
   likes: [
     {
       userId: String,

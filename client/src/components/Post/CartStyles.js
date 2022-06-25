@@ -69,10 +69,10 @@ export const CardBody = styled.div`
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  background: ${(props) => props.theme.gray};
+  background: ${(props) => props.theme.white};
   background-clip: border-box;
   border: 1px solid rgba(0, 0, 0, 0.125);
-  border-radius: 0.25rem;
+  border-radius: 10px;
 `;
 
 export const UserName = styled.div`

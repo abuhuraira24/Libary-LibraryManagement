@@ -7,8 +7,17 @@ module.exports = gql`
     email: String!
     token: String!
     avatars: [Avatar]
+    cover: [Cover]
+  }
+  type Users {
+    id: ID!
+    firstName: String!
+    lastName: String!
+    avatars: [Avatar]
+    cover: [Cover]
   }
   type Post {
+    userId: String!
     firstName: String!
     lastName: String!
     avatar: String!
@@ -16,6 +25,7 @@ module.exports = gql`
     username: String!
     title: String!
     body: String!
+    privacy: String!
     createdAt: String!
     readTime: String
     comments: [Comment]!
@@ -26,6 +36,7 @@ module.exports = gql`
     username: String!
     avatar: String!
     userId: String!
+    author: String!
     body: String!
     createdAt: String!
   }
@@ -38,12 +49,7 @@ module.exports = gql`
   type SingleUser {
     avatar: String!
     createdAt: String!
-  }
-  type Query {
-    getPosts: [Post]!
-    getPost: [Post]!
-    getSinglePost(postId: ID!): Post!
-    getUser: SingleUser!
+    cover: String!
   }
 
   input RegisterField {
@@ -58,9 +64,20 @@ module.exports = gql`
     avatar: String!
     createdAt: String!
   }
-
+  type Cover {
+    url: String!
+    createdAt: String!
+  }
   type File {
     url: String!
+  }
+  type Query {
+    getPosts: [Post]!
+    getPost: [Post]!
+    getSinglePost(postId: ID!): Post!
+    getUser: SingleUser!
+    getUsers: [User]!
+    users: [Users]
   }
   type Mutation {
     register(registerInput: RegisterField): User!
@@ -74,5 +91,7 @@ module.exports = gql`
     likePost(postId: ID!): Post!
 
     uploadIamge(url: String!, userId: ID!): File!
+
+    uploadCover(url: String!, userId: ID!): Cover!
   }
 `;

@@ -14,11 +14,18 @@ const uploadIamge = require("../resolvers/user");
 
 const getUser = require("../resolvers/user");
 
+const uploadCover = require("../resolvers/user");
+
+const getUsers = require("../resolvers/user");
+
+const users = require("../resolvers/user");
 module.exports = {
   Query: {
     ...createPost.Query,
     ...getSinglePost.Query,
     ...getUser.Query,
+    ...getUsers.Query,
+    ...users.Query,
   },
   Mutation: {
     ...register.Mutation,
@@ -27,5 +34,6 @@ module.exports = {
     ...comments.Mutation,
     ...likePost.Mutation,
     ...uploadIamge.Mutation,
+    ...uploadCover.Mutation,
   },
 };

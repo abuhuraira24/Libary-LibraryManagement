@@ -20,6 +20,10 @@ module.exports = {
       }
       const post = await Post.findById(postId);
 
+      console.log(`post id ${post.userId}`);
+      console.log(`user id ${id}`);
+      console.log(post.userId === id);
+
       const userData = await User.findById(id);
 
       if (post) {
@@ -28,6 +32,7 @@ module.exports = {
           avatar: userData.avatars[0].avatar,
           username: firstName + " " + lastName,
           userId: id,
+          author: post.userId === id,
           createdAt: new Date().toISOString(),
         });
         await post.save();

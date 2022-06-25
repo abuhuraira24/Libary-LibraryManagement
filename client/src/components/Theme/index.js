@@ -5,7 +5,11 @@
 // };
 
 export const theme = {
-  color: "#000",
-  bg: "#fff",
-  gray: "#dddddd52",
+  color: "rgba(0,0,0,0.9)",
+  bg: "#f0f2f5",
+  gray: "#6883ac36",
+  white: "#fff",
+  text: "#41464b99",
+  input: "#eef3f8",
+  grayColor: "#41464bcc",
 };

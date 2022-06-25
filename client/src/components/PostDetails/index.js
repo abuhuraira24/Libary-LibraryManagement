@@ -30,6 +30,8 @@ import { AuthContext } from "../../context/auth";
 
 import Profile from "./Profile";
 
+import Avatar from "../Helper/helper";
+
 const PostDetails = () => {
   // Commet value
   const [value, setValues] = useState({
@@ -86,6 +88,8 @@ const PostDetails = () => {
     });
   };
 
+  let avatar = Avatar(data && data.getSinglePost.userId);
+
   return (
     <Wrapper>
       <Container>
@@ -93,8 +97,8 @@ const PostDetails = () => {
           <Col w="70" sm="100">
             <UserProfile>
               <UserImage>
-                {typeof post !== "undefined" && (
-                  <PostAvatar src={post.avatar} alt="post" />
+                {typeof avatar !== "function" && (
+                  <PostAvatar src={avatar} alt="post" />
                 )}
               </UserImage>
               <AuthorName>
@@ -151,8 +155,17 @@ const PostDetails = () => {
                 ))}
             </Comments>
           </Col>
-          <Col w="30" none="true">
-            <Profile data={post} />
+          <Col w="30" sm="100">
+            {/* <Profile
+              data={post}
+              avata={typeof avatar !== "function" && avatar}
+            /> */}
+            {typeof avatar !== "function" && (
+              <Profile
+                data={post}
+                avata={typeof avatar !== "function" && avatar}
+              />
+            )}
           </Col>
         </Row>
       </Container>
@@ -167,12 +180,15 @@ const FETCH_POST = gql`
       lastName
       avatar
       title
+      userId
       body
       createdAt
       comments {
         body
         username
+        userId
         avatar
+        author
         createdAt
       }
     }
@@ -186,7 +202,9 @@ const COMMENTS = gql`
         body
         username
         avatar
+        userId
         createdAt
+        author
       }
     }
   }

@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Wrapper = styled.div`
   margin-top: 5rem;
-  padding-top: 5rem;
+  padding-top: 7rem;
   background: ${(props) => props.theme.bg};
 `;
 

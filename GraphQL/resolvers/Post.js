@@ -34,6 +34,7 @@ module.exports = {
           title,
           body,
           comments: [],
+          privacy: "public",
           readTime: time,
           createdAt: new Date().toISOString(),
         });
@@ -68,12 +69,12 @@ module.exports = {
 
   Query: {
     async getPosts() {
-      const posts = Post.find().sort({ createdAt: -1 });
-
+      const posts = await Post.find().sort({ createdAt: -1 });
+      console.log(posts);
       return posts;
     },
     async getPost() {
-      const post = Post.find().sort({ createdAt: -1 });
+      const post = await Post.find().sort({ createdAt: -1 });
       console.log(post);
       return post;
     },

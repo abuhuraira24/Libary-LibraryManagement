@@ -34,24 +34,41 @@ const Profile = () => {
   const [cover, setCover] = useState();
   const [avatar, setAvatar] = useState();
 
+  // File Upload Mutation
+  let [mutedCover] = useMutation(COVER_UPLOAD);
+  // Cover Photo Upload
   const coverHandler = (e) => {
-    console.log(e.target.validity);
-    setCover(URL.createObjectURL(e.target.files[0]));
+    if (e.target.validity.valid && user) {
+      setCover(URL.createObjectURL(e.target.files[0]));
+      let file = e.target.files[0];
+
+      let formData = new FormData();
+
+      formData.append("file", file);
+      formData.append("upload_preset", "ml_default");
+
+      Axios.post(
+        "https://api.cloudinary.com/v1_1/dza2t1htw/image/upload",
+        formData
+      ).then((res) => {
+        mutedCover({
+          variables: {
+            url: res.data.url,
+            userId: user.id,
+          },
+        });
+      });
+    }
   };
 
   const { data } = useQuery(GET_USER);
+  // Avatar Upload
+  let [mutate] = useMutation(FILE_UPLOAD);
 
-  const [mutate] = useMutation(FILE_UPLOAD, {
-    onCompleted: (data) => {
-      console.log(data);
-    },
-    onError(err) {
-      console.log(err.graphQLErrors[0]);
-    },
-  });
-
+  // Context api
   let { user } = useContext(AuthContext);
 
+  // Submit Avatar
   const onChange = (e) => {
     if (e.target.validity.valid && user) {
       let file = e.target.files[0];
@@ -66,6 +83,7 @@ const Profile = () => {
         "https://api.cloudinary.com/v1_1/dza2t1htw/image/upload",
         formData
       ).then((res) => {
+        console.log(res);
         mutate({
           variables: {
             url: res.data.url,
@@ -77,8 +95,10 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    if (data && data.getUser) {
+    if (data && typeof data.getUser !== "undefined") {
       setAvatar(data.getUser.avatar);
+      setCover(data.getUser.cover);
+      // console.log(data.getUser);
     }
   }, [data]);
 
@@ -89,6 +109,7 @@ const Profile = () => {
           <Cover>
             <CoverPic>
               {cover && <img src={cover} alt="me" />}
+
               <UploadCover>
                 <UploadInput type="file" onChange={coverHandler} />
                 <Camera className="fa-solid fa-camera"></Camera>
@@ -148,11 +169,19 @@ const FILE_UPLOAD = gql`
   }
 `;
 
+const COVER_UPLOAD = gql`
+  mutation ($url: String!, $userId: ID!) {
+    uploadCover(url: $url, userId: $userId) {
+      url
+    }
+  }
+`;
+
 const GET_USER = gql`
   query {
     getUser {
       avatar
-      createdAt
+      cover
     }
   }
 `;

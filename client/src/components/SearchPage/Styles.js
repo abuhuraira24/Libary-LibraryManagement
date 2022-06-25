@@ -64,3 +64,9 @@ export const CartBody = styled.div`
   flex: 1 1 auto;
   padding: 1rem 1rem;
 `;
+
+export const NotFound = styled.div`
+  width: 100%;
+  text-align: center;
+  margin-top: 6rem;
+`;

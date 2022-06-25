@@ -1,5 +1,7 @@
 const User = require("../../model/User");
 
+const { UserInputError } = require("apollo-server-core");
+
 const authChecker = require("../../utils/auth-checker");
 
 const cloudinary = require("cloudinary");
@@ -16,22 +18,26 @@ module.exports = {
       const user = authChecker(context);
 
       const data = await User.findById(user.id).sort({ createdAt: -1 });
+
+      console.log(data);
       if (data) {
         return {
-          avatar: data.avatars[0].avatar,
-          createdAt: data.avatars[0].createdAt,
+          avatar: data.avatars.length !== 0 && data.avatars[0].avatar,
+          cover: data.cover.length !== 0 && data.cover[0].url,
         };
       }
     },
-    // getUser: async (_, {}, context) => {
-    //   const { id } = authChecker(context);
 
-    //   const user = await User.findById(id);
+    getUsers: async (_, {}) => {
+      let users = await User.find();
 
-    //   return {
-    //     avatar: user.avatars[0].avatar,
-    //   };
-    // },
+      return users;
+    },
+    users: async (_, {}) => {
+      let users = await User.find();
+      console.log(users);
+      return users;
+    },
   },
   Mutation: {
     uploadIamge: async (_, { url, userId }, context) => {
@@ -42,6 +48,22 @@ module.exports = {
       if (data) {
         data.avatars.unshift({
           avatar: url,
+          createdAt: new Date().toISOString(),
+        });
+        await data.save();
+        return {
+          url,
+        };
+      }
+    },
+    uploadCover: async (_, { url, userId }, context) => {
+      let user = authChecker(context);
+
+      let data = await User.findById(userId);
+
+      if (data) {
+        data.cover.unshift({
+          url,
           createdAt: new Date().toISOString(),
         });
         await data.save();

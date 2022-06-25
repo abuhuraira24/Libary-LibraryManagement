@@ -11,7 +11,11 @@ import {
   PostAvatar,
 } from "./Styles";
 
+import Avatar from "../Helper/helper";
+
 const Profile = (post) => {
+  let avatar = Avatar(post.data.userId);
+
   return (
     <ProfileWrapper>
       <Cover></Cover>
@@ -19,8 +23,8 @@ const Profile = (post) => {
       <Profilee>
         <ProfilePic>
           <Image>
-            {post && typeof post.data !== "undefined" && (
-              <PostAvatar src={post.data.avatar} alt="user" />
+            {avatar && typeof avatar !== "function" && (
+              <PostAvatar src={avatar} alt="user" />
             )}
             <PostAvatar />
             {/* <i className="fa-solid fa-user"></i> */}

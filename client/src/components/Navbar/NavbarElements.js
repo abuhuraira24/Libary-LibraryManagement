@@ -20,7 +20,7 @@ export const Nav = styled.div`
   @media (max-width: 768px) {
     display: ${(props) => props.smNav && "block"};
   }
-  background: ${(props) => props.theme.bg};
+  background: ${(props) => props.theme.white};
   box-shadow: ${(props) =>
     props.issticky ? "0px 5px 20px rgb(0 0 0 / 15%)" : null};
   position: ${(props) => (props.issticky ? "fixed" : "absolute")};
@@ -34,7 +34,7 @@ export const NavbarContainer = styled.div`
   margin: auto;
   height: 80px;
   position: relative;
-  background: ${(props) => props.theme.bg};
+  background: ${(props) => props.theme.white};
   @media (max-width: 1200px) {
     max-width: 960px;
     padding: 0px 28px;
@@ -217,7 +217,7 @@ export const AccountMneu = styled.div``;
 
 export const Ul = styled.ul`
   position: absolute;
-  background: ${(props) => props.theme.gray};
+  background: ${(props) => props.theme.white};
   width: 336px;
   height: ${(props) => (props.isToggle ? "300px" : "0")};
   top: 145%;
@@ -227,6 +227,7 @@ export const Ul = styled.ul`
   overflow-y: scroll;
   scrollbar-width: none;
   z-index: 9;
+  border: 1px solid #ddd;
 `;
 export const Li = styled(Link)`
   margin-left: 1rem;
@@ -244,6 +245,13 @@ export const Li = styled(Link)`
   }
 `;
 
+export const SearchBar = styled.input`
+  width: 100%;
+  border: none;
+  padding: 1rem;
+  background: ${(props) => props.theme.input};
+`;
+
 export const Avatar = styled.div`
   overflow: hidden;
   width: 38px;
@@ -254,6 +262,8 @@ export const NavAvatar = styled.img`
   width: 100%;
   cursor: pointer;
 `;
+
+export const UserIconn = styled.i``;
 
 // TODO: Large Device
 

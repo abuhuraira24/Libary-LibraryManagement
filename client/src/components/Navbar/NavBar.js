@@ -18,16 +18,15 @@ import {
   MenuIcon,
   NavLarge,
   Form,
-  SearchInput,
   Button,
-  UserIcon,
   Icon,
   SmallAccount,
-  List,
   Ul,
   Li,
   NavAvatar,
   Avatar,
+  SearchBar,
+  UserIconn,
 } from "./NavbarElements";
 
 import { Input } from "../../Styles/ElementsStyles";
@@ -98,6 +97,11 @@ const Navbar = () => {
     context.queryText(searchQuery.text, navigate, createSearchParams);
   };
 
+  // console.log(
+  //   data && data.getUser && data.getUser.avatar === "false"
+  //     ? "pictur not available"
+  //     : "available"
+  // );
   return (
     <NavLarge>
       <Nav issticky={sticky.toString()}>
@@ -108,7 +112,7 @@ const Navbar = () => {
 
           <LargeSearch>
             <Form onSubmit={submitHandler}>
-              <Input
+              <SearchBar
                 type="search"
                 placeholder="Search"
                 name="text"
@@ -123,9 +127,17 @@ const Navbar = () => {
             <>
               <SmallAccount onClick={toggle}>
                 <Avatar>
-                  {data && typeof data.getUser !== "undefined" && (
-                    <NavAvatar src={data.getUser.avatar} alt="user" />
-                  )}
+                  {typeof data !== "undefined" &&
+                    typeof data.getUser !== "undefined" &&
+                    data.getUser.avatar !== "false" && (
+                      // console.log(data.getUser.avatar)
+                      <NavAvatar src={data.getUser.avatar} alt="user" />
+                    )}
+                  {typeof data !== "undefined" &&
+                    typeof data.getUser !== "undefined" &&
+                    data.getUser.avatar === "false" && (
+                      <UserIconn>user</UserIconn>
+                    )}
                 </Avatar>
 
                 {/* <UserIcon className="fa-solid fa-user"></UserIcon> */}

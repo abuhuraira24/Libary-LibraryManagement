@@ -57,3 +57,11 @@ export const Span = styled.span`
 export const Picture = styled.img`
   width: 100%;
 `;
+
+export const Author = styled.span`
+  font-size: 12px;
+  color: ${(props) => props.theme.color};
+  background: ${(props) => props.theme.gray};
+  margin-left: 4px;
+  border-radius: 10px;
+`;

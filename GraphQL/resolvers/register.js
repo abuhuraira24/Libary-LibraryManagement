@@ -61,6 +61,7 @@ module.exports = {
         email,
         password,
         avatars: [],
+        cover: [],
       });
 
       const user = await newUser.save();
