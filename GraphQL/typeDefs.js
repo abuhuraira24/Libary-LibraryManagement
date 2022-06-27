@@ -23,9 +23,7 @@ module.exports = gql`
     avatar: String!
     _id: String!
     username: String!
-    title: String!
     body: String!
-    privacy: String!
     createdAt: String!
     readTime: String
     comments: [Comment]!
@@ -84,7 +82,7 @@ module.exports = gql`
 
     login(email: String!, password: String!): User!
 
-    createPost(title: String!, body: String!): Post!
+    createPost(body: String!): Post!
 
     createComment(postId: ID!, body: String!): Post!
 

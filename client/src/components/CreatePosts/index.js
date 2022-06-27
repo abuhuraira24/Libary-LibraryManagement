@@ -4,8 +4,13 @@ import Popup from "./Popup";
 
 import { Avatar, FakeInput, Img, PostWrapper, Span, Wrapper } from "./styles";
 
+import { AuthContext } from "../../context/auth";
+import { useContext } from "react";
+
 const CreatePost = () => {
   let { data } = useQuery(GET_USER);
+
+  const { user } = useContext(AuthContext);
 
   return (
     <Wrapper>
@@ -17,7 +22,7 @@ const CreatePost = () => {
         </Avatar>
         <FakeInput>
           <Popup>
-            <Span>What's on your mind? </Span>
+            {user && <Span>What's on your mind, {user.firstName}? </Span>}
           </Popup>
         </FakeInput>
       </PostWrapper>

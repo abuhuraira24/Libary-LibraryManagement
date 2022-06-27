@@ -21,8 +21,8 @@ export const Nav = styled.div`
     display: ${(props) => props.smNav && "block"};
   }
   background: ${(props) => props.theme.white};
-  box-shadow: ${(props) =>
-    props.issticky ? "0px 5px 20px rgb(0 0 0 / 15%)" : null};
+  /* box-shadow: ${(props) =>
+    props.issticky ? "0px 5px 20px rgb(0 0 0 / 15%)" : null}; */
   position: ${(props) => (props.issticky ? "fixed" : "absolute")};
 `;
 
@@ -51,6 +51,9 @@ export const NavLogo = styled(NavLinks)`
   color: ${(props) => props.theme.color};
   @media (max-width: 991px) {
     color: #2c51ca !important;
+  }
+  @media (max-width: 568px) {
+    font-size: 22px;
   }
   &&:hover {
     color: ${(props) => props.theme.color};
@@ -278,7 +281,7 @@ export const NavLarge = styled.div`
 //TODO: Small Device
 export const NavSm = styled.div`
   display: none;
-
+  height: 50px;
   @media (max-width: 768px) {
     display: block;
   }

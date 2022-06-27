@@ -6,7 +6,7 @@ const User = require("../../model/User");
 const authChecker = require("../../utils/auth-checker");
 module.exports = {
   Mutation: {
-    async createPost(_, { body, title }, context) {
+    async createPost(_, { body }, context) {
       const user = authChecker(context);
 
       if (body.trim() === "") {
@@ -28,13 +28,12 @@ module.exports = {
         const newPost = new Post({
           firstName: user.firstName,
           lastName: user.lastName,
+          images: [],
           avatar: userData.avatars[0].avatar,
           userId: user.id,
           username: user.username,
-          title,
           body,
           comments: [],
-          privacy: "public",
           readTime: time,
           createdAt: new Date().toISOString(),
         });

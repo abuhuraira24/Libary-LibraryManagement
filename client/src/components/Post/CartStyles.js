@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Comments = styled.div`
-  margin-top: 2rem;
+  margin-top: 1rem;
   border-top: 1px solid #ddd;
   display: flex;
   justify-content: space-between;
@@ -107,4 +107,8 @@ export const UserPic = styled.div`
   border-radius: 50px;
   margin-right: 1rem;
   overflow: hidden;
+`;
+
+export const More = styled.div`
+  margin-top: 1rem;
 `;

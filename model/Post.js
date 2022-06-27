@@ -17,11 +17,12 @@ const postSchema = new Schema({
     required: true,
     trim: true,
   },
-  title: {
-    type: String,
-    trim: true,
-    required: true,
-  },
+  // title: {
+  //   type: String,
+  //   trim: true,
+  //   required: true,
+  // },
+  images: [typeof String],
   avatar: String,
   body: {
     type: String,

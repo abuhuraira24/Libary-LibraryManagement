@@ -1,6 +1,8 @@
 import { useContext, useState } from "react";
 
-import { Container, Row, Col, CardText } from "reactstrap";
+import { CardText } from "reactstrap";
+
+import { Container, Row, Col } from "../../Styles/ElementsStyles";
 
 import { gql, useQuery } from "@apollo/client";
 
@@ -24,29 +26,17 @@ const PostCart = () => {
 
   // Fetch all User
 
-  // useQuery(FET_ALL_USERS, {
-  //   onCompleted: (data) => {
-  //     setUsers(data.getUsers);
-  //   },
-  // });
-
   return !data ? (
     <Loading />
   ) : (
-    <div className="posts">
-      <Container>
-        <Row>
-          <Col className="col-12 mb-4">
-            <Card>
-              {data &&
-                Object.keys(data.getPosts).length > 0 &&
-                data.getPosts.map((post, index) => {
-                  return <Post key={index} data={post} />;
-                })}
-            </Card>
-          </Col>
-        </Row>
-      </Container>
+    <div className="i">
+      <Card className="mb-4">
+        {data &&
+          Object.keys(data.getPosts).length > 0 &&
+          data.getPosts.map((post, index) => {
+            return <Post key={index} data={post} />;
+          })}
+      </Card>
     </div>
   );
 };
@@ -54,8 +44,6 @@ const PostCart = () => {
 const FETCH_POST = gql`
   query {
     getPosts {
-      title
-      avatar
       firstName
       userId
       lastName

@@ -1,36 +1,36 @@
-import React from 'react';
+import React from "react";
 
-import ReactDOM from 'react-dom/client';
+import ReactDOM from "react-dom/client";
 
-import './index.css';
+import "./index.css";
 
-import App from './App';
+import App from "./App";
 
-import reportWebVitals from './reportWebVitals';
+import reportWebVitals from "./reportWebVitals";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
-import { GlobalStyles } from './Styles/GlobalStyles';
+import { GlobalStyles } from "./Styles/GlobalStyles";
 
-import {
-  ApolloProvider
-} from "@apollo/client";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
-import client from './hooks/ApolloClient';
+import { ApolloProvider } from "@apollo/client";
 
-import {ThemeProvider} from "styled-components"
+import client from "./hooks/ApolloClient";
 
-import {theme} from "./components/Theme/index"
+import { ThemeProvider } from "styled-components";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import { theme } from "./components/Theme/index";
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-     <ApolloProvider client={client}>
+    <ApolloProvider client={client}>
       <GlobalStyles />
-          <ThemeProvider theme={theme}>
-             <App />
-          </ThemeProvider>
-     </ApolloProvider>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </ApolloProvider>
   </React.StrictMode>
 );
 

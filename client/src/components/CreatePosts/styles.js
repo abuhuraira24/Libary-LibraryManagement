@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Wrapper = styled.div`
   background: ${(props) => props.theme.white};
-  margin-bottom: 2rem;
+  margin-bottom: 0.5rem;
   padding: 1rem;
   border-radius: 10px;
   border: 1px solid #ddd;
@@ -35,11 +35,15 @@ export const FakeInput = styled.div`
 
 export const Span = styled.span`
   color: ${(props) => props.theme.text};
-  border: 2px solid #ddd;
-  padding: 1rem;
   border-radius: 50px;
   display: block;
   cursor: pointer;
+  background: ${(props) => props.theme.input};
+  padding: 9px 10px;
+  @media (max-width: 500px) {
+    color: #41464bed;
+    font-size: 12px;
+  }
 `;
 
 export const Button = styled.div``;
@@ -79,3 +83,59 @@ export const Privat = styled.span``;
 export const Global = styled.i`
   margin-right: 0.5rem;
 `;
+
+export const Body = styled.div`
+  p:focus {
+    border: none;
+    outline: none;
+    box-shadow: none;
+  }
+  p {
+    border: none;
+    outline: none;
+    box-shadow: none;
+  }
+`;
+
+export const Form = styled.form``;
+
+export const Input = styled.input`
+  background: ${(props) => props.theme.input};
+`;
+
+export const TextArea = styled.textarea`
+  resize: none;
+  width: 100%;
+  border: none;
+  background: ${(props) => props.theme.white};
+`;
+
+export const Footer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: centera;
+  padding: 0 2rem;
+`;
+
+export const Icons = styled.div``;
+
+export const PostButton = styled.button`
+  background: #0d6efd;
+  color: #fff;
+  padding: 8px 2rem;
+  border-radius: 50px;
+`;
+
+export const Emoji = styled.div`
+  position: absolute;
+  right: 0;
+  top: -38%;
+`;
+
+export const EmoiIcon = styled.i`
+  font-size: 36px;
+  font-weight: bold;
+  cursor: pointer;
+`;
+
+export const Text = styled.p``;

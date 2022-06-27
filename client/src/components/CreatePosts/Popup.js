@@ -1,9 +1,14 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import Modal from "react-modal";
 
+import { AuthContext } from "../../context/auth";
+
+import Picker, { SKIN_TONE_MEDIUM_DARK } from "emoji-picker-react";
+
+import { LineWave } from "react-loader-spinner";
 import {
   Avatar,
   Button,
@@ -17,7 +22,17 @@ import {
   Global,
   Name,
   H5,
+  Body,
+  Form,
+  TextArea,
+  Footer,
+  Icons,
+  PostButton,
+  Emoji,
+  EmoiIcon,
 } from "./styles";
+import styled from "styled-components";
+
 const customStyles = {
   content: {
     top: "50%",
@@ -26,10 +41,11 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
-    width: "40%",
+    // width: "40%",
     borderRadius: "15px",
     transition: ".5s",
     transitionDelay: "2s",
+    overflow: "inherit",
   },
 };
 
@@ -37,23 +53,69 @@ Modal.setAppElement("#root");
 
 const Popup = ({ children }) => {
   const [modalIsOpen, setIsOpen] = useState(false);
+
   const [avatar, setAvatar] = useState("");
+
+  const [toggle, setToggle] = useState(null);
+
+  const [chosenEmoji, setChosenEmoji] = useState(null);
+
+  const [body, setBody] = useState("");
+
+  const [createPost, { loading }] = useMutation(CREATE_POST, {
+    onCompleted: (data) => {
+      setIsOpen(false);
+    },
+    onError(error) {},
+
+    variables: { body },
+  });
+
+  console.log(loading);
+  let { user } = useContext(AuthContext);
+
+  useEffect(() => {
+    const body = document.querySelector("body");
+    if (modalIsOpen) {
+      body.style.overflow = "hidden";
+    } else {
+      body.style.overflow = "scroll";
+    }
+  }, [modalIsOpen]);
 
   useQuery(GET_USER, {
     onCompleted: (data) => {
-      // console.log(data);
       setAvatar(data.getUser.avatar);
     },
   });
 
-  function openModal() {
+  const openModal = () => {
     setIsOpen(true);
-  }
+  };
 
-  function closeModal() {
+  const closeModal = () => {
     setIsOpen(false);
-  }
+  };
+  const onEmojiClick = (event, emojiObject) => {
+    setChosenEmoji(emojiObject);
+    setBody((prev) => prev + emojiObject.emoji);
+  };
 
+  const totler = () => {
+    if (toggle) {
+      setToggle(false);
+    } else {
+      setToggle(true);
+    }
+  };
+
+  const changeHandler = (e) => {
+    setBody(e.target.value);
+  };
+
+  const submitHandler = () => {
+    createPost();
+  };
   return (
     <div>
       <Button onClick={openModal}>{children}</Button>
@@ -63,6 +125,14 @@ const Popup = ({ children }) => {
         style={customStyles}
         contentLabel="Example Modal"
       >
+        {toggle && (
+          <Emoji>
+            <Picker
+              onEmojiClick={onEmojiClick}
+              skinTone={SKIN_TONE_MEDIUM_DARK}
+            />
+          </Emoji>
+        )}
         <ClosedModal>
           <H4>Create a post</H4>
           <Close onClick={closeModal} className="fa-solid fa-xmark"></Close>
@@ -80,6 +150,43 @@ const Popup = ({ children }) => {
             </Privat>
           </Privacy>
         </Header>
+        <Body>
+          <Form>
+            {user && (
+              <TextArea
+                className="scrollbar-hidden"
+                placeholder={`What's on your mind, ${user.firstName}`}
+                value={body}
+                onChange={changeHandler}
+                rows="4"
+                cols="50"
+                maxlength="200"
+              ></TextArea>
+            )}
+          </Form>
+        </Body>
+        <Footer>
+          <Icons>
+            <EmoiIcon onClick={totler}>☺️</EmoiIcon>
+          </Icons>
+
+          {body && !loading && (
+            <PostButton onClick={submitHandler}>Post</PostButton>
+          )}
+          {!body && (
+            <PostButton className="disabled" disabled onClick={submitHandler}>
+              Post
+            </PostButton>
+          )}
+          {loading && (
+            <LineWave
+              color="red"
+              firstLineColor="blue"
+              middleLineColor="green"
+              lastLineColor="grey"
+            />
+          )}
+        </Footer>
       </Modal>
     </div>
   );
@@ -90,6 +197,14 @@ const GET_USER = gql`
     getUser {
       avatar
       cover
+    }
+  }
+`;
+
+const CREATE_POST = gql`
+  mutation createPost($body: String!) {
+    createPost(body: $body) {
+      body
     }
   }
 `;

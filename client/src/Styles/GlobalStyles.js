@@ -35,6 +35,12 @@ input:focus{
     border: none !important;
    outline: none;
 }
+textarea:focus{
+    border: none !important;
+   outline: none;
+   overflow-y: scroll;
+   scrollbar-width: none !important;
+}
 ul{
     margin: 0;
     padding: 0;
@@ -57,11 +63,22 @@ ul{
     margin-left: 4px;
     font-weight: 800;
 }
-
+input.emoji-search {
+    display: none;
+}
+ul.skin-tones-list {
+    display: none;
+}
+.disabled{
+    background: #8db7f6
+}
 .smnone-true{
     display: none;
 }
 
+aside.emoji-picker-react .content-wrapper:before {
+    content: none !important;
+}
 // Loading CSS
 .loader {
     border: 5px solid #f3f3f3;

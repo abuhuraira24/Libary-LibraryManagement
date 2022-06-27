@@ -112,7 +112,7 @@ const PostDetails = () => {
                 </Span>
               </AuthorName>
             </UserProfile>
-            <PostTitle>{typeof post !== "undefined" && post.title}</PostTitle>
+            {/* <PostTitle>{typeof post !== "undefined" && post.title}</PostTitle> */}
             <PostBody>
               <P>{typeof post !== "undefined" && post.body}</P>
             </PostBody>
@@ -178,8 +178,6 @@ const FETCH_POST = gql`
     getSinglePost(postId: $postId) {
       firstName
       lastName
-      avatar
-      title
       userId
       body
       createdAt

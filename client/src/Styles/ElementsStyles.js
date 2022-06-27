@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Container = styled.div`
   justify-content: space-between;
   align-items: center;
-  max-width: 1450px; 
+  max-width: 1450px;
   margin: auto;
   margin: ${(props) => (props.margin ? "55px auto" : "auto")};
   position: relative;
@@ -18,10 +18,10 @@ export const Container = styled.div`
 `;
 export const Row = styled.div`
   display: flex;
-    flex-wrap: wrap;
+  flex-wrap: wrap;
   flex-direction: ${(props) => (props.direction ? "row-reverse" : "")};
   width: 100%;
-  transition: .5s;
+  transition: 0.5s;
 `;
 export const Col = styled.div`
   max-width: ${(props) => props.w}%;
@@ -32,7 +32,7 @@ export const Col = styled.div`
   padding-left: 15px;
   margin: ${(props) => props.mlauto};
   display: ${(props) => (props.center ? "flex" : "")};
-  transition: .5s;
+  transition: 0.5s;
   @media (max-width: 991px) {
     max-width: ${(props) => props.md}%;
     display: ${(props) => (props.mdnone ? "none" : "")};
@@ -44,7 +44,6 @@ export const Col = styled.div`
   @media (max-width: 468px) {
     max-width: ${(props) => props.sm}% !important;
   }
-
 `;
 
 // Section Title
@@ -78,36 +77,36 @@ export const Button = styled.button`
   cursor: pointer;
 `;
 
-export const Form = styled.form``
+export const Form = styled.form``;
 
 export const InptGroup = styled.div`
- margin-bottom: 1rem;
-`
+  margin-bottom: 1rem;
+`;
 
 export const Label = styled.label`
- margin-bottom: 1rem;
- display: inline-block;
- color: #4c4848;
-`
+  margin-bottom: 1rem;
+  display: inline-block;
+  color: #4c4848;
+`;
 
 export const Input = styled.input`
-    width: 100%;
-    border: none;
-    padding: 1rem;
-    background: ${(props) => props.theme.gray};
-`
+  width: 100%;
+  border: none;
+  padding: 1rem;
+  background: ${(props) => props.theme.gray};
+`;
 
 export const FormTitle = styled.h2`
- margin-top: 1rem;
- margin-bottom: 1rem;
- text-align: center;
- color: #000000b0;
-`
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #000000b0;
+`;
 
 export const Loading = styled.div`
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

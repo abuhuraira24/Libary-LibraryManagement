@@ -27,6 +27,7 @@ import SmallNavbar from "./components/Navbar/SmallNavbar";
 import Profile from "./components/Profile";
 
 import { useTheme } from "styled-components";
+import MobileMenu from "./components/Navbar/MobileMenu";
 
 function App() {
   const theme = useTheme();
@@ -66,6 +67,7 @@ function App() {
             }
           />
         </Routes>
+        {/* <MobileMenu /> */}
       </Router>
     </AuthProvider>
   );

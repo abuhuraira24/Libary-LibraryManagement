@@ -14,6 +14,7 @@ import {
   CardSubtitle,
   CircleImage,
   UserPic,
+  More,
 } from "./CartStyles";
 
 import LikeButton from "../LikeButton";
@@ -37,6 +38,15 @@ const Post = ({ ...props }) => {
 
   let avatar = Avatar(data.userId);
 
+  let sortText;
+  let text;
+
+  if (data.body.length > 400) {
+    sortText = data.body.slice(0, 400);
+  } else {
+    text = data.body;
+  }
+
   return (
     <CardBody className="mb-4 ">
       <div>
@@ -56,10 +66,19 @@ const Post = ({ ...props }) => {
       >
         {moment(data.createdAt).fromNow(true)}
       </CardSubtitle>
-      <CardTitle>
+      {/* <CardTitle>
         <NavLink to={`/post/${data._id}`}>{data.title}</NavLink>
-      </CardTitle>
-      <CardText id="post"></CardText>
+      </CardTitle> */}
+      <CardText id="post">
+        {sortText}
+        {text}
+        {sortText && (
+          <More>
+            <NavLink to={`/post/${data._id}`}>See more...</NavLink>
+          </More>
+        )}
+      </CardText>
+
       <Comments>
         <LikeComments>
           {!user && <Popup>{data.likes.length + " "}Like</Popup>}

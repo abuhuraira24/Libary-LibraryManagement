@@ -32,6 +32,7 @@ import {
   Ul,
   Li,
 } from "./NavbarElements";
+import MobileMenu from "./MobileMenu";
 
 const SmallNavbar = () => {
   const [isToggle, setToggle] = useState(false);
@@ -102,7 +103,7 @@ const SmallNavbar = () => {
           <RightNav>
             {user ? (
               <AccountMneu>
-                <SmallAccount
+                {/* <SmallAccount
                   isToggle={isToggle}
                   className="scrollbar-hidden"
                   onClick={toggle}
@@ -120,7 +121,7 @@ const SmallNavbar = () => {
                       Logout
                     </Li>
                   </Ul>
-                </SmallAccount>
+                </SmallAccount> */}
               </AccountMneu>
             ) : (
               <>
@@ -161,7 +162,8 @@ const SmallNavbar = () => {
           </NavbarMenu>
         </NavbarContainer>
 
-        <NavbarContainer>
+        <MobileMenu />
+        {/* <NavbarContainer>
           <SmallForm smNav="true" onSubmit={submitHandler}>
             <SearchInput
               type="search"
@@ -173,7 +175,7 @@ const SmallNavbar = () => {
               <i className="fa-solid fa-magnifying-glass"></i>
             </Button>
           </SmallForm>
-        </NavbarContainer>
+        </NavbarContainer> */}
       </Nav>
     </NavSm>
   );
