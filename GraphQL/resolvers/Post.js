@@ -22,8 +22,6 @@ module.exports = {
 
       const userData = await User.findById(user.id);
 
-      console.log(userData);
-
       if (user) {
         const newPost = new Post({
           firstName: user.firstName,
@@ -69,12 +67,11 @@ module.exports = {
   Query: {
     async getPosts() {
       const posts = await Post.find().sort({ createdAt: -1 });
-      console.log(posts);
+
       return posts;
     },
     async getPost() {
       const post = await Post.find().sort({ createdAt: -1 });
-      console.log(post);
       return post;
     },
     async getSinglePost(_, { postId }) {
@@ -82,6 +79,13 @@ module.exports = {
       if (post) {
         return post;
       }
+    },
+    async infinitePost(_, { limit, offset }) {
+      let allPost = await Post.find();
+
+      let posts = allPost.slice(offset, offset + limit);
+
+      return posts;
     },
   },
 };

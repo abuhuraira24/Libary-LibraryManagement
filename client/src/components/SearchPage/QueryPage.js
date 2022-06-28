@@ -61,7 +61,7 @@ const searchedPosts = (data, searchParams, loading) => {
   if (!loading) {
     const posts = data.getPost;
     const cb = (itm) => {
-      return itm.title.toLowerCase().includes(searchParams.get("q"));
+      return itm.username.toLowerCase().includes(searchParams.get("q"));
     };
     const post = posts.filter(cb);
     return post;
@@ -118,7 +118,6 @@ const QueryPage = () => {
 const FETCH_PRODUCT = gql`
   query {
     getPost {
-      title
       firstName
       lastName
       username

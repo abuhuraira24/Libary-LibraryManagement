@@ -33,15 +33,24 @@ import PrivatRouter from "./hooks/PrivetRouter";
 
 import { AuthContext } from "./context/auth";
 
+import decoder from "jwt-decode";
 function App() {
-  const theme = useTheme();
+  const [user, setUser] = useState();
 
-  const { user } = useContext(AuthContext);
+  const theme = useTheme();
 
   useEffect(() => {
     const body = document.getElementsByTagName("body");
     body[0].style.backgroundColor = theme.bg;
   });
+
+  useEffect(() => {
+    let toke = localStorage.getItem("jwtToken");
+    if (toke) {
+      let user = decoder(toke);
+      setUser(user);
+    }
+  }, []);
 
   return (
     <AuthProvider>
@@ -49,15 +58,15 @@ function App() {
         {user && <SmallNavbar />}
         <NavBar />
         <Routes>
-          {/* <Route
+          <Route
             path="/"
             element={
               <PrivatRouter rediredct="/login">
                 <Home />
               </PrivatRouter>
             }
-          /> */}
-          <Route path="/" element={<Home />} />
+          />
+          {/* <Route path="/" element={<Home />} /> */}
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="/search" element={<QueryPage />} />
           <Route path="/search/people" element={<People />} />

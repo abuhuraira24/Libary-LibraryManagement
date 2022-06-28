@@ -67,6 +67,7 @@ const PostDetails = () => {
     onError(error) {
       console.log(error);
     },
+
     variables: {
       ...value,
       postId,

@@ -34,7 +34,7 @@ const Posts = ({ post }) => {
           {moment(post.createdAt).fromNow(true)}
         </CardSubtitle>
         <CardTitle>
-          <NavLink to={`post/${post._id}`}>{post.title}</NavLink>
+          {/* <NavLink to={`post/${post._id}`}>{post.title}</NavLink> */}
         </CardTitle>
         <CartText>{post.body}</CartText>
       </CartBody>

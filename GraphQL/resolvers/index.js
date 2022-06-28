@@ -19,6 +19,9 @@ const uploadCover = require("../resolvers/user");
 const getUsers = require("../resolvers/user");
 
 const users = require("../resolvers/user");
+
+const infinitePost = require("../resolvers/Post");
+
 module.exports = {
   Query: {
     ...createPost.Query,
@@ -26,6 +29,7 @@ module.exports = {
     ...getUser.Query,
     ...getUsers.Query,
     ...users.Query,
+    ...infinitePost.Query,
   },
   Mutation: {
     ...register.Mutation,

@@ -71,7 +71,6 @@ const Popup = ({ children }) => {
     variables: { body },
   });
 
-  console.log(loading);
   let { user } = useContext(AuthContext);
 
   useEffect(() => {

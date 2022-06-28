@@ -75,7 +75,8 @@ module.exports = gql`
     getSinglePost(postId: ID!): Post!
     getUser: SingleUser!
     getUsers: [User]!
-    users: [Users]
+    users: [Users]!
+    infinitePost(limit: Int!, offset: Int!): [Post]
   }
   type Mutation {
     register(registerInput: RegisterField): User!

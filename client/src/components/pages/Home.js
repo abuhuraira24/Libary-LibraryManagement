@@ -1,4 +1,6 @@
-import { gql, useQuery, useMutation } from "@apollo/client";
+import { useContext, useState } from "react";
+
+import { gql, useLazyQuery } from "@apollo/client";
 
 import Posts from "../Post";
 
@@ -12,6 +14,22 @@ import CreatePost from "../CreatePosts";
 import Follower from "../Home/Followers";
 
 const Home = () => {
+  const [values, setValues] = useState({
+    limit: 5,
+    offset: 0,
+  });
+
+  // Lazy Query
+  let [getDog, { loading }] = useLazyQuery(FETCH_POST, {
+    onCompleted: (data) => {
+      console.log(data);
+    },
+    variables: {
+      ...values,
+      values,
+    },
+  });
+
   return (
     <PostWrapper>
       <Container>
@@ -31,5 +49,13 @@ const Home = () => {
     </PostWrapper>
   );
 };
+
+const FETCH_POST = gql`
+  query ($limit: Int!, $offset: Int!) {
+    infinitePost(limit: $limit, offset: $offset) {
+      body
+    }
+  }
+`;
 
 export default Home;
