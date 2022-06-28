@@ -49,14 +49,15 @@ function App() {
         {user && <SmallNavbar />}
         <NavBar />
         <Routes>
-          <Route
+          {/* <Route
             path="/"
             element={
               <PrivatRouter rediredct="/login">
                 <Home />
               </PrivatRouter>
             }
-          />
+          /> */}
+          <Route path="/" element={<Home />} />
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="/search" element={<QueryPage />} />
           <Route path="/search/people" element={<People />} />
