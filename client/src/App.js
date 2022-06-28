@@ -4,7 +4,7 @@ import NavBar from "./components/Navbar/NavBar";
 
 import Register from "./components/Register/Register";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -29,8 +29,14 @@ import Profile from "./components/Profile";
 import { useTheme } from "styled-components";
 import MobileMenu from "./components/Navbar/MobileMenu";
 
+import PrivatRouter from "./hooks/PrivetRouter";
+
+import { AuthContext } from "./context/auth";
+
 function App() {
   const theme = useTheme();
+
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const body = document.getElementsByTagName("body");
@@ -40,10 +46,17 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <SmallNavbar />
+        {user && <SmallNavbar />}
         <NavBar />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={
+              <PrivatRouter rediredct="/login">
+                <Home />
+              </PrivatRouter>
+            }
+          />
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="/search" element={<QueryPage />} />
           <Route path="/search/people" element={<People />} />

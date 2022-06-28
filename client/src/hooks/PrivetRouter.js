@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { AuthContext } from "../context/auth";
 
-const PrivetRouter = ({ children, ...props }) => {
+const PrivatRouter = ({ children, ...props }) => {
   const { user } = useContext(AuthContext);
 
   const dir = props.rediredct;
@@ -10,4 +10,4 @@ const PrivetRouter = ({ children, ...props }) => {
   return user ? children : <Navigate to={dir} />;
 };
 
-export default PrivetRouter;
+export default PrivatRouter;
