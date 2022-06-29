@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const NavWrapper = styled.div`
   display: none;
+  padding-bottom: 1rem;
   @media (max-width: 768px) {
     display: block;
   }

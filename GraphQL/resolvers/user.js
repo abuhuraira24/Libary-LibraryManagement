@@ -19,7 +19,6 @@ module.exports = {
 
       const data = await User.findById(user.id).sort({ createdAt: -1 });
 
-      console.log(data);
       if (data) {
         return {
           avatar: data.avatars.length !== 0 && data.avatars[0].avatar,
@@ -35,7 +34,7 @@ module.exports = {
     },
     users: async (_, {}) => {
       let users = await User.find();
-      console.log(users);
+
       return users;
     },
   },

@@ -112,3 +112,17 @@ export const UserPic = styled.div`
 export const More = styled.div`
   margin-top: 1rem;
 `;
+
+export const LoadMore = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+`;
+
+export const Load = styled.span`
+  background: #2c51ca;
+  color: #fff;
+  padding: 8px 21px;
+  border-radius: 10px;
+`;

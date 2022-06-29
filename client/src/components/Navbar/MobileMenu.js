@@ -18,6 +18,9 @@ const MobileMenu = () => {
         <NavLink to="/">
           <Icon className="fa-solid fa-bell"></Icon>
         </NavLink>
+        <NavLink to="/">
+          <Icon className="fa-solid fa-circle-user"></Icon>
+        </NavLink>
       </Main>
     </NavWrapper>
   );

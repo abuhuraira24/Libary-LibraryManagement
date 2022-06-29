@@ -27,12 +27,21 @@ import {
   Avatar,
   SearchBar,
   UserIconn,
+  LeftBar,
+  Logo,
+  LogoImg,
+  RightMenu,
+  Icons,
+  Iconn,
+  Count,
 } from "./NavbarElements";
 
 import { Input } from "../../Styles/ElementsStyles";
 
 import { useTheme } from "styled-components";
 import { gql, useQuery } from "@apollo/client";
+
+import logo from "../Navbar/logo.png";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -106,56 +115,72 @@ const Navbar = () => {
     <NavLarge>
       <Nav issticky={sticky.toString()}>
         <NavbarContainer>
-          <NavLogo issticky={sticky.toString()} to="/">
-            .JS
-          </NavLogo>
+          <Logo>
+            <NavLogo issticky={sticky.toString()} to="/">
+              <LogoImg src={logo} alt="logo" />
+            </NavLogo>
+          </Logo>
 
-          <LargeSearch>
-            <Form onSubmit={submitHandler}>
-              <SearchBar
-                type="search"
-                placeholder="Search"
-                name="text"
-                onChange={changeHandler}
-              />
-              <Button type="submit">
-                <i className="fa-solid fa-magnifying-glass"></i>
-              </Button>
-            </Form>
-          </LargeSearch>
-          {user && (
-            <>
-              <SmallAccount onClick={toggle}>
-                <Avatar>
-                  {typeof data !== "undefined" &&
-                    typeof data.getUser !== "undefined" &&
-                    data.getUser.avatar !== "false" && (
-                      // console.log(data.getUser.avatar)
-                      <NavAvatar src={data.getUser.avatar} alt="user" />
-                    )}
-                  {typeof data !== "undefined" &&
-                    typeof data.getUser !== "undefined" &&
-                    data.getUser.avatar === "false" && (
-                      <UserIconn>user</UserIconn>
-                    )}
-                </Avatar>
+          <LeftBar>
+            <LargeSearch>
+              <Form onSubmit={submitHandler}>
+                <SearchBar
+                  type="search"
+                  placeholder="Search"
+                  name="text"
+                  onChange={changeHandler}
+                />
+                <Button type="submit">
+                  <i className="fa-solid fa-magnifying-glass"></i>
+                </Button>
+              </Form>
+            </LargeSearch>
+          </LeftBar>
 
-                {/* <UserIcon className="fa-solid fa-user"></UserIcon> */}
-                <Ul isToggle={isToggle} className="scrollbar-hidden">
-                  <Li mone="1" bbottom="true" to={`/profile/${user.id}`}>
-                    {user.username}
-                  </Li>
-                  <Li to="/dashboard">Dashboard</Li>
-                  <Li to="/createpost">Create Post</Li>
-                  <Li to="/setting">Setting</Li>
+          <RightMenu>
+            <Icons>
+              <Count>5</Count>
+              {/* <i class="fa-solid fa-message"></i> */}
+              <Iconn className="fa-solid fa-message"></Iconn>
+            </Icons>
+            <Icons>
+              <Count>10</Count>
+              <Iconn className="fa-solid fa-bell"></Iconn>
+            </Icons>
+            {user && (
+              <>
+                <SmallAccount onClick={toggle}>
+                  <Avatar>
+                    {typeof data !== "undefined" &&
+                      typeof data.getUser !== "undefined" &&
+                      data.getUser.avatar !== "false" && (
+                        // console.log(data.getUser.avatar)
+                        <NavAvatar src={data.getUser.avatar} alt="user" />
+                      )}
+                    {typeof data !== "undefined" &&
+                      typeof data.getUser !== "undefined" &&
+                      data.getUser.avatar === "false" && (
+                        <UserIconn>user</UserIconn>
+                      )}
+                  </Avatar>
+                  {/* <UserIcon className="fa-solid fa-user"></UserIcon> */}
+                  <Ul isToggle={isToggle} className="scrollbar-hidden">
+                    <Li mone="1" bbottom="true" to={`/profile/${user.id}`}>
+                      {user.username}
+                    </Li>
+                    <Li to="/dashboard">Dashboard</Li>
+                    <Li to="/createpost">Create Post</Li>
+                    <Li to="/setting">Setting</Li>
 
-                  <Li to="" onClick={logout}>
-                    Logout
-                  </Li>
-                </Ul>
-              </SmallAccount>
-            </>
-          )}
+                    <Li to="" onClick={logout}>
+                      Logout
+                    </Li>
+                  </Ul>
+                </SmallAccount>
+              </>
+            )}
+          </RightMenu>
+
           <MenuIcon>
             {open ? (
               <span onClick={() => isClose()}>

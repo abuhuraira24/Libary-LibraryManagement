@@ -13,6 +13,7 @@ export const Nav = styled.div`
   display: ${(props) => props.smNav && "none"};
   display: ${(props) => (props.lgNav ? "none" : "block")};
   z-index: 999;
+  padding: 0 1rem;
   @media (max-width: 991px) {
     background: #fff;
     z-index: 99;
@@ -28,12 +29,7 @@ export const Nav = styled.div`
 
 export const NavbarContainer = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  max-width: 1450px;
-  margin: auto;
-  height: 80px;
-  position: relative;
   background: ${(props) => props.theme.white};
   @media (max-width: 1200px) {
     max-width: 960px;
@@ -45,6 +41,16 @@ export const Logo = styled.div`
   max-width: 20%;
 `;
 
+export const LogoImg = styled.img`
+  width: 57px;
+`;
+
+export const LeftBar = styled.div`
+  max-width: 30%;
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
+`;
 export const NavLogo = styled(NavLinks)`
   font-size: 45px;
   font-weight: 600;
@@ -160,7 +166,8 @@ export const Button = styled.button`
   height: 100%;
   right: 2%;
   i {
-    font-size: 22px;
+    font-size: 14px;
+    margin-right: 1rem;
     color: ${(props) => props.theme.color};
   }
   @media (max-width: 558px) {
@@ -188,7 +195,6 @@ export const SmallAccount = styled.div`
   align-items: center;
   border-radius: 50%;
   margin-right: 1rem;
-  position: relative;
 `;
 
 export const UserIcon = styled.i`
@@ -231,6 +237,7 @@ export const Ul = styled.ul`
   scrollbar-width: none;
   z-index: 9;
   border: 1px solid #ddd;
+  right: 0;
 `;
 export const Li = styled(Link)`
   margin-left: 1rem;
@@ -251,7 +258,8 @@ export const Li = styled(Link)`
 export const SearchBar = styled.input`
   width: 100%;
   border: none;
-  padding: 1rem;
+  padding: 6px 27px;
+  border-radius: 50px;
   background: ${(props) => props.theme.input};
 `;
 
@@ -268,8 +276,6 @@ export const NavAvatar = styled.img`
 
 export const UserIconn = styled.i``;
 
-// TODO: Large Device
-
 export const NavLarge = styled.div`
   display: block;
 
@@ -278,11 +284,53 @@ export const NavLarge = styled.div`
   }
 `;
 
-//TODO: Small Device
 export const NavSm = styled.div`
   display: none;
   height: 50px;
   @media (max-width: 768px) {
     display: block;
   }
+`;
+
+export const RightMenu = styled.div`
+  width: 50%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  align-items: center;
+`;
+
+export const Icons = styled.div`
+  background: ${(props) => props.theme.input};
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1rem;
+  cursor: pointer;
+  position: relative;
+`;
+
+export const Iconn = styled.i`
+  display: inline-block;
+  font-size: 16px;
+`;
+
+export const Count = styled.span`
+  position: absolute;
+  color: #fff;
+  top: 0px;
+  right: -5px;
+  background: red;
+  height: 15px;
+  width: 15px;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
 `;

@@ -29,7 +29,7 @@ const Follower = () => {
 
         {data &&
           typeof data.users !== "undefined" &&
-          data.users.map((user, index) => {
+          data.users.slice(0, 3).map((user, index) => {
             return (
               <Users key={index}>
                 <Avatars>

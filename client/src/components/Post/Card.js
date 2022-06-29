@@ -4,7 +4,7 @@ import { gql, useQuery, useLazyQuery } from "@apollo/client";
 
 import Post from "./Post";
 
-import { Card } from "./CartStyles";
+import { Card, Load, LoadMore } from "./CartStyles";
 
 import { AuthContext } from "../../context/auth";
 
@@ -12,7 +12,7 @@ import Loading from "../Loading";
 
 const PostCart = () => {
   const [values, setValues] = useState({
-    limit: 2,
+    limit: 5,
     offset: 0,
   });
 
@@ -43,32 +43,32 @@ const PostCart = () => {
   useEffect(() => {
     getDog();
   }, [getDog]);
-  console.log(posts);
-  const scrollHandler = () => {
-    let heightSize = Math.floor(window.innerHeight);
+
+  let morePost = () => {
+    setValues({
+      ...values,
+      limit: values.limit + 2,
+    });
+    getDog();
   };
 
-  useEffect(() => {
-    scrollHandler();
-  });
-
-  window.addEventListener("scroll", scrollHandler);
-  return <p onClick={() => getDog()}>load</p>;
-  // return !posts ? (
-  //   <Loading />
-  // ) : (
-  //   <div className="i">
-  //     <Card className="mb-4">
-  //       {posts &&
-  //         typeof posts !== "undefined" &&
-  //         Object.keys(posts).length !== 0 &&
-  //         posts.map((post, index) => {
-  //           return <Post key={index} data={post} />;
-  //         })}
-  //     </Card>
-  //     <p onClick={() => getDog()}>Load</p>
-  //   </div>
-  // );
+  return !posts ? (
+    <Loading />
+  ) : (
+    <div className="i">
+      <Card className="mb-4">
+        {posts &&
+          typeof posts !== "undefined" &&
+          Object.keys(posts).length !== 0 &&
+          posts.data.map((post, index) => {
+            return <Post key={index} data={post} />;
+          })}
+      </Card>
+      <LoadMore>
+        <Load onClick={morePost}>See more post</Load>
+      </LoadMore>
+    </div>
+  );
 };
 
 const FETCH_POST = gql`

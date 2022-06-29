@@ -22,7 +22,7 @@ const CreatePost = () => {
         </Avatar>
         <FakeInput>
           <Popup>
-            {user && <Span>What's on your mind, {user.firstName}? </Span>}
+            {user && <Span>What's on your mind , {user.firstName}? </Span>}
           </Popup>
         </FakeInput>
       </PostWrapper>

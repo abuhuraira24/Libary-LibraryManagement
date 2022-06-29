@@ -1,11 +1,9 @@
-import { useContext, useState } from "react";
-
-import { gql, useLazyQuery } from "@apollo/client";
+import { useEffect, useState } from "react";
 
 import Posts from "../Post";
 
 import { Container, Row, Col } from "../../Styles/ElementsStyles";
-import { Left, PostWrapper } from "./styles";
+import { PostWrapper } from "./styles";
 
 import Profile from "../Home/Profile";
 
@@ -13,23 +11,26 @@ import CreatePost from "../CreatePosts";
 
 import Follower from "../Home/Followers";
 
+import io from "socket.io-client";
+
+let socket;
+
 const Home = () => {
-  const [values, setValues] = useState({
-    limit: 5,
-    offset: 0,
-  });
+  let [value, setValue] = useState("Hello Abu");
 
-  // Lazy Query
-  let [getDog, { loading }] = useLazyQuery(FETCH_POST, {
-    onCompleted: (data) => {
-      console.log(data);
-    },
-    variables: {
-      ...values,
-      values,
-    },
-  });
+  useEffect(() => {
+    socket = io("http://localhost:5000");
 
+    // Send data client to server
+    socket.emit("join", { value });
+
+    // get data server to client
+    socket.on("welcome", (data) => {
+      setValue(data.message);
+    });
+  }, [value]);
+
+  console.log(value);
   return (
     <PostWrapper>
       <Container>
@@ -39,6 +40,7 @@ const Home = () => {
           </Col>
           <Col w="50" md="40" sm="100">
             <CreatePost />
+            {value}
             <Posts />
           </Col>
           <Col w="25" md="30" none="true">
@@ -50,12 +52,12 @@ const Home = () => {
   );
 };
 
-const FETCH_POST = gql`
-  query ($limit: Int!, $offset: Int!) {
-    infinitePost(limit: $limit, offset: $offset) {
-      body
-    }
-  }
-`;
+// const FETCH_POST = gql`
+//   query ($limit: Int!, $offset: Int!) {
+//     infinitePost(limit: $limit, offset: $offset) {
+//       body
+//     }
+//   }
+// `;
 
 export default Home;

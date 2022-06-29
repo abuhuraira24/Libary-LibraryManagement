@@ -5,6 +5,7 @@ export const Wrapper = styled.div`
   padding: 1rem;
   border-radius: 10px;
   border: 1px solid #ddd;
+  position: fixed;
 `;
 
 export const Followers = styled.div``;
