@@ -33,7 +33,7 @@ import PrivatRouter from "./hooks/PrivetRouter";
 
 import { AuthContext } from "./context/auth";
 
-import io from "socket.io-client";
+import socket from "./hooks/socketio";
 
 import decoder from "jwt-decode";
 function App() {
@@ -55,12 +55,13 @@ function App() {
   }, []);
 
   useEffect(() => {
-    let socket = io("http://localhost:5000");
-
     if (user) {
-      socket.emit("join", { userId: user.id });
+      socket.emit("addUser", user.id);
     }
-  });
+    socket.on("getuser", (data) => {
+      console.log(data);
+    });
+  }, [user]);
 
   return (
     <AuthProvider>

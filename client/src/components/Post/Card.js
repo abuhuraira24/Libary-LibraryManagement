@@ -20,8 +20,6 @@ const PostCart = () => {
 
   let { getPosts, posts } = useContext(AuthContext);
 
-  console.log(posts);
-
   // Lazy Query
   let [getDog, { loading }] = useLazyQuery(FETCH_POSTT, {
     onCompleted: (data) => {

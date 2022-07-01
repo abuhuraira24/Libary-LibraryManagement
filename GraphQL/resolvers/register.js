@@ -65,6 +65,7 @@ module.exports = {
         notification: [],
         socketId: "",
         active: false,
+        onlineUsers: [],
       });
 
       const user = await newUser.save();

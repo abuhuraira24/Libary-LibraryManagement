@@ -2,29 +2,42 @@ const User = require("../model/User");
 
 const Post = require("../model/Post");
 
+const ActiveUser = require("../model/ActiveUser");
+
 module.exports = {
-  async adduser({ socketId, userId }) {
-    let user = await User.findById(userId);
+  async adduser(socketId, userId) {
+    let user = await ActiveUser.findOne({ socketId });
 
-    user.socketId = socketId;
-    user.active = true;
+    if (!user) {
+      let newUser = new ActiveUser({
+        userId: userId,
+        socketId: socketId,
+      });
 
-    user.save();
-
-    return {
-      socketId: "D15sfGSF5DGFsdss",
-    };
+      await newUser.save();
+    }
   },
 
   async removeUser(socketId) {
-    let user = await User.findOne({ socketId });
+    let users = await ActiveUser.findOneAndRemove({ socketId });
+
+    // let user = users.filter((user) => user.socketId !== socketId);
+
+    // user.save();
+  },
+
+  async getUser(resiverId) {
+    let user = await ActiveUser.findOne({ resiverId });
 
     if (user) {
-      user.active = false;
-
-      user.save();
+      return {
+        userId: user.userId,
+        socketId: user.socketId,
+      };
     }
-
-    console.log(user);
+    // return {
+    //   socketId: user.socketId,
+    //   userId: user.userId,
+    // };
   },
 };

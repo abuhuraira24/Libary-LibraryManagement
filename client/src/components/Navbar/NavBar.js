@@ -46,6 +46,8 @@ import { gql, useQuery } from "@apollo/client";
 
 import logo from "../Navbar/logo.png";
 
+import socket from "../../hooks/socketio";
+
 const Navbar = () => {
   const [open, setOpen] = useState(false);
 
@@ -69,6 +71,12 @@ const Navbar = () => {
   const { data } = useQuery(GET_USER_PIC);
 
   const { user, logout } = useContext(AuthContext);
+
+  useEffect(() => {
+    socket.on("getNotification", (data) => {
+      console.log(data);
+    });
+  }, []);
 
   const isOpen = () => {
     setOpen(true);

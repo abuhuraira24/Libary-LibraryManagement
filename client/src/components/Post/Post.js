@@ -82,7 +82,13 @@ const Post = ({ ...props }) => {
       <Comments>
         <LikeComments>
           {!user && <Popup>{data.likes.length + " "}Like</Popup>}
-          {user && <LikeButton likes={data.likes} postId={data._id} />}
+          {user && (
+            <LikeButton
+              likes={data.likes}
+              postId={data._id}
+              userId={data.userId}
+            />
+          )}
 
           <Comment>
             <NavLink to={`/post/${data._id}`}>
@@ -102,16 +108,5 @@ const Post = ({ ...props }) => {
     </CardBody>
   );
 };
-
-const FET_ALL_USERS = gql`
-  query {
-    getUsers {
-      id
-      avatars {
-        avatar
-      }
-    }
-  }
-`;
 
 export default Post;

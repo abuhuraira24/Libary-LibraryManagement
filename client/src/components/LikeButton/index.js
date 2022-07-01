@@ -6,7 +6,9 @@ import { Like, Span } from "../Post/CartStyles";
 
 import { AuthContext } from "../../context/auth";
 
-const LikeButton = ({ postId, likes }) => {
+import socket from "../../hooks/socketio";
+
+const LikeButton = ({ postId, likes, userId }) => {
   const [liked, setLiked] = useState(false);
 
   const { getLikes, user } = useContext(AuthContext);
@@ -24,6 +26,10 @@ const LikeButton = ({ postId, likes }) => {
 
   const likeHandler = (id) => {
     addLike();
+
+    if (userId) {
+      socket.emit("sendNotification", { resiverId: userId, text: "Welcome" });
+    }
   };
 
   return (

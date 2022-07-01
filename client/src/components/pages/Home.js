@@ -11,6 +11,8 @@ import CreatePost from "../CreatePosts";
 
 import Follower from "../Home/Followers";
 
+import socket from "../../hooks/socketio";
+
 // import io from "socket.io-client";
 // let socket;
 const Home = () => {
@@ -25,6 +27,12 @@ const Home = () => {
   //     console.log(data);
   //   });
   // }, [value]);
+
+  useEffect(() => {
+    socket.on("getMessage", (data) => {
+      console.log(data);
+    });
+  }, []);
 
   return (
     <PostWrapper>

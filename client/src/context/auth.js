@@ -118,7 +118,6 @@ const AuthProvider = (props) => {
   };
 
   const comLoading = () => {
-    alert("loading");
     dispatch({
       type: "COM_LOAD",
     });
@@ -140,7 +139,6 @@ const AuthProvider = (props) => {
   };
 
   const getPosts = (data) => {
-    console.log(data);
     dispatch({
       type: "GET_POSTS",
       payload: {
