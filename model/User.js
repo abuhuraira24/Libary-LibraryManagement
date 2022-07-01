@@ -37,6 +37,17 @@ const userSchema = new Schema({
       createdAt: String,
     },
   ],
+  notification: [
+    {
+      userId: String,
+      authorId: String,
+      name: String,
+      body: String,
+      createdAt: String,
+    },
+  ],
+  socketId: String,
+  active: Boolean,
 });
 
 module.exports = model("User", userSchema);

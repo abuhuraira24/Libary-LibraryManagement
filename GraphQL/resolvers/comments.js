@@ -20,10 +20,6 @@ module.exports = {
       }
       const post = await Post.findById(postId);
 
-      console.log(`post id ${post.userId}`);
-      console.log(`user id ${id}`);
-      console.log(post.userId === id);
-
       const userData = await User.findById(id);
 
       if (post) {
@@ -40,5 +36,22 @@ module.exports = {
         return post;
       } else throw new UserInputError("Post Not Found!");
     },
+  },
+
+  async addCommnet(data) {
+    let { userId, authorId } = await data;
+
+    let user = await User.findById(userId);
+
+    user.notification.push({
+      userId,
+      name: user.firstName + user.lastName,
+      body: "commented on your post",
+      createdAt: new Date().toISOString(),
+    });
+
+    await user.save();
+
+    return user.notification;
   },
 };

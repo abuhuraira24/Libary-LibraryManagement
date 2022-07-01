@@ -12,26 +12,20 @@ import Loading from "../Loading";
 
 const PostCart = () => {
   const [values, setValues] = useState({
-    limit: 5,
+    limit: 10,
     offset: 0,
   });
 
-  const [posts, setPosts] = useState();
+  const [allPost, setPosts] = useState();
 
-  // Fetch post data
-  const { data } = useQuery(FETCH_POST);
+  let { getPosts, posts } = useContext(AuthContext);
+
+  console.log(posts);
 
   // Lazy Query
   let [getDog, { loading }] = useLazyQuery(FETCH_POSTT, {
     onCompleted: (data) => {
-      setPosts({
-        ...posts,
-        data: data.infinitePost,
-      });
-      // setValues({
-      //   ...values,
-      //   limit: values.limit + 1,
-      // });
+      getPosts(data.infinitePost);
     },
 
     variables: {
@@ -44,55 +38,55 @@ const PostCart = () => {
     getDog();
   }, [getDog]);
 
-  let morePost = () => {
+  const morePost = () => {
     setValues({
       ...values,
-      limit: values.limit + 2,
+      limit: values.limit + 1,
     });
     getDog();
   };
 
-  return !posts ? (
-    <Loading />
-  ) : (
+  return (
     <div className="i">
       <Card className="mb-4">
         {posts &&
           typeof posts !== "undefined" &&
           Object.keys(posts).length !== 0 &&
-          posts.data.map((post, index) => {
-            return <Post key={index} data={post} />;
-          })}
+          posts.map((post, index) => <Post key={index} data={post} />)}
       </Card>
-      <LoadMore>
-        <Load onClick={morePost}>See more post</Load>
-      </LoadMore>
+      {posts && typeof posts !== "undefined" && posts.length > 9 && (
+        <LoadMore>
+          <Load type="button" onClick={morePost}>
+            See more post
+          </Load>
+        </LoadMore>
+      )}
     </div>
   );
 };
 
-const FETCH_POST = gql`
-  query {
-    getPosts {
-      firstName
-      userId
-      lastName
-      _id
-      body
-      comments {
-        username
-        body
-        createdAt
-      }
-      likes {
-        userId
-        createdAt
-      }
-      readTime
-      createdAt
-    }
-  }
-`;
+// const FETCH_POST = gql`
+//   query {
+//     getPosts {
+//       firstName
+//       userId
+//       lastName
+//       _id
+//       body
+//       comments {
+//         username
+//         body
+//         createdAt
+//       }
+//       likes {
+//         userId
+//         createdAt
+//       }
+//       readTime
+//       createdAt
+//     }
+//   }
+// `;
 
 const FETCH_POSTT = gql`
   query ($limit: Int!, $offset: Int!) {

@@ -11,26 +11,21 @@ import CreatePost from "../CreatePosts";
 
 import Follower from "../Home/Followers";
 
-import io from "socket.io-client";
-
-let socket;
-
+// import io from "socket.io-client";
+// let socket;
 const Home = () => {
-  let [value, setValue] = useState("Hello Abu");
+  // let [value, setValue] = useState("Hello Abu");
 
-  useEffect(() => {
-    socket = io("http://localhost:5000");
+  // useEffect(() => {
+  //   socket = io("http://localhost:5000/");
 
-    // Send data client to server
-    socket.emit("join", { value });
+  //   socket.emit("addcomment", value);
 
-    // get data server to client
-    socket.on("welcome", (data) => {
-      setValue(data.message);
-    });
-  }, [value]);
+  //   socket.on("sendComment", (data) => {
+  //     console.log(data);
+  //   });
+  // }, [value]);
 
-  console.log(value);
   return (
     <PostWrapper>
       <Container>
@@ -40,7 +35,7 @@ const Home = () => {
           </Col>
           <Col w="50" md="40" sm="100">
             <CreatePost />
-            {value}
+
             <Posts />
           </Col>
           <Col w="25" md="30" none="true">

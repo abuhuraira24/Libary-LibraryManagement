@@ -334,3 +334,5 @@ export const Count = styled.span`
   align-items: center;
   border-radius: 50px;
 `;
+
+export const HeaderItem = styled.div``;

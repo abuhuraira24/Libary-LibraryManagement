@@ -8,6 +8,8 @@ import { AuthContext } from "../../context/auth";
 
 import { NavLink } from "react-router-dom";
 
+import Notification from "../Notifications";
+
 import {
   Nav,
   NavbarContainer,
@@ -34,6 +36,7 @@ import {
   Icons,
   Iconn,
   Count,
+  HeaderItem,
 } from "./NavbarElements";
 
 import { Input } from "../../Styles/ElementsStyles";
@@ -46,12 +49,19 @@ import logo from "../Navbar/logo.png";
 const Navbar = () => {
   const [open, setOpen] = useState(false);
 
+  // Toggler
   const [isToggle, setToggle] = useState(false);
 
+  // Stickey Hader
   const [sticky, setSticky] = useState(false);
 
+  // Search query Handler
   const [searchQuery, setQuery] = useState("");
 
+  // Toggler Notification
+  const [toggleNoti, setToggleNoti] = useState(false);
+
+  // Smal Device Handle
   const [smallDevice, setSmallDevice] = useState(false);
 
   // Query User avata or data
@@ -67,11 +77,24 @@ const Navbar = () => {
     setOpen(false);
   };
 
+  // User account Toggler
   const toggle = () => {
     if (isToggle) {
       setToggle(false);
     } else {
       setToggle(true);
+      setToggleNoti(false);
+    }
+  };
+
+  // Notification Toggler
+
+  const notificationToggler = () => {
+    if (toggleNoti) {
+      setToggleNoti(false);
+    } else {
+      setToggleNoti(true);
+      setToggle(false);
     }
   };
 
@@ -106,11 +129,6 @@ const Navbar = () => {
     context.queryText(searchQuery.text, navigate, createSearchParams);
   };
 
-  // console.log(
-  //   data && data.getUser && data.getUser.avatar === "false"
-  //     ? "pictur not available"
-  //     : "available"
-  // );
   return (
     <NavLarge>
       <Nav issticky={sticky.toString()}>
@@ -143,10 +161,14 @@ const Navbar = () => {
               {/* <i class="fa-solid fa-message"></i> */}
               <Iconn className="fa-solid fa-message"></Iconn>
             </Icons>
-            <Icons>
-              <Count>10</Count>
-              <Iconn className="fa-solid fa-bell"></Iconn>
-            </Icons>
+            <HeaderItem>
+              <Icons onClick={notificationToggler}>
+                <Count>10</Count>
+                <Iconn className="fa-solid fa-bell"></Iconn>
+              </Icons>
+              {toggleNoti && <Notification />}
+            </HeaderItem>
+
             {user && (
               <>
                 <SmallAccount onClick={toggle}>
@@ -183,11 +205,11 @@ const Navbar = () => {
 
           <MenuIcon>
             {open ? (
-              <span onClick={() => isClose()}>
+              <span onClick={isClose}>
                 <i class="fa-solid fa-xmark"></i>
               </span>
             ) : (
-              <span onClick={() => isOpen()}>
+              <span onClick={isOpen}>
                 <Icon className="fa-solid fa-bars"></Icon>
               </span>
             )}

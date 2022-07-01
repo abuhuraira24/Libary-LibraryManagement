@@ -62,6 +62,9 @@ module.exports = {
         password,
         avatars: [],
         cover: [],
+        notification: [],
+        socketId: "",
+        active: false,
       });
 
       const user = await newUser.save();

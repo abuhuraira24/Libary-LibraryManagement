@@ -33,6 +33,8 @@ import PrivatRouter from "./hooks/PrivetRouter";
 
 import { AuthContext } from "./context/auth";
 
+import io from "socket.io-client";
+
 import decoder from "jwt-decode";
 function App() {
   const [user, setUser] = useState();
@@ -51,6 +53,14 @@ function App() {
       setUser(user);
     }
   }, []);
+
+  useEffect(() => {
+    let socket = io("http://localhost:5000");
+
+    if (user) {
+      socket.emit("join", { userId: user.id });
+    }
+  });
 
   return (
     <AuthProvider>

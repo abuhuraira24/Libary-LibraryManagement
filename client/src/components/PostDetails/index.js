@@ -6,6 +6,8 @@ import { CommentBox, Button, CommentInput, Form } from "../Post/CartStyles";
 
 import { gql, useQuery, useMutation } from "@apollo/client";
 
+import io from "socket.io-client";
+
 import {
   AuthorName,
   Comments,
@@ -32,11 +34,15 @@ import Profile from "./Profile";
 
 import Avatar from "../Helper/helper";
 
+let socket;
+
 const PostDetails = () => {
   // Commet value
   const [value, setValues] = useState({
     body: "",
   });
+
+  let [addCooment, setCommnet] = useState("Hello Abu");
 
   const { getComments, comments, user } = useContext(AuthContext);
   const postId = useParams().id;
@@ -64,9 +70,6 @@ const PostDetails = () => {
     update(_, result) {
       getComments(result.data.createComment.comments);
     },
-    onError(error) {
-      console.log(error);
-    },
 
     variables: {
       ...value,
@@ -81,13 +84,49 @@ const PostDetails = () => {
     });
   };
 
+  socket = io("http://localhost:5000/");
   const submitHandler = (e) => {
     e.preventDefault();
-    addComment();
+
+    if (value.body) {
+      addComment();
+    }
+
+    socket.emit("addcomment", {
+      userId: user.id,
+      postId: data.getSinglePost.userId,
+    });
+
     setValues({
       body: "",
     });
   };
+
+  useEffect(() => {
+    if (
+      data &&
+      typeof data.getSinglePost !== "undefined" &&
+      data.getSinglePost.userId === user.id
+    ) {
+      socket.on("sendComment", (data) => {
+        console.log(data);
+      });
+    }
+  }, [data, user]);
+
+  // if (data) {
+  //   console.log(data.getSinglePost.userId);
+  // }
+
+  // useEffect(() => {
+  //   socket = io("http://localhost:5000/");
+
+  //   socket.emit("addcomment", addCooment);
+
+  //   socket.on("sendComment", (data) => {
+  //     console.log(data);
+  //   });
+  // }, [value]);
 
   let avatar = Avatar(data && data.getSinglePost.userId);
 

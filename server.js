@@ -25,6 +25,10 @@ const { mongoose } = require("mongoose");
 
 const { MONGODB } = require("./config");
 
+const { addCommnet } = require("./GraphQL/resolvers/comments");
+
+const { adduser, removeUser } = require("./socketController/index");
+
 const resolvers = require("./GraphQL/resolvers/index");
 
 const typeDefs = require("./GraphQL/typeDefs");
@@ -58,18 +62,15 @@ const startServer = async () => {
 
   // Soket.io
   io.on("connection", (socket) => {
-    // Get data client ---> server
+    // Add comment
+
     socket.on("join", (data) => {
-      console.log(data);
+      adduser({ userId: data.userId, socketId: socket.id });
     });
 
-    // Send data Server to client
-    setTimeout(() => {
-      socket.emit("welcome", { message: "Welcome!" });
-    }, 10000);
-
     socket.on("disconnect", () => {
-      console.log(`User disconnected ${socket.id}`);
+      console.log(`user disconnected ${socket.id}`);
+      removeUser(socket.id);
     });
   });
 

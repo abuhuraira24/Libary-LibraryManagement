@@ -33,22 +33,6 @@ import {
 } from "./styles";
 import styled from "styled-components";
 
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-    // width: "40%",
-    borderRadius: "15px",
-    transition: ".5s",
-    transitionDelay: "2s",
-    overflow: "inherit",
-  },
-};
-
 Modal.setAppElement("#root");
 
 const Popup = ({ children }) => {
@@ -114,6 +98,24 @@ const Popup = ({ children }) => {
 
   const submitHandler = () => {
     createPost();
+  };
+
+  // Modal Styles
+
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+      // width: "40%",
+      borderRadius: "15px",
+      transition: ".5s",
+      transitionDelay: "2s",
+      overflow: "inherit",
+    },
   };
   return (
     <div>
