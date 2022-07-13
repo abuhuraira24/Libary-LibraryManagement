@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 
-const Avatar = (postId) => {
+export const Avatar = (postId) => {
   const [users, setUsers] = useState();
   useQuery(FET_ALL_USERS, {
     onCompleted: (data) => {
@@ -38,4 +38,8 @@ const FET_ALL_USERS = gql`
   }
 `;
 
-export default Avatar;
+// export default Avatar;
+
+export const getCommnetAvatar = (userId, users) => {
+  let user = users?.find((u) => u.id === userId);
+};

@@ -19,6 +19,8 @@ const AuthContext = createContext({
   getComments: (data) => {},
   getLikes: (data) => {},
   getPosts: (data) => {},
+  getNotification: (data) => {},
+  getRealTimeNoti: (data) => {},
 });
 
 const init = {
@@ -26,6 +28,7 @@ const init = {
   searchText: null,
   comments: null,
   posts: null,
+  notification: null,
 };
 
 if (localStorage.getItem("jwtToken")) {
@@ -74,6 +77,17 @@ const authReducer = (state, action) => {
       return {
         ...state,
         posts: action.payload.posts,
+      };
+    case "GET_NOTI":
+      return {
+        ...state,
+        notification: action.payload,
+      };
+
+    case "GET_REAL_TIME_NOTI":
+      return {
+        ...state,
+        notification: action.payload,
       };
     default:
       return state;
@@ -147,6 +161,18 @@ const AuthProvider = (props) => {
     });
   };
 
+  const getNotification = (data) => {
+    dispatch({
+      type: "GET_NOTI",
+      payload: data,
+    });
+  };
+  const getRealTimeNoti = (data) => {
+    dispatch({
+      type: "GET_REAL_TIME_NOTI",
+      payload: data,
+    });
+  };
   return (
     <AuthContext.Provider
       value={{
@@ -157,11 +183,14 @@ const AuthProvider = (props) => {
         comments: state.comments,
         logout,
         queryText,
+        getNotification,
+        getRealTimeNoti,
         searchText: state.searchText,
         getLikes,
         likes: state.likes,
         getPosts,
         posts: state.posts,
+        notification: state.notification,
       }}
       {...props}
     />

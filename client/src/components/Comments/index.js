@@ -21,32 +21,42 @@ import { useContext } from "react";
 
 import moment from "moment";
 
-import Avatar from "../Helper/helper";
+import { Avatar } from "../Helper/helper";
 
-const SingleComment = (dataa) => {
-  const { user } = useContext(AuthContext);
+import { getCommnetAvatar } from "../Helper/helper";
+const SingleComment = ({ c }) => {
+  // const { user } = useContext(AuthContext);
 
-  let avatar = Avatar(dataa.data.userId);
+  // let avatar = Avatar(dataa.data.userId);
+  useQuery(GET_USER, {
+    onCompleted: (data) => {
+      getCommnetAvatar(c.userId, data.getUsers);
+    },
+  });
 
   return (
     <Wrapper>
       <CommentWrapper>
         <UserImage>
           <Image>
-            <Picture src={avatar} alt="abu" />
+            {/* <Picture src={avatar} alt="abu" /> */}
+            img
           </Image>
         </UserImage>
         <CommentBody>
           <P>
             <Name>
-              {dataa.data.username}
-              <Author>{dataa.data.author === "true" && "author"}</Author>
+              {c.username}
+              <Author>{c.author === "true" && "author"}</Author>
+              authot
             </Name>
-            {dataa.data.body}
+            {c.body}
+            body text
           </P>
           <TimeLine>
             <Like>
-              <Span>{moment(dataa.data.createdAt).fromNow(true)}</Span>
+              <Span>{moment(c.createdAt).fromNow(true)}</Span>
+              titme
             </Like>
           </TimeLine>
         </CommentBody>
@@ -54,5 +64,14 @@ const SingleComment = (dataa) => {
     </Wrapper>
   );
 };
+
+const GET_USER = gql`
+  query {
+    getUsers {
+      id
+      avatars
+    }
+  }
+`;
 
 export default SingleComment;

@@ -39,11 +39,14 @@ const userSchema = new Schema({
   ],
   notification: [
     {
-      userId: String,
+      postId: String,
       authorId: String,
+      senderId: String,
       name: String,
-      body: String,
+      text: String,
+      avatar: String,
       createdAt: String,
+      notificationType: String,
     },
   ],
   socketId: String,

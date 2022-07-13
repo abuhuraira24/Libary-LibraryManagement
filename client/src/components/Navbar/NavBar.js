@@ -39,14 +39,15 @@ import {
   HeaderItem,
 } from "./NavbarElements";
 
-import { Input } from "../../Styles/ElementsStyles";
-
-import { useTheme } from "styled-components";
 import { gql, useQuery } from "@apollo/client";
 
 import logo from "../Navbar/logo.png";
 
 import socket from "../../hooks/socketio";
+
+import useAvatar from "../../hooks/useAvatar";
+
+import notiHook from "../../hooks/userNotification";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -66,17 +67,41 @@ const Navbar = () => {
   // Smal Device Handle
   const [smallDevice, setSmallDevice] = useState(false);
 
+  // Set Notifications
+  const [realtTimeNoti, setRealTime] = useState([]);
+
+  // Get Notification
+  const [notifications, setNotifications] = useState([]);
+
+  const { user, logout, notification, getRealTimeNoti } =
+    useContext(AuthContext);
+  let noti = useQuery(GET_NOTIFICATIONS, {
+    onCompleted: (data) => {
+      if (data) {
+        // console.log(data.notifications);
+        setNotifications(...notifications, data.notifications);
+      }
+      // if (data && notifications) {
+      //   getNotification(data.notifications);
+      // }
+    },
+  });
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+
+  // useEffect(() => {
+  //   socket.on("getNotification", (data) => {
+  //     // setRealTime({ ...realtTimeNoti.data }, data);
+  //     // getRealTimeNoti(data);
+  //     console.log(data);
+  //   });
+  // }, []);
+
   // Query User avata or data
 
   const { data } = useQuery(GET_USER_PIC);
 
-  const { user, logout } = useContext(AuthContext);
-
-  useEffect(() => {
-    socket.on("getNotification", (data) => {
-      console.log(data);
-    });
-  }, []);
+  const { images } = useAvatar(data);
 
   const isOpen = () => {
     setOpen(true);
@@ -165,33 +190,34 @@ const Navbar = () => {
 
           <RightMenu>
             <Icons>
-              <Count>5</Count>
+              <Count>1</Count>
               {/* <i class="fa-solid fa-message"></i> */}
               <Iconn className="fa-solid fa-message"></Iconn>
             </Icons>
             <HeaderItem>
               <Icons onClick={notificationToggler}>
-                <Count>10</Count>
+                <Count>1</Count>
                 <Iconn className="fa-solid fa-bell"></Iconn>
               </Icons>
-              {toggleNoti && <Notification />}
+              {toggleNoti && (
+                <Notification
+                  // realtTimeNoti={realtTimeNoti}
+                  notification={noti.data ? noti : []}
+                />
+              )}
             </HeaderItem>
 
             {user && (
               <>
                 <SmallAccount onClick={toggle}>
                   <Avatar>
-                    {typeof data !== "undefined" &&
-                      typeof data.getUser !== "undefined" &&
-                      data.getUser.avatar !== "false" && (
-                        // console.log(data.getUser.avatar)
-                        <NavAvatar src={data.getUser.avatar} alt="user" />
-                      )}
-                    {typeof data !== "undefined" &&
-                      typeof data.getUser !== "undefined" &&
-                      data.getUser.avatar === "false" && (
-                        <UserIconn>user</UserIconn>
-                      )}
+                    {images.avatar && (
+                      <NavAvatar src={images.avatar} alt="user" />
+                    )}
+                    {/* <i class="fa-solid fa-user"></i> */}
+                    {!images.avatar && (
+                      <UserIconn className="fa-solid fa-user"></UserIconn>
+                    )}
                   </Avatar>
                   {/* <UserIcon className="fa-solid fa-user"></UserIcon> */}
                   <Ul isToggle={isToggle} className="scrollbar-hidden">
@@ -247,6 +273,18 @@ const GET_USER_PIC = gql`
   query {
     getUser {
       avatar
+      cover
+    }
+  }
+`;
+
+const GET_NOTIFICATIONS = gql`
+  query {
+    notifications {
+      name
+      text
+      avatar
+      createdAt
     }
   }
 `;

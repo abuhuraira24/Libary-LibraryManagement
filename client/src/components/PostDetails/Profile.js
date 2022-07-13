@@ -11,7 +11,7 @@ import {
   PostAvatar,
 } from "./Styles";
 
-import Avatar from "../Helper/helper";
+import { Avatar } from "../Helper/helper";
 
 const Profile = (post) => {
   let avatar = Avatar(post.data.userId);

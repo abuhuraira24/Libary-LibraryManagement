@@ -10,26 +10,27 @@ export const Comments = styled.div`
 `;
 
 export const LikeComments = styled.div`
-  width: 50%;
+  width: 100%;
   display: flex;
   justify-content: space-around;
 `;
-export const SaveRead = styled.div`
-  width: 50%;
-  display: flex;
-  justify-content: center;
-`;
+// export const SaveRead = styled.div`
+//   width: 50%;
+//   display: flex;
+//   justify-content: center;
+// `;
 export const Like = styled.div`
   cursor: pointer;
   i {
     font-size: 22px;
     height: 21px;
-    color: ${(props) => (props.liked ? "#2c51ca" : props.theme.color)};
+    color: ${(props) => (props.liked ? "red" : props.theme.color)};
     cursor: pointer;
   }
 `;
 
 export const Comment = styled.div`
+  cursor: pointer;
   svg {
     color: black;
     font-size: 75px;
@@ -46,6 +47,7 @@ export const Span = styled.span`
 
 export const CommentBox = styled.div`
   margin: 1rem 0;
+  width: 100%;
 `;
 
 export const Form = styled.form``;
@@ -54,7 +56,7 @@ export const CommentInput = styled.input`
   background: ${(props) => props.theme.gray};
   border: none;
   border-radius: 50px;
-  height: 50px;
+  height: 32px;
 `;
 
 export const Button = styled.button`
@@ -125,4 +127,10 @@ export const Load = styled.span`
   color: #fff;
   padding: 8px 21px;
   border-radius: 10px;
+`;
+
+export const CommentsArea = styled.div`
+  display: flex;
+  justify-content: start;
+  align-items: center;
 `;

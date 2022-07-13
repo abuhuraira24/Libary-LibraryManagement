@@ -14,6 +14,14 @@ cloudinary.config({
 
 module.exports = {
   Query: {
+    async notifications(_, {}, context) {
+      let userInfo = authChecker(context);
+
+      let user = await User.findById(userInfo.id).sort({ createdAt: -1 });
+
+      return user.notification;
+    },
+
     getUser: async (_, {}, context) => {
       const user = authChecker(context);
 

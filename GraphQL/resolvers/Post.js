@@ -59,7 +59,42 @@ module.exports = {
         }
 
         await post.save();
+
         return post;
+      } else throw new UserInputError("Post not found");
+    },
+
+    async createNotification(
+      _,
+      { postId, authorId, avatar, type, text },
+      context
+    ) {
+      let user = authChecker(context);
+
+      let authorInfo = await User.findById(authorId);
+
+      if (authorInfo) {
+        if (authorInfo.notification.find((noti) => noti.senderId === user.id)) {
+          authorInfo.notification = authorInfo.notification.filter(
+            (noti) => noti.senderId !== user.id
+          );
+        } else {
+          authorInfo.notification.push({
+            postId,
+            authorId,
+            senderId: user.id,
+            notificationType: type,
+            name: user.firstName + " " + user.lastName,
+            avatar,
+            text,
+            notiType: type,
+            createdAt: new Date().toISOString(),
+          });
+        }
+
+        await authorInfo.save();
+
+        return authorInfo;
       } else throw new UserInputError("Post not found");
     },
   },
@@ -89,3 +124,5 @@ module.exports = {
     },
   },
 };
+
+// createNotification

@@ -7,6 +7,12 @@ const User = require("../../model/User");
 const AuthChecker = require("../../utils/auth-checker");
 
 module.exports = {
+  Query: {
+    async getCommentAvatar(_, { userId }) {
+      // const user = AuthChecker(context);
+      let user = User.findOne()
+    },
+  },
   Mutation: {
     async createComment(_, { postId, body }, context) {
       const { username, id, firstName, lastName } = AuthChecker(context);

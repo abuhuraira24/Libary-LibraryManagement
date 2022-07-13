@@ -22,6 +22,7 @@ const users = require("../resolvers/user");
 
 const infinitePost = require("../resolvers/Post");
 
+const cleateLikeNotification = require("./Post");
 module.exports = {
   Query: {
     ...createPost.Query,
@@ -39,5 +40,6 @@ module.exports = {
     ...likePost.Mutation,
     ...uploadIamge.Mutation,
     ...uploadCover.Mutation,
+    ...cleateLikeNotification.Mutation,
   },
 };

@@ -55,12 +55,12 @@ function App() {
   }, []);
 
   useEffect(() => {
+    // socket.on("getUsers", (data) => {
+    //   console.log(data);
+    // });
     if (user) {
-      socket.emit("addUser", user.id);
+      socket.emit("join", { userId: user.id });
     }
-    socket.on("getuser", (data) => {
-      console.log(data);
-    });
   }, [user]);
 
   return (

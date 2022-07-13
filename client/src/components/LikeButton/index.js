@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 
 import { Like, Span } from "../Post/CartStyles";
 
@@ -10,6 +10,13 @@ import socket from "../../hooks/socketio";
 
 const LikeButton = ({ postId, likes, userId }) => {
   const [liked, setLiked] = useState(false);
+  const [avatar, setAvatar] = useState("");
+
+  useQuery(GET_USER_PIC, {
+    onCompleted: (data) => {
+      setAvatar(data.getUser.avatar);
+    },
+  });
 
   const { getLikes, user } = useContext(AuthContext);
 
@@ -24,17 +31,43 @@ const LikeButton = ({ postId, likes, userId }) => {
     variables: { postId },
   });
 
-  const likeHandler = (id) => {
-    addLike();
+  let [addNotification] = useMutation(ADD_NOTIFICATION, {
+    variables: {
+      postId: postId,
+      authorId: userId,
+      name: user.firstName + " " + user.lastName,
+      text: "Likes your post",
+      type: "like",
+      avatar: avatar && avatar,
+    },
+  });
 
-    if (userId) {
-      socket.emit("sendNotification", { resiverId: userId, text: "Welcome" });
+  const likeHandler = () => {
+    if (userId && user && liked) {
+      socket.emit("sentNotification", {
+        senderInfo: {
+          userId: user.id,
+          name: user.firstName + " " + user.lastName,
+          avatar: avatar && avatar,
+          body: "Liked your post",
+        },
+        resiverInfo: {
+          userId: userId,
+        },
+      });
+    }
+
+    addLike();
+    if (userId !== user.id) {
+      addNotification();
     }
   };
 
-  return (
+  return loading ? (
+    "loading"
+  ) : (
     <Like onClick={likeHandler} liked={liked}>
-      <i className="fa-solid fa-thumbs-up"></i>
+      <i className="fa-brands fa-gratipay"></i>
       <Span>
         {likes.length + " "}
 
@@ -52,6 +85,37 @@ const LIKE_POST = gql`
         createdAt
         userId
       }
+    }
+  }
+`;
+const ADD_NOTIFICATION = gql`
+  mutation createNotification(
+    $postId: ID!
+    $authorId: ID!
+    $name: String!
+    $text: String!
+    $type: String!
+    $avatar: String!
+  ) {
+    createNotification(
+      postId: $postId
+      authorId: $authorId
+      name: $name
+      text: $text
+      type: $type
+      avatar: $avatar
+    ) {
+      notification {
+        senderId
+      }
+    }
+  }
+`;
+
+const GET_USER_PIC = gql`
+  query {
+    getUser {
+      avatar
     }
   }
 `;

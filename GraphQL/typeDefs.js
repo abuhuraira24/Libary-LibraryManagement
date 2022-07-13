@@ -8,6 +8,7 @@ module.exports = gql`
     token: String!
     avatars: [Avatar]
     cover: [Cover]
+    notification: [Notifications]
   }
   type Users {
     id: ID!
@@ -69,6 +70,18 @@ module.exports = gql`
   type File {
     url: String!
   }
+
+  type Notifications {
+    name: String!
+    authorId: String!
+    avatar: String!
+    senderId: String!
+    createdAt: String!
+    text: String
+  }
+  type commnetAvatar {
+    avatar: String!
+  }
   type Query {
     getPosts: [Post]!
     getPost: [Post]!
@@ -76,7 +89,9 @@ module.exports = gql`
     getUser: SingleUser!
     getUsers: [User]!
     users: [Users]!
-    infinitePost(limit: Int!, offset: Int!): [Post]
+    infinitePost(limit: Int!, offset: Int!): [Post]!
+    notifications: [Notifications]!
+    getCommentAvatar(userId: ID!): commnetAvatar
   }
   type Mutation {
     register(registerInput: RegisterField): User!
@@ -92,5 +107,14 @@ module.exports = gql`
     uploadIamge(url: String!, userId: ID!): File!
 
     uploadCover(url: String!, userId: ID!): Cover!
+
+    createNotification(
+      postId: ID!
+      authorId: ID!
+      name: String!
+      text: String!
+      type: String!
+      avatar: String!
+    ): User!
   }
 `;

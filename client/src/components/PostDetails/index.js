@@ -32,7 +32,7 @@ import { AuthContext } from "../../context/auth";
 
 import Profile from "./Profile";
 
-import Avatar from "../Helper/helper";
+import { Avatar } from "../Helper/helper";
 
 let socket;
 
@@ -63,8 +63,8 @@ const PostDetails = () => {
     if (post) {
       getComments(post.comments);
     }
-    // getComments(post)
-  }, [post]);
+    getComments(post);
+  }, [getComments, post]);
 
   const [addComment, { loading }] = useMutation(COMMENTS, {
     update(_, result) {
@@ -112,7 +112,7 @@ const PostDetails = () => {
         console.log(data);
       });
     }
-  }, [data, user]);
+  }, [data, user.id]);
 
   // if (data) {
   //   console.log(data.getSinglePost.userId);
@@ -188,11 +188,11 @@ const PostDetails = () => {
                 </Form>
               </CommentBox>
 
-              {comments &&
+              {/* {comments &&
                 typeof comments !== "undefined" &&
                 comments.map((itm, index) => (
                   <SingleComment key={index} data={itm} />
-                ))}
+                ))} */}
             </Comments>
           </Col>
           <Col w="30" sm="100">

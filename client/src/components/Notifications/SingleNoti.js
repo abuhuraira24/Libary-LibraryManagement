@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Body,
@@ -10,21 +10,20 @@ import {
   Text,
   Time,
 } from "./styles";
-import im from "../Profile/avatar.jpg";
-
-const SingleNoti = () => {
+import moment from "moment";
+const SingleNoti = ({ notification }) => {
   return (
     <NotWrapper>
       <Single>
         <Avatars>
           <Avatar>
-            <Img src={im} alt="use" />
+            <Img src={notification.avatar} alt="use" />
           </Avatar>
         </Avatars>
         <Body>
-          <Name>Abu Huraira : </Name>
-          <Text>In software development, staging </Text>
-          <Time>2 hours ago</Time>
+          <Name> {notification.name} : </Name>
+          <Text>{notification.text} </Text>
+          <Time> {moment(notification.createdAt).fromNow(true)}</Time>
         </Body>
       </Single>
     </NotWrapper>

@@ -8,8 +8,6 @@ import { Card, Load, LoadMore } from "./CartStyles";
 
 import { AuthContext } from "../../context/auth";
 
-import Loading from "../Loading";
-
 const PostCart = () => {
   const [values, setValues] = useState({
     limit: 10,
@@ -98,6 +96,7 @@ const FETCH_POSTT = gql`
         username
         body
         createdAt
+        userId
       }
       likes {
         userId

@@ -15,6 +15,7 @@ import {
   CircleImage,
   UserPic,
   More,
+  CommentsArea,
 } from "./CartStyles";
 
 import LikeButton from "../LikeButton";
@@ -29,9 +30,21 @@ import moment from "moment";
 
 import { AuthContext } from "../../context/auth";
 
-import Avatar from "../Helper/helper";
+import { Avatar } from "../Helper/helper";
+
+import CommentBar from "../commentInput/CommentInput";
+
+import getAvatar from "../../hooks/useAvatar";
+
+import SingleComment from "../Comments";
+
+import { getCommnetAvatar } from "../Helper/helper";
 
 const Post = ({ ...props }) => {
+  let [toggleComment, setToggleComment] = useState(false);
+
+  let [image, setImage] = useState(null);
+
   const { user } = useContext(AuthContext);
 
   let { data } = props;
@@ -46,6 +59,28 @@ const Post = ({ ...props }) => {
   } else {
     text = data.body;
   }
+  // Show Comment Input
+  const togglerInput = () => {
+    setToggleComment(true);
+  };
+
+  // Query User avata or data
+
+  useQuery(GET_USER_PIC, {
+    onCompleted: (data) => {
+      const { images } = getAvatar(data);
+      setImage(images);
+    },
+  });
+  useEffect(() => {
+    getCommnetAvatar(data.comments);
+  }, [data.comments]);
+
+  const users = useQuery(GET_USER, {
+    onCompleted: (data) => {
+      getCommnetAvatar();
+    },
+  });
 
   return (
     <CardBody className="mb-4 ">
@@ -90,23 +125,51 @@ const Post = ({ ...props }) => {
             />
           )}
 
-          <Comment>
-            <NavLink to={`/post/${data._id}`}>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                <path d="M511.1 63.1v287.1c0 35.25-28.75 63.1-64 63.1h-144l-124.9 93.68c-7.875 5.75-19.12 .0497-19.12-9.7v-83.98h-96c-35.25 0-64-28.75-64-63.1V63.1c0-35.25 28.75-63.1 64-63.1h384C483.2 0 511.1 28.75 511.1 63.1z" />
-              </svg>
-              <Span> {data.comments.length} comments</Span>
-            </NavLink>
+          <Comment onClick={togglerInput}>
+            {/* <NavLink to={`/post/${data._id}`}> */}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+              <path d="M511.1 63.1v287.1c0 35.25-28.75 63.1-64 63.1h-144l-124.9 93.68c-7.875 5.75-19.12 .0497-19.12-9.7v-83.98h-96c-35.25 0-64-28.75-64-63.1V63.1c0-35.25 28.75-63.1 64-63.1h384C483.2 0 511.1 28.75 511.1 63.1z" />
+            </svg>
+            <Span> {data.comments.length} comments</Span>
+            {/* </NavLink> */}
           </Comment>
-        </LikeComments>
-        <SaveRead>
           <CardSubtitle className="text-muted" tag="h6">
-            {data.readTime} min read
+            {/* {data.readTime} min read */}
+            <i className="fa-solid fa-share"></i> Share
           </CardSubtitle>
-        </SaveRead>
+        </LikeComments>
       </Comments>
+
+      {toggleComment && (
+        <CommentsArea>
+          <UserPic>
+            {image && image.avatar && (
+              <CircleImage src={image.avatar} alt="user" />
+            )}
+          </UserPic>
+          <CommentBar />
+        </CommentsArea>
+      )}
+      {toggleComment &&
+        data.comments.map((c, index) => <SingleComment key={index} c={c} />)}
     </CardBody>
   );
 };
+const GET_USER_PIC = gql`
+  query {
+    getUser {
+      avatar
+      cover
+    }
+  }
+`;
 
+const GET_USER = gql`
+  query {
+    getUsers {
+      id
+      avatars
+    }
+  }
+`;
 export default Post;
