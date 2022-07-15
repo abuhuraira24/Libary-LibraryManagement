@@ -34,101 +34,59 @@ import Profile from "./Profile";
 
 import { Avatar } from "../Helper/helper";
 
+import CommentBar from "../commentInput/CommentInput";
+
+import { CommentsArea, UserPic, CircleImage } from "../Post/CartStyles";
+
+import getAvatar from "../../hooks/useAvatar";
+
 let socket;
 
 const PostDetails = () => {
   // Commet value
-  const [value, setValues] = useState({
-    body: "",
-  });
+  const [post, setPost] = useState(null);
 
-  let [addCooment, setCommnet] = useState("Hello Abu");
+  let [image, setImage] = useState(null);
 
   const { getComments, comments, user } = useContext(AuthContext);
   const postId = useParams().id;
 
-  const { data } = useQuery(FETCH_POST, {
-    variables: {
-      postId,
+  // const { data } = useQuery(FETCH_POST, {
+  //   variables: {
+  //     postId,
+  //   },
+  // });
+
+  // Query User avata or data
+
+  useQuery(GET_USER_PIC, {
+    onCompleted: (data) => {
+      const { images } = getAvatar(data);
+      setImage(images);
     },
   });
 
-  let post;
-
-  if (data) {
-    post = data.getSinglePost;
-  }
-
-  useEffect(() => {
-    if (post) {
-      getComments(post.comments);
-    }
-    getComments(post);
-  }, [getComments, post]);
-
-  const [addComment, { loading }] = useMutation(COMMENTS, {
-    update(_, result) {
-      getComments(result.data.createComment.comments);
+  // Get single post
+  useQuery(GET_POST, {
+    onCompleted: (data) => {
+      console.log(data.getSinglePost);
+      setPost(data.getSinglePost);
     },
-
     variables: {
-      ...value,
-      postId,
+      postId: postId,
     },
   });
 
-  const changeHandler = (e) => {
-    setValues({
-      ...value,
-      [e.target.name]: e.target.value,
-    });
-  };
+  useQuery(GET_COMMENTS, {
+    onCompleted: (data) => {
+      getComments(data.getSinglePost.comments);
+    },
+    variables: {
+      postId: postId,
+    },
+  });
 
-  socket = io("http://localhost:5000/");
-  const submitHandler = (e) => {
-    e.preventDefault();
-
-    if (value.body) {
-      addComment();
-    }
-
-    socket.emit("addcomment", {
-      userId: user.id,
-      postId: data.getSinglePost.userId,
-    });
-
-    setValues({
-      body: "",
-    });
-  };
-
-  useEffect(() => {
-    if (
-      data &&
-      typeof data.getSinglePost !== "undefined" &&
-      data.getSinglePost.userId === user.id
-    ) {
-      socket.on("sendComment", (data) => {
-        console.log(data);
-      });
-    }
-  }, [data, user.id]);
-
-  // if (data) {
-  //   console.log(data.getSinglePost.userId);
-  // }
-
-  // useEffect(() => {
-  //   socket = io("http://localhost:5000/");
-
-  //   socket.emit("addcomment", addCooment);
-
-  //   socket.on("sendComment", (data) => {
-  //     console.log(data);
-  //   });
-  // }, [value]);
-
-  let avatar = Avatar(data && data.getSinglePost.userId);
+  let avatar = Avatar(post && post.userId);
 
   return (
     <Wrapper>
@@ -142,28 +100,22 @@ const PostDetails = () => {
                 )}
               </UserImage>
               <AuthorName>
-                <H5>
-                  {typeof post !== "undefined" &&
-                    post.firstName + " " + post.lastName}
-                </H5>
-                <Span>
-                  {typeof post !== "undefined" &&
-                    moment(post.createdAt).fromNow(true)}
-                </Span>
+                <H5>{post && post.firstName + " " + post.lastName}</H5>
+                <Span>{post && moment(post.createdAt).fromNow(true)}</Span>
               </AuthorName>
             </UserProfile>
             {/* <PostTitle>{typeof post !== "undefined" && post.title}</PostTitle> */}
             <PostBody>
-              <P>{typeof post !== "undefined" && post.body}</P>
+              <P>{post && post.body}</P>
             </PostBody>
             <Comments>
-              <h2>
+              {/* <h2>
                 Discussion (
                 {comments && typeof comments !== "undefined" && comments.length}
                 )
-              </h2>
-              <CommentBox>
-                <Form onSubmit={submitHandler}>
+              </h2> */}
+              {/* <CommentBox>
+                <Form>
                   {!user && (
                     <CommentInput
                       type="body"
@@ -171,7 +123,6 @@ const PostDetails = () => {
                       placeholder="Write an answere..."
                       name="body"
                       value={value.body}
-                      onChange={changeHandler}
                     />
                   )}
                   {user && (
@@ -180,32 +131,44 @@ const PostDetails = () => {
                       placeholder="Write an answere..."
                       name="body"
                       value={value.body}
-                      onChange={changeHandler}
                     />
                   )}
 
                   <Button type="submit"></Button>
                 </Form>
-              </CommentBox>
+              </CommentBox> */}
+
+              {/* <CommentBar postId={postId} /> */}
+              <CommentsArea>
+                <UserPic>
+                  {image && image.avatar && (
+                    <CircleImage src={image.avatar} alt="user" />
+                  )}
+                </UserPic>
+                <CommentBar postId={postId} />
+              </CommentsArea>
 
               {/* {comments &&
                 typeof comments !== "undefined" &&
                 comments.map((itm, index) => (
                   <SingleComment key={index} data={itm} />
                 ))} */}
+              {comments?.map((c, index) => (
+                <SingleComment key={index} c={c} />
+              ))}
             </Comments>
           </Col>
           <Col w="30" sm="100">
             {/* <Profile
-              data={post}
+              // data={post}
               avata={typeof avatar !== "function" && avatar}
             /> */}
-            {typeof avatar !== "function" && (
+            {/* {typeof avatar !== "function" && (
               <Profile
-                data={post}
+                // data={post}
                 avata={typeof avatar !== "function" && avatar}
               />
-            )}
+            )} */}
           </Col>
         </Row>
       </Container>
@@ -233,19 +196,37 @@ const FETCH_POST = gql`
   }
 `;
 
-const COMMENTS = gql`
-  mutation createComment($postId: ID!, $body: String!) {
-    createComment(postId: $postId, body: $body) {
-      comments {
-        body
-        username
-        avatar
-        userId
-        createdAt
-        author
-      }
+const GET_POST = gql`
+  query ($postId: ID!) {
+    getSinglePost(postId: $postId) {
+      userId
+      firstName
+      lastName
+      avatar
+      body
+      createdAt
     }
   }
 `;
 
+const GET_COMMENTS = gql`
+  query ($postId: ID!) {
+    getSinglePost(postId: $postId) {
+      comments {
+        body
+        userId
+        username
+        createdAt
+      }
+    }
+  }
+`;
+const GET_USER_PIC = gql`
+  query {
+    getUser {
+      avatar
+      cover
+    }
+  }
+`;
 export default PostDetails;

@@ -1,3 +1,7 @@
+import { useEffect } from "react";
+
+import { Link } from "react-router-dom";
+
 import { gql, useQuery } from "@apollo/client";
 
 import {
@@ -17,20 +21,19 @@ import {
 
 import { AuthContext } from "../../context/auth";
 
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 import moment from "moment";
 
-import { Avatar } from "../Helper/helper";
-
-import { getCommnetAvatar } from "../Helper/helper";
 const SingleComment = ({ c }) => {
-  // const { user } = useContext(AuthContext);
+  let [avatar, setAvatar] = useState("");
 
-  // let avatar = Avatar(dataa.data.userId);
-  useQuery(GET_USER, {
+  useQuery(GET_COMMENT_AVATAR, {
     onCompleted: (data) => {
-      getCommnetAvatar(c.userId, data.getUsers);
+      setAvatar(data.getCommentAvatar.avatar);
+    },
+    variables: {
+      userId: c.userId,
     },
   });
 
@@ -38,25 +41,22 @@ const SingleComment = ({ c }) => {
     <Wrapper>
       <CommentWrapper>
         <UserImage>
-          <Image>
-            {/* <Picture src={avatar} alt="abu" /> */}
-            img
-          </Image>
+          <Image>{avatar && <Picture src={avatar} alt="abu" />}</Image>
         </UserImage>
         <CommentBody>
           <P>
-            <Name>
-              {c.username}
-              <Author>{c.author === "true" && "author"}</Author>
-              authot
-            </Name>
+            <Link to={`profile/${c.userId}`}>
+              <Name>
+                {c.username}
+                {/* <Author>{c.author === "true" && "author"}</Author> */}
+              </Name>
+            </Link>
+
             {c.body}
-            body text
           </P>
           <TimeLine>
             <Like>
               <Span>{moment(c.createdAt).fromNow(true)}</Span>
-              titme
             </Like>
           </TimeLine>
         </CommentBody>
@@ -65,11 +65,11 @@ const SingleComment = ({ c }) => {
   );
 };
 
-const GET_USER = gql`
-  query {
-    getUsers {
-      id
-      avatars
+const GET_COMMENT_AVATAR = gql`
+  query ($userId: ID!) {
+    getCommentAvatar(userId: $userId) {
+      avatar
+      isStock
     }
   }
 `;

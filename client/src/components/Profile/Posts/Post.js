@@ -18,9 +18,9 @@ import {
   CommentsArea,
 } from "./CartStyles";
 
-import LikeButton from "../LikeButton";
+import LikeButton from "../../LikeButton/index";
 
-import Popup from "../Popup/Popup";
+import Popup from "../../Popup/Popup";
 
 import { NavLink } from "react-router-dom";
 
@@ -28,17 +28,17 @@ import { CardText } from "reactstrap";
 
 import moment from "moment";
 
-import { AuthContext } from "../../context/auth";
+import { AuthContext } from "../../../context/auth";
 
-import { Avatar } from "../Helper/helper";
+import { Avatar } from "../../Helper/helper";
 
-import CommentBar from "../commentInput/CommentInput";
+import CommentBar from "../../commentInput/CommentInput";
 
-import getAvatar from "../../hooks/useAvatar";
+import getAvatar from "../../../hooks/useAvatar";
 
-import SingleComment from "../Comments";
+import SingleComment from "../../Comments";
 
-import { getCommnetAvatar } from "../Helper/helper";
+import { getCommnetAvatar } from "../../Helper/helper";
 
 const Post = ({ ...props }) => {
   let [toggleComment, setToggleComment] = useState(false);
@@ -75,10 +75,6 @@ const Post = ({ ...props }) => {
   useEffect(() => {
     getCommnetAvatar(data.comments);
   }, [data.comments]);
-
-  // useEffect(() => {
-  //   // getComments(data.comments);
-  // }, []);
 
   return (
     <CardBody className="mb-4 ">

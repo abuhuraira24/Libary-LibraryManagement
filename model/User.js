@@ -25,6 +25,20 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  bio: String,
+  lives: String,
+  followers: [
+    {
+      userId: String,
+      name: String,
+    },
+  ],
+  following: [
+    {
+      userId: String,
+      name: String,
+    },
+  ],
   avatars: [
     {
       avatar: String,
@@ -47,10 +61,10 @@ const userSchema = new Schema({
       avatar: String,
       createdAt: String,
       notificationType: String,
+      read: Boolean,
     },
   ],
-  socketId: String,
-  active: Boolean,
+  readNotification: Number,
 });
 
 module.exports = model("User", userSchema);

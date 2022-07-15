@@ -39,11 +39,11 @@ import {
   HeaderItem,
 } from "./NavbarElements";
 
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 
 import logo from "../Navbar/logo.png";
 
-import socket from "../../hooks/socketio";
+// import socket from "../../hooks/socketio";
 
 import useAvatar from "../../hooks/useAvatar";
 
@@ -68,7 +68,7 @@ const Navbar = () => {
   const [smallDevice, setSmallDevice] = useState(false);
 
   // Set Notifications
-  const [realtTimeNoti, setRealTime] = useState([]);
+  const [notificationCount, setNotificationCount] = useState([]);
 
   // Get Notification
   const [notifications, setNotifications] = useState([]);
@@ -87,19 +87,19 @@ const Navbar = () => {
     },
   });
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-
-  // useEffect(() => {
-  //   socket.on("getNotification", (data) => {
-  //     // setRealTime({ ...realtTimeNoti.data }, data);
-  //     // getRealTimeNoti(data);
-  //     console.log(data);
-  //   });
-  // }, []);
+  let [seenNotification, { loading }] = useMutation(SEE_NOTIFICATION, {
+    onCompleted: (data) => {
+      setNotificationCount(data);
+    },
+  });
 
   // Query User avata or data
 
   const { data } = useQuery(GET_USER_PIC);
+
+  useEffect(() => {
+    setNotificationCount(data);
+  }, [data]);
 
   const { images } = useAvatar(data);
 
@@ -129,6 +129,7 @@ const Navbar = () => {
       setToggleNoti(true);
       setToggle(false);
     }
+    seenNotification();
   };
 
   const isHeaderSticky = () => {
@@ -176,10 +177,11 @@ const Navbar = () => {
             <LargeSearch>
               <Form onSubmit={submitHandler}>
                 <SearchBar
-                  type="search"
+                  type="text"
                   placeholder="Search"
                   name="text"
                   onChange={changeHandler}
+                  autocomplete="false"
                 />
                 <Button type="submit">
                   <i className="fa-solid fa-magnifying-glass"></i>
@@ -191,12 +193,16 @@ const Navbar = () => {
           <RightMenu>
             <Icons>
               <Count>1</Count>
-              {/* <i class="fa-solid fa-message"></i> */}
+
               <Iconn className="fa-solid fa-message"></Iconn>
             </Icons>
             <HeaderItem>
               <Icons onClick={notificationToggler}>
-                <Count>1</Count>
+                {data && data.getUser.readNotification !== 0 ? (
+                  <Count> {data.getUser.readNotification} </Count>
+                ) : (
+                  ""
+                )}
                 <Iconn className="fa-solid fa-bell"></Iconn>
               </Icons>
               {toggleNoti && (
@@ -274,6 +280,7 @@ const GET_USER_PIC = gql`
     getUser {
       avatar
       cover
+      readNotification
     }
   }
 `;
@@ -285,6 +292,15 @@ const GET_NOTIFICATIONS = gql`
       text
       avatar
       createdAt
+    }
+  }
+`;
+
+const SEE_NOTIFICATION = gql`
+  mutation {
+    seenNotifications {
+      avatar
+      readNotification
     }
   }
 `;

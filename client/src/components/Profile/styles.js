@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 export const Wrapper = styled.div``;
 
 export const CoverWrapper = styled.div`
-  background: ${(props) => props.theme.gray};
-  padding-top: 8rem;
+  background: ${(props) => props.theme.bg};
+  padding-top: 4rem;
   padding-bottom: 2rem;
   @media (max-width: 768px) {
     margin-top: 13rem;
@@ -82,6 +82,7 @@ export const Followers = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin-bottom: 2rem;
 `;
 
 export const Ul = styled.ul`
@@ -104,7 +105,7 @@ export const EdidButton = styled(Link)`
   margin-top: 2rem;
   background: #0d6efd;
   color: #fff;
-  padding: 1rem 2rem;
+  padding: 0.5rem 1rem;
   border-radius: 5px;
   &&:hover {
     color: #fff;
@@ -144,7 +145,7 @@ export const UploadAvatar = styled.div`
 `;
 
 export const Camera = styled.i`
-  color: #fff;
+  color: #000;
   cursor: pointer;
   position: absolute;
 `;
@@ -159,5 +160,47 @@ export const EditIcon = styled.i`
 `;
 
 export const Picture = styled.img`
+  width: 100%;
+`;
+
+export const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+`;
+
+export const Photos = styled.span`
+  font-weight: 700;
+  font-size: 22px;
+`;
+
+export const SeeAll = styled.span`
+  color: #216fdb;
+  cursor: pointer;
+`;
+
+export const ImageWrapper = styled.div`
+  background: #fff;
+  padding: 1rem 0;
+  border-radius: 10px;
+`;
+
+export const Images = styled.div`
+  display: flex;
+  flex-wrap: wrap-reverse;
+
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Image = styled.div`
+  width: 110px;
+  margin: 8px;
+  border-radius: 10px;
+  overflow: hidden;
+`;
+
+export const Img = styled.img`
   width: 100%;
 `;

@@ -1,4 +1,6 @@
-import { gql, useQuery } from "@apollo/client";
+import { useContext, useState } from "react";
+
+import { gql, useMutation, useQuery } from "@apollo/client";
 
 import {
   H5,
@@ -17,8 +19,13 @@ import {
   Avatars,
 } from "./FollowerStyles";
 
+import { AuthContext } from "../../context/auth";
+import { NavLink } from "react-router-dom";
+import User from "./User";
+
 const Follower = () => {
-  let { data } = useQuery(FETCH_USERS);
+  let { data: publicUsers } = useQuery(FETCH_USERS);
+  let usr = useContext(AuthContext);
 
   return (
     <Wrapper>
@@ -27,37 +34,9 @@ const Follower = () => {
           <H5>Add to your feed</H5>
         </Title>
 
-        {data &&
-          typeof data.users !== "undefined" &&
-          data.users.slice(0, 3).map((user, index) => {
-            return (
-              <Users key={index}>
-                <Avatars>
-                  <Avatar>
-                    {typeof user.avatars !== "undefined" &&
-                      Object.keys(user.avatars).length > 0 && (
-                        <Img src={user.avatars[0].avatar} alt="user" />
-                      )}
-                    {typeof user.avatars !== "undefined" &&
-                      Object.keys(user.avatars).length === 0 && (
-                        <Empty>
-                          <UserIcon className="fa-solid fa-user"></UserIcon>
-                        </Empty>
-                      )}
-                  </Avatar>
-                </Avatars>
-                <Name>
-                  <H5>
-                    {user.firstName} {user.lastName}
-                  </H5>
-                  <Span>Web Application Developer</Span>
-                  <Button>
-                    <Icon className="fa-solid fa-plus"></Icon>
-                    Follow
-                  </Button>
-                </Name>
-              </Users>
-            );
+        {publicUsers &&
+          publicUsers.publicUsers?.slice(0, 3).map((user, index) => {
+            return usr.user.id !== user.id && <User key={index} user={user} />;
           })}
       </Followers>
     </Wrapper>
@@ -66,7 +45,17 @@ const Follower = () => {
 
 const FETCH_USERS = gql`
   query {
+    publicUsers {
+      firstName
+      lastName
+      id
+    }
+  }
+`;
+export const FETCH_AVATAR = gql`
+  query {
     users {
+      id
       firstName
       lastName
       avatars {
@@ -77,18 +66,3 @@ const FETCH_USERS = gql`
 `;
 
 export default Follower;
-// (
-//   <Users>
-//     <Avatar>
-//       <Img src={img} alt="user" />
-//     </Avatar>
-//     <Name>
-//       <H5>Abu Huraira</H5>
-//       <Span>Web Application Developer</Span>
-//       <Button>
-//         <Icon className="fa-solid fa-plus"></Icon>
-//         Follow
-//       </Button>
-//     </Name>
-//   </Users>
-// )

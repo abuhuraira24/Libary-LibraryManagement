@@ -33,7 +33,7 @@ export const Avatars = styled.div`
 `;
 
 export const Avatar = styled.div`
-  max-width: 45px;
+  width: 45px;
   height: 45px;
   border-radius: 50%;
   overflow: hidden;
@@ -46,6 +46,9 @@ export const Img = styled.img`
 
 export const Name = styled.div`
   width: 80%;
+  a {
+    display: block;
+  }
 `;
 
 export const Span = styled.span`

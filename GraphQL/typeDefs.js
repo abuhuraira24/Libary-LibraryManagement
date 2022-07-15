@@ -49,6 +49,7 @@ module.exports = gql`
     avatar: String!
     createdAt: String!
     cover: String!
+    readNotification: Int!
   }
 
   input RegisterField {
@@ -62,6 +63,14 @@ module.exports = gql`
   type Avatar {
     avatar: String!
     createdAt: String!
+  }
+
+  type userById {
+    id: String!
+    firstName: String!
+    lastName: String!
+    avatars: [Avatar]!
+    cover: [Cover]!
   }
   type Cover {
     url: String!
@@ -81,7 +90,19 @@ module.exports = gql`
   }
   type commnetAvatar {
     avatar: String!
+    isStock: Int!
   }
+
+  type Follow {
+    name: String!
+    userId: String!
+  }
+  type publicUser {
+    firstName: String!
+    lastName: String!
+    id: String!
+  }
+
   type Query {
     getPosts: [Post]!
     getPost: [Post]!
@@ -91,7 +112,11 @@ module.exports = gql`
     users: [Users]!
     infinitePost(limit: Int!, offset: Int!): [Post]!
     notifications: [Notifications]!
-    getCommentAvatar(userId: ID!): commnetAvatar
+    getCommentAvatar(userId: ID!): commnetAvatar!
+    getUserById(userId: ID!): userById!
+    getPostsByUserId(userId: ID!): [Post]!
+    getFollowing: [Follow]!
+    publicUsers: [publicUser]!
   }
   type Mutation {
     register(registerInput: RegisterField): User!
@@ -116,5 +141,9 @@ module.exports = gql`
       type: String!
       avatar: String!
     ): User!
+
+    # addFriend(senderId : ID! recieverId : ID!):
+    seenNotifications: SingleUser!
+    addFollow(userId: String!): [Follow]!
   }
 `;

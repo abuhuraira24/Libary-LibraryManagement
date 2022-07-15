@@ -62,10 +62,12 @@ module.exports = {
         password,
         avatars: [],
         cover: [],
+        bio: "",
+        lives: "",
         notification: [],
-        socketId: "",
-        active: false,
-        onlineUsers: [],
+        readNotification: 0,
+        followers: [],
+        following: [],
       });
 
       const user = await newUser.save();

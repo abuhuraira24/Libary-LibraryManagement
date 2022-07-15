@@ -61,11 +61,3 @@ const GET_USER = gql`
   }
 `;
 export default Profile;
-
-//   <Cover cover="#eef3f8">
-//     <Avatar>
-//       <EmptyAvatar>
-//         <Icon className="fa-solid fa-user"></Icon>
-//       </EmptyAvatar>
-//     </Avatar>
-//   </Cover>

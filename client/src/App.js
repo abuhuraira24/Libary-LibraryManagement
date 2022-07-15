@@ -24,7 +24,7 @@ import PostDetails from "./components/PostDetails";
 
 import SmallNavbar from "./components/Navbar/SmallNavbar";
 
-import Profile from "./components/Profile";
+import Profile from "./components/Profile/Profile";
 
 import { useTheme } from "styled-components";
 import MobileMenu from "./components/Navbar/MobileMenu";
@@ -36,6 +36,11 @@ import { AuthContext } from "./context/auth";
 import socket from "./hooks/socketio";
 
 import decoder from "jwt-decode";
+
+import PrivateProfile from "./components/Profile/PrivateProfile";
+
+import PublicProfile from "./components/Profile/PublicProfile";
+
 function App() {
   const [user, setUser] = useState();
 
@@ -55,9 +60,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // socket.on("getUsers", (data) => {
-    //   console.log(data);
-    // });
     if (user) {
       socket.emit("join", { userId: user.id });
     }
@@ -83,6 +85,8 @@ function App() {
           <Route path="/search/people" element={<People />} />
           <Route path="/post/:id" element={<PostDetails />} />
           <Route path="/search/post/:id" element={<PostDetails />} />
+          {/* <Route path="profile/:id" element={PublicProfile} /> */}
+          {/* <Route path="profile/:id" element={PrivateProfile} /> */}
           {/* <Route path='*' element={<NotFound />} /> */}
           <Route
             path="/register"

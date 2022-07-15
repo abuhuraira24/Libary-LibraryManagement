@@ -23,6 +23,20 @@ const users = require("../resolvers/user");
 const infinitePost = require("../resolvers/Post");
 
 const cleateLikeNotification = require("./Post");
+const getCommentAvatar = require("../resolvers/comments");
+
+const getUserById = require("../resolvers/user");
+
+const getPostsByUserId = require("../resolvers/Post");
+
+const seenNotifications = require("../resolvers/Post");
+
+const addFollow = require("../resolvers/user");
+
+const getFollowing = require("../resolvers/user");
+
+const publicUsers = require("../resolvers/user");
+
 module.exports = {
   Query: {
     ...createPost.Query,
@@ -31,6 +45,11 @@ module.exports = {
     ...getUsers.Query,
     ...users.Query,
     ...infinitePost.Query,
+    ...getCommentAvatar.Query,
+    ...getUserById.Query,
+    ...getPostsByUserId.Query,
+    ...getFollowing.Query,
+    ...publicUsers.Query,
   },
   Mutation: {
     ...register.Mutation,
@@ -41,5 +60,7 @@ module.exports = {
     ...uploadIamge.Mutation,
     ...uploadCover.Mutation,
     ...cleateLikeNotification.Mutation,
+    ...seenNotifications.Mutation,
+    ...addFollow.Mutation,
   },
 };

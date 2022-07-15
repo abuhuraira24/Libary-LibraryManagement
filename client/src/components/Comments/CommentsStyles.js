@@ -21,6 +21,9 @@ export const P = styled.p`
   color: #000;
   display: inline-block;
   color: ${(props) => props.theme.color};
+  a {
+    display: block;
+  }
 `;
 export const Name = styled.span`
   display: block;

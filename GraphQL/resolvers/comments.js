@@ -10,7 +10,18 @@ module.exports = {
   Query: {
     async getCommentAvatar(_, { userId }) {
       // const user = AuthChecker(context);
-      let user = User.findOne()
+      let user = await User.findById(userId);
+      if (user) {
+        return {
+          avatar: user.avatars[0].avatar,
+          isStock: 1,
+        };
+      } else {
+        return {
+          avatar: "",
+          isStock: 0,
+        };
+      }
     },
   },
   Mutation: {

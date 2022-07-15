@@ -69,3 +69,7 @@ export const Time = styled.div`
   color: ${(props) => props.theme.text};
   font-size: 14px;
 `;
+
+export const Empty = styled.p`
+  text-align: center;
+`;

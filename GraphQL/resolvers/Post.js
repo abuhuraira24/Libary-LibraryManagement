@@ -73,6 +73,8 @@ module.exports = {
 
       let authorInfo = await User.findById(authorId);
 
+      console.log(authorInfo);
+
       if (authorInfo) {
         if (authorInfo.notification.find((noti) => noti.senderId === user.id)) {
           authorInfo.notification = authorInfo.notification.filter(
@@ -89,13 +91,28 @@ module.exports = {
             text,
             notiType: type,
             createdAt: new Date().toISOString(),
+            read: false,
           });
+          authorInfo.readNotification = authorInfo.readNotification + 1;
         }
 
         await authorInfo.save();
 
         return authorInfo;
       } else throw new UserInputError("Post not found");
+    },
+    async seenNotifications(_, {}, context) {
+      let user = authChecker(context);
+      let userInfo = await User.findById(user.id);
+      userInfo.readNotification = 0;
+
+      userInfo.save();
+
+      return {
+        avatar: userInfo.avatars.length !== 0 && userInfo.avatars[0].avatar,
+        cover: userInfo.cover.length !== 0 && userInfo.cover[0].url,
+        readNotification: userInfo.readNotification,
+      };
     },
   },
 
@@ -119,6 +136,11 @@ module.exports = {
       let allPost = await Post.find();
 
       let posts = allPost.slice(offset, offset + limit);
+
+      return posts;
+    },
+    async getPostsByUserId(_, { userId }) {
+      const posts = await Post.find({ userId });
 
       return posts;
     },

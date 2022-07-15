@@ -6,7 +6,7 @@ import { Like, Span } from "../Post/CartStyles";
 
 import { AuthContext } from "../../context/auth";
 
-import socket from "../../hooks/socketio";
+// import socket from "../../hooks/socketio";
 
 const LikeButton = ({ postId, likes, userId }) => {
   const [liked, setLiked] = useState(false);
@@ -32,6 +32,9 @@ const LikeButton = ({ postId, likes, userId }) => {
   });
 
   let [addNotification] = useMutation(ADD_NOTIFICATION, {
+    onCompleted: (data) => {
+      console.log(data);
+    },
     variables: {
       postId: postId,
       authorId: userId,
@@ -43,24 +46,23 @@ const LikeButton = ({ postId, likes, userId }) => {
   });
 
   const likeHandler = () => {
-    if (userId && user && liked) {
-      socket.emit("sentNotification", {
-        senderInfo: {
-          userId: user.id,
-          name: user.firstName + " " + user.lastName,
-          avatar: avatar && avatar,
-          body: "Liked your post",
-        },
-        resiverInfo: {
-          userId: userId,
-        },
-      });
-    }
+    // if (userId && user && liked) {
+    //   socket.emit("sentNotification", {
+    //     senderInfo: {
+    //       userId: user.id,
+    //       name: user.firstName + " " + user.lastName,
+    //       avatar: avatar && avatar,
+    //       body: "Liked your post",
+    //     },
+    //     resiverInfo: {
+    //       userId: userId,
+    //     },
+    //   });
+    // }
 
     addLike();
-    if (userId !== user.id) {
-      addNotification();
-    }
+
+    if (user.id !== userId) addNotification();
   };
 
   return loading ? (

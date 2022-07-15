@@ -1,18 +1,28 @@
 import { useState, useContext } from "react";
 
+import { gql, useMutation } from "@apollo/client";
+
 import { CommentBox, Button, CommentInput, Form } from "../Post/CartStyles";
 
 import { AuthContext } from "../../context/auth";
 
 import socket from "../../hooks/socketio";
 
-const CommentBar = () => {
+const CommentBar = ({ postId }) => {
   // Commet value
   const [value, setValues] = useState({
     body: "",
   });
 
-  const { user } = useContext(AuthContext);
+  const { user, getComments } = useContext(AuthContext);
+
+  const [addCommnet, { loading }] = useMutation(CREATE_COMMENT, {
+    onCompleted: (data) => {
+      console.log(data);
+      getComments(data.createComment.comments);
+    },
+    variables: { postId: postId, body: value.body },
+  });
 
   const changeHandler = (e) => {
     setValues({
@@ -26,9 +36,12 @@ const CommentBar = () => {
     setValues({
       body: "",
     });
+
+    addCommnet();
   };
+
   return (
-    <CommentBox>
+    <CommentBox postId={postId}>
       <Form onSubmit={submitHandler}>
         {!user && (
           <CommentInput
@@ -56,5 +69,17 @@ const CommentBar = () => {
     </CommentBox>
   );
 };
+
+const CREATE_COMMENT = gql`
+  mutation ($postId: ID!, $body: String!) {
+    createComment(postId: $postId, body: $body) {
+      comments {
+        body
+        username
+        createdAt
+      }
+    }
+  }
+`;
 
 export default CommentBar;

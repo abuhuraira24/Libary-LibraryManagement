@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 import SingleNoti from "./SingleNoti";
-import { Wrapper } from "./styles";
+import { Empty, Wrapper } from "./styles";
 
 import socket from "../../hooks/socketio";
 
@@ -19,7 +19,7 @@ const Notification = ({ realtTimeNoti, notification }) => {
     }
   }, [notification]);
 
-  console.log(realTimeNoti);
+  console.log(noti);
   return (
     <Wrapper>
       <Header>
@@ -28,11 +28,19 @@ const Notification = ({ realtTimeNoti, notification }) => {
           <New>New</New>
           <SeeAll>See All</SeeAll>
         </SubHeader>
+
+        <Empty>
+          {typeof noti !== "undefined" &&
+            noti.length === 0 &&
+            "There is no Notification"}
+        </Empty>
       </Header>
       {/* {realtTimeNoti.length !== 0 && (
         <RealTimeNotification realtTimeNoti={realtTimeNoti} />
       )} */}
-      {noti && noti.map((x) => <SingleNoti notification={x} />)}
+
+      {noti &&
+        noti.map((x, index) => <SingleNoti key={index} notification={x} />)}
     </Wrapper>
   );
 };
