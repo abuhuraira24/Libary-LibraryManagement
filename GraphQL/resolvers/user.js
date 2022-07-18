@@ -111,19 +111,19 @@ module.exports = {
       }
     },
 
-    addFollow: async (_, { userId }, context) => {
+    addFollow: async (_, { receiverId }, context) => {
       let user = authChecker(context);
 
       // Me
       let sender = await User.findById(user.id);
 
       // Someone
-      let receiver = await User.findById(userId);
+      let receiver = await User.findById(receiverId);
 
       if (sender && receiver) {
-        if (sender.following.find((f) => f.userId === userId)) {
+        if (sender.following.find((f) => f.userId === receiverId)) {
           sender.following = sender.following.filter(
-            (foll) => foll.userId !== userId
+            (foll) => foll.userId !== receiverId
           );
           receiver.followers = receiver.followers.filter(
             (r) => r.userId !== user.id

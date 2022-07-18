@@ -12,12 +12,28 @@ import PublicProfile from "./PublicProfile";
 
 import { AuthContext } from "../../context/auth";
 
+import SmallNavbar from "../Navbar/SmallNavbar";
+
+import NavBar from "../Navbar/NavBar";
+
 const Profile = () => {
   let userId = useParams();
 
   let { user } = useContext(AuthContext);
 
-  return userId.id === user.id ? <PrivateProfile /> : <PublicProfile />;
+  return userId.id === user.id ? (
+    <>
+      <SmallNavbar />
+      <NavBar />
+      <PrivateProfile />
+    </>
+  ) : (
+    <>
+      <SmallNavbar />
+      <NavBar />
+      <PublicProfile />
+    </>
+  );
 };
 
 export default Profile;

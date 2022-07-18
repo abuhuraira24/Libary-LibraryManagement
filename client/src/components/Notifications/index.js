@@ -19,7 +19,6 @@ const Notification = ({ realtTimeNoti, notification }) => {
     }
   }, [notification]);
 
-  console.log(noti);
   return (
     <Wrapper>
       <Header>

@@ -13,21 +13,11 @@ import Follower from "../Home/Followers";
 
 import socket from "../../hooks/socketio";
 
-// import io from "socket.io-client";
-// let socket;
+import Navbar from "../Navbar/NavBar";
+
+import SmallNavbar from "../Navbar/SmallNavbar";
+
 const Home = () => {
-  // let [value, setValue] = useState("Hello Abu");
-
-  // useEffect(() => {
-  //   socket = io("http://localhost:5000/");
-
-  //   socket.emit("addcomment", value);
-
-  //   socket.on("sendComment", (data) => {
-  //     console.log(data);
-  //   });
-  // }, [value]);
-
   useEffect(() => {
     socket.on("getMessage", (data) => {
       console.log(data);
@@ -35,23 +25,27 @@ const Home = () => {
   }, []);
 
   return (
-    <PostWrapper>
-      <Container>
-        <Row>
-          <Col w="25" md="30" none="true">
-            <Profile />
-          </Col>
-          <Col w="50" md="40" sm="100">
-            <CreatePost />
+    <>
+      <SmallNavbar />
+      <Navbar />
+      <PostWrapper>
+        <Container>
+          <Row>
+            <Col w="25" md="30" none="true">
+              <Profile />
+            </Col>
+            <Col w="50" md="40" sm="100">
+              <CreatePost />
 
-            <Posts />
-          </Col>
-          <Col w="25" md="30" none="true">
-            <Follower />
-          </Col>
-        </Row>
-      </Container>
-    </PostWrapper>
+              <Posts />
+            </Col>
+            <Col w="25" md="30" none="true">
+              <Follower />
+            </Col>
+          </Row>
+        </Container>
+      </PostWrapper>
+    </>
   );
 };
 

@@ -71,6 +71,8 @@ module.exports = gql`
     lastName: String!
     avatars: [Avatar]!
     cover: [Cover]!
+    following: [Follow]!
+    followers: [Follow]
   }
   type Cover {
     url: String!
@@ -144,6 +146,6 @@ module.exports = gql`
 
     # addFriend(senderId : ID! recieverId : ID!):
     seenNotifications: SingleUser!
-    addFollow(userId: String!): [Follow]!
+    addFollow(receiverId: String!): [Follow]!
   }
 `;

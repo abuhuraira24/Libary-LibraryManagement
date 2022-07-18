@@ -54,8 +54,8 @@ function App() {
   useEffect(() => {
     let toke = localStorage.getItem("jwtToken");
     if (toke) {
-      let user = decoder(toke);
-      setUser(user);
+      let decoded = decoder(toke);
+      setUser(decoded);
     }
   }, []);
 
@@ -68,8 +68,6 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        {user && <SmallNavbar />}
-        <NavBar />
         <Routes>
           <Route
             path="/"

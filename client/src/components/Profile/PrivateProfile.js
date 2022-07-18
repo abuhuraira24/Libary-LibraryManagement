@@ -14,6 +14,7 @@ import {
   Avatar,
   Avatars,
   Bio,
+  Buttons,
   Camera,
   Cover,
   CoverPic,
@@ -37,14 +38,15 @@ import {
   UploadCover,
   UploadInput,
   UserIcon,
+  FollowButton,
 } from "./styles";
 import { useParams } from "react-router-dom";
-
-import Post from "../Post/Post";
 
 import PostCart from "../Profile/Posts/Card";
 
 import CreatePost from "../CreatePosts";
+
+import Friends from "./Friends";
 
 const PrivateProfile = () => {
   const [cover, setCover] = useState();
@@ -177,18 +179,20 @@ const PrivateProfile = () => {
           <Followers>
             <Ul>
               <Li>
-                <Span>0 </Span>
+                <Span>{profileUser && profileUser.followers.length}</Span>
                 <Span>Followers</Span>
               </Li>
               <Li>
-                <Span>0 </Span>
+                <Span>{profileUser && profileUser.following.length}</Span>
                 <Span>Following</Span>
               </Li>
             </Ul>
-            <EdidButton to="/">
-              <EditIcon className="fa-solid fa-pen"></EditIcon>
-              Edit Profile
-            </EdidButton>
+            <Buttons>
+              <EdidButton to="/">
+                <EditIcon className="fa-solid fa-pen"></EditIcon>
+                Edit Profile
+              </EdidButton>
+            </Buttons>
           </Followers>
         </Col>
       </Container>
@@ -217,6 +221,8 @@ const PrivateProfile = () => {
                   ))}
               </Images>
             </ImageWrapper>
+
+            <Friends />
           </Col>
           <Col w="50">
             <CreatePost />
@@ -265,11 +271,19 @@ const GET_USER_BY_ID = gql`
       cover {
         url
       }
+      followers {
+        name
+        userId
+      }
+      following {
+        name
+        userId
+      }
     }
   }
 `;
 
-export const GET_POSTS_BY_USERS_ID = gql`
+const GET_POSTS_BY_USERS_ID = gql`
   query ($userId: ID!) {
     getPostsByUserId(userId: $userId) {
       firstName

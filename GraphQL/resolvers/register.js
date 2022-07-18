@@ -60,8 +60,17 @@ module.exports = {
         username,
         email,
         password,
-        avatars: [],
-        cover: [],
+        avatars: [
+          {
+            avatar:
+              "https://res.cloudinary.com/dza2t1htw/image/upload/v1657947216/male-placeholder-image_oyidgh.jpg",
+          },
+        ],
+        cover: [
+          {
+            url: "https://res.cloudinary.com/dza2t1htw/image/upload/v1657947768/gray-abstract-wireframe-technology-background_ugm1ag.jpg",
+          },
+        ],
         bio: "",
         lives: "",
         notification: [],

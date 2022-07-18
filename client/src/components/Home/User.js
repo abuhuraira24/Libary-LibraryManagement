@@ -29,7 +29,6 @@ const User = (user) => {
   });
 
   let avatar = getAvatarById(data, loading);
-  console.log(avatar.images);
 
   let [addFollower, { data: info }] = useMutation(ADD_FOLLOWER);
   let followHandler = (id) => {

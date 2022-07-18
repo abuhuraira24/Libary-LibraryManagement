@@ -112,6 +112,28 @@ export const EdidButton = styled(Link)`
   }
 `;
 
+export const FollowButton = styled.button`
+  margin-top: 2rem;
+  background: #fff;
+  color: #000;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  margin-left: 0.8rem;
+  &&:hover {
+    color: #000;
+  }
+`;
+export const MassageButton = styled(Link)`
+  margin-top: 2rem;
+  background: #0d6efd;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  &&:hover {
+    color: #fff;
+  }
+`;
+
 export const UploadCover = styled.div`
   position: absolute;
   right: 2%;
@@ -158,6 +180,8 @@ export const UploadInput = styled.input`
 export const EditIcon = styled.i`
   margin-right: 1rem;
 `;
+
+export const Buttons = styled.div``;
 
 export const Picture = styled.img`
   width: 100%;

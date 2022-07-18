@@ -4,19 +4,15 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 
 import { Container, Col, Row } from "../../Styles/ElementsStyles";
 
-import Axios from "axios";
-
 import { AuthContext } from "../../context/auth";
 
 import {
   Avatar,
   Avatars,
   Bio,
-  Camera,
+  Buttons,
   Cover,
-  CoverPic,
   CoverWrapper,
-  EdidButton,
   EditIcon,
   Followers,
   H3,
@@ -31,52 +27,23 @@ import {
   SeeAll,
   Span,
   Ul,
-  UploadAvatar,
-  UploadCover,
-  UploadInput,
   UserIcon,
+  FollowButton,
+  MassageButton,
+  CoverPic,
 } from "./styles";
 import { useParams } from "react-router-dom";
 
-import Post from "../Post/Post";
-
 import PostCart from "../Profile/Posts/Card";
 
-import CreatePost from "../CreatePosts";
+import Friends from "./Friends";
 
 const PublicProfile = () => {
   const [cover, setCover] = useState();
   const [avatar, setAvatar] = useState();
   const [profileUser, setProfileUser] = useState(null);
   const [posts, setPosts] = useState(null);
-
-  // File Upload Mutation
-  let [mutedCover] = useMutation(COVER_UPLOAD);
-
-  // Cover Photo Upload
-  const coverHandler = (e) => {
-    if (e.target.validity.valid && user) {
-      setCover(URL.createObjectURL(e.target.files[0]));
-      let file = e.target.files[0];
-
-      let formData = new FormData();
-
-      formData.append("file", file);
-      formData.append("upload_preset", "ml_default");
-
-      Axios.post(
-        "https://api.cloudinary.com/v1_1/dza2t1htw/image/upload",
-        formData
-      ).then((res) => {
-        mutedCover({
-          variables: {
-            url: res.data.url,
-            userId: user.id,
-          },
-        });
-      });
-    }
-  };
+  const [isFollow, setFollow] = useState(false);
 
   let userId = useParams();
   useQuery(GET_USER_BY_ID, {
@@ -88,9 +55,13 @@ const PublicProfile = () => {
     },
   });
 
+  let [addFollow, { loading }] = useMutation(ADD_FOLLOWER, {
+    onCompleted: (data) => {
+      console.log(data);
+    },
+  });
+
   const { data } = useQuery(GET_USER);
-  // Avatar Upload
-  let [mutate] = useMutation(FILE_UPLOAD);
 
   // Context api
   let { user } = useContext(AuthContext);
@@ -106,33 +77,19 @@ const PublicProfile = () => {
     },
   });
 
-  // Submit Avatar
-  const onChange = (e) => {
-    if (e.target.validity.valid && user) {
-      let file = e.target.files[0];
-      setAvatar(URL.createObjectURL(file));
+  // is Already Follow
 
-      let formData = new FormData();
-
-      formData.append("file", file);
-
-      formData.append("upload_preset", "ml_default");
-
-      Axios.post(
-        "https://api.cloudinary.com/v1_1/dza2t1htw/image/upload",
-        formData
-      ).then((res) => {
-        console.log(res);
-        mutate({
-          variables: {
-            url: res.data.url,
-            userId: user.id,
-          },
-        });
-      });
+  useEffect(() => {
+    if (
+      profileUser &&
+      profileUser.followers.length !== 0 &&
+      profileUser.followers.find((f) => f.userId === user.id)
+    ) {
+      setFollow(true);
     }
-  };
+  }, [profileUser, user.id]);
 
+  // Submit Avatar
   useEffect(() => {
     if (data && typeof data.getUser !== "undefined") {
       setAvatar(data.getUser.avatar);
@@ -141,16 +98,28 @@ const PublicProfile = () => {
     }
   }, [data]);
 
+  const FollowHandler = () => {
+    addFollow({
+      variables: { receiverId: userId.id },
+    });
+    if (isFollow) {
+      setFollow(false);
+    } else {
+      setFollow(true);
+    }
+  };
+
   console.log(profileUser);
   return (
     <CoverWrapper>
       <Container>
         <Col w="100">
           <Cover>
-            {profileUser && profileUser.cover.length !== 0 && (
-              <img src={profileUser.cover[0].ulr} alt="me" />
-            )}
-
+            <CoverPic>
+              {profileUser && profileUser.cover.length !== 0 && (
+                <img src={profileUser.cover[0].url} alt="me" />
+              )}
+            </CoverPic>
             <Avatars>
               <Avatar file={avatar}>
                 {!avatar && <UserIcon className="fa-solid fa-user"></UserIcon>}
@@ -172,20 +141,37 @@ const PublicProfile = () => {
           <Followers>
             <Ul>
               <Li>
-                <Span>0 </Span>
+                <Span> {profileUser && profileUser.followers.length} </Span>
                 <Span>Followers</Span>
               </Li>
               <Li>
-                <Span>0 </Span>
+                <Span>{profileUser && profileUser.following.length} </Span>
                 <Span>Following</Span>
               </Li>
             </Ul>
+            <Buttons>
+              <MassageButton to="/">
+                <EditIcon className="fa-solid fa-comment-dots"></EditIcon>
+                Massage
+              </MassageButton>
+              {isFollow ? (
+                <FollowButton onClick={FollowHandler}>
+                  <EditIcon className="fa-solid fa-check"></EditIcon>
+                  Following
+                </FollowButton>
+              ) : (
+                <FollowButton onClick={FollowHandler}>
+                  <EditIcon className="fa-solid fa-user-plus"></EditIcon>
+                  Follow
+                </FollowButton>
+              )}
+            </Buttons>
           </Followers>
         </Col>
       </Container>
       <Container>
         <Row>
-          <Col w="30">
+          <Col w="40" md="40" sm="100">
             <ImageWrapper>
               <Header>
                 <Photos>Photos</Photos>
@@ -208,32 +194,17 @@ const PublicProfile = () => {
                   ))}
               </Images>
             </ImageWrapper>
+            <Friends />
           </Col>
-          <Col w="50">
+          <Col w="50" md="60" sm="100">
             <PostCart />
           </Col>
-          <Col w="20"></Col>
+          <Col w="10" mdnone="true"></Col>
         </Row>
       </Container>
     </CoverWrapper>
   );
 };
-
-const FILE_UPLOAD = gql`
-  mutation ($url: String!, $userId: ID!) {
-    uploadIamge(url: $url, userId: $userId) {
-      url
-    }
-  }
-`;
-
-const COVER_UPLOAD = gql`
-  mutation ($url: String!, $userId: ID!) {
-    uploadCover(url: $url, userId: $userId) {
-      url
-    }
-  }
-`;
 
 const GET_USER = gql`
   query {
@@ -254,6 +225,14 @@ const GET_USER_BY_ID = gql`
       }
       cover {
         url
+      }
+      followers {
+        name
+        userId
+      }
+      following {
+        name
+        userId
       }
     }
   }
@@ -277,6 +256,15 @@ export const GET_POSTS_BY_USERS_ID = gql`
         userId
         username
       }
+    }
+  }
+`;
+
+const ADD_FOLLOWER = gql`
+  mutation ($receiverId: String!) {
+    addFollow(receiverId: $receiverId) {
+      name
+      userId
     }
   }
 `;

@@ -13,13 +13,11 @@ import {
   CoverImage,
 } from "./ProfileStyles";
 
-import { useContext } from "react";
-
-import { AuthContext } from "../../context/auth";
-
+import decoder from "jwt-decode";
 const Profile = () => {
-  const { user } = useContext(AuthContext);
+  let token = localStorage.getItem("jwtToken");
 
+  let user = decoder(token);
   const { data } = useQuery(GET_USER);
 
   return (
