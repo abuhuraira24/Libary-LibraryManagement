@@ -40,6 +40,8 @@ import { CommentsArea, UserPic, CircleImage } from "../Post/CartStyles";
 
 import getAvatar from "../../hooks/useAvatar";
 
+import NavBar from "../Navbar/NavBar";
+
 let socket;
 
 const PostDetails = () => {
@@ -90,6 +92,7 @@ const PostDetails = () => {
 
   return (
     <Wrapper>
+      <NavBar />
       <Container>
         <Row>
           <Col w="70" sm="100">

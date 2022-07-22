@@ -21,6 +21,7 @@ const { addCommnet } = require("./GraphQL/resolvers/comments");
 const resolvers = require("./GraphQL/resolvers/index");
 
 const typeDefs = require("./GraphQL/typeDefs");
+
 const user = require("./GraphQL/resolvers/user");
 
 require("dotenv").config();
@@ -35,6 +36,8 @@ const startServer = async () => {
   await apolloServer.start();
 
   app.use(cors());
+  app.use(express.json());
+  app.use("/", require("./router/index"));
 
   app.use(graphqlUploadExpress());
 

@@ -4,7 +4,7 @@ import { gql, useQuery, useLazyQuery } from "@apollo/client";
 
 import Post from "./Post";
 
-import { Card, Load, LoadMore } from "./CartStyles";
+import { Card, Empty, Load, LoadMore } from "./CartStyles";
 
 import { AuthContext } from "../../context/auth";
 

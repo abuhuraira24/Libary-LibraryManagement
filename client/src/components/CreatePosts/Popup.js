@@ -171,7 +171,7 @@ const Popup = ({ children }) => {
             <EmoiIcon onClick={totler}>☺️</EmoiIcon>
           </Icons>
 
-          {body && !loading && (
+          {body && body.trim() && !loading && (
             <PostButton onClick={submitHandler}>Post</PostButton>
           )}
           {!body && (

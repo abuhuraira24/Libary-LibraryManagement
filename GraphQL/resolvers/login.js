@@ -1,9 +1,3 @@
-// TODO: Validation user input
-
-// TODO: Find user in database
-
-// TODO: Compare password
-
 const User = require("../../model/User");
 
 const { validateLoginInput } = require("../../utils/validator");
@@ -52,12 +46,25 @@ module.exports = {
         SECRET_KEY,
         { expiresIn: "2h" }
       );
-      return {
-        ...user._doc,
-        id: user.id,
-        email: user.email,
-        token,
-      };
+
+      if (user.isVerified) {
+        return {
+          ...user._doc,
+          id: user.id,
+          email: user.email,
+          token,
+          isVerified: true,
+        };
+      } else {
+        // throw new UserInputError("Email not Verified");
+
+        return {
+          id: "",
+          email: "",
+          token: "",
+          isVerified: false,
+        };
+      }
     },
   },
 };

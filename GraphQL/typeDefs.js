@@ -8,7 +8,8 @@ module.exports = gql`
     token: String!
     avatars: [Avatar]
     cover: [Cover]
-    notification: [Notifications]
+    notification: [Notifications]!
+    isVerified: Boolean!
   }
   type Users {
     id: ID!

@@ -40,6 +40,8 @@ import decoder from "jwt-decode";
 import PrivateProfile from "./components/Profile/PrivateProfile";
 
 import PublicProfile from "./components/Profile/PublicProfile";
+import CheckMail from "./components/Email/CheckMail";
+import ConfirmAccount from "./components/Email/ConfirmAccount";
 
 function App() {
   const [user, setUser] = useState();
@@ -83,6 +85,8 @@ function App() {
           <Route path="/search/people" element={<People />} />
           <Route path="/post/:id" element={<PostDetails />} />
           <Route path="/search/post/:id" element={<PostDetails />} />
+          <Route path="/verify" element={<CheckMail />} />
+          <Route path="/confirm/:text" element={<ConfirmAccount />} />
           {/* <Route path="profile/:id" element={PublicProfile} /> */}
           {/* <Route path="profile/:id" element={PrivateProfile} /> */}
           {/* <Route path='*' element={<NotFound />} /> */}

@@ -17,6 +17,8 @@ import Navbar from "../Navbar/NavBar";
 
 import SmallNavbar from "../Navbar/SmallNavbar";
 
+import Story from "../Story";
+
 const Home = () => {
   useEffect(() => {
     socket.on("getMessage", (data) => {
@@ -35,8 +37,8 @@ const Home = () => {
               <Profile />
             </Col>
             <Col w="50" md="40" sm="100">
+              <Story />
               <CreatePost />
-
               <Posts />
             </Col>
             <Col w="25" md="30" none="true">

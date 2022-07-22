@@ -134,3 +134,8 @@ export const CommentsArea = styled.div`
   justify-content: start;
   align-items: center;
 `;
+
+export const Empty = styled.h4`
+  text-align: center;
+  margin: 1rem 0;
+`;

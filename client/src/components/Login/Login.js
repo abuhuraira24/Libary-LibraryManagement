@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import { Form } from "react-bootstrap";
 
@@ -8,9 +8,11 @@ import { gql, useMutation } from "@apollo/client";
 
 import { AuthContext } from "../../context/auth";
 
-import { H2, LogginWrapper } from "./Styles";
+import { H2, H5, LogginWrapper } from "./Styles";
 
 import { Input, Button } from "../../Styles/ElementsStyles";
+
+import axios from "axios";
 
 const Login = () => {
   const context = useContext(AuthContext);
@@ -30,9 +32,25 @@ const Login = () => {
   const navigate = useNavigate();
   const [addUser, { loading }] = useMutation(LOGIN_USER, {
     update(_, result) {
-      const token = result.data.login.token;
-      context.login(token);
-      navigate("/");
+      if (result.data.login.isVerified) {
+        const token = result.data.login.token;
+        context.login(token);
+        navigate("/");
+      } else {
+        axios
+          .post("http://localhost:5000/verify", { email: values.email })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        navigate("/verify");
+      }
+
+      // const token = result.data.login.token;
+      // context.login(token);
+      // navigate("/");
     },
     onError(err) {
       if (err.graphQLErrors[0]) {
@@ -49,7 +67,7 @@ const Login = () => {
 
   return (
     <LogginWrapper>
-      <H2>Login Here</H2>
+      <H2>Welcome back</H2>
       <Form onSubmit={submitHandle}>
         <Form.Group className="mb-3">
           <Form.Label>* Email</Form.Label>
@@ -81,9 +99,13 @@ const Login = () => {
           )}
         </Form.Group>
 
+        <H5>Forgot Password?</H5>
         <Button bg="#2c51ca" color="#fff" type="submit">
           Submit
         </Button>
+        <H5>
+          <NavLink to="/register">Haven't an Account? Join</NavLink>
+        </H5>
       </Form>
     </LogginWrapper>
   );
@@ -93,6 +115,7 @@ const LOGIN_USER = gql`
   mutation ($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       token
+      isVerified
     }
   }
 `;

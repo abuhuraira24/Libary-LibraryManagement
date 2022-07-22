@@ -1,5 +1,7 @@
 const { model, Schema } = require("mongoose");
 
+const jwt = require("jsonwebtoken");
+
 const userSchema = new Schema({
   firstName: {
     type: String,
@@ -65,6 +67,7 @@ const userSchema = new Schema({
     },
   ],
   readNotification: Number,
+  isVerified: { type: Boolean, default: false },
 });
 
 module.exports = model("User", userSchema);

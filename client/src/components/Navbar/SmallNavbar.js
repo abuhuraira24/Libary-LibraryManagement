@@ -17,12 +17,6 @@ import {
   NavLogo,
   NavSm,
   MenuIcon,
-  SearchBar,
-  Form,
-  SearchInput,
-  Button,
-  MyAccount,
-  UserIcon,
   Icon,
   SmallAccount,
   AccountMneu,
@@ -96,33 +90,11 @@ const SmallNavbar = () => {
       <Nav issticky={sticky.toString()}>
         <NavbarContainer>
           <Logo>
-            <NavLogo issticky={sticky.toString()} to="/">
-              .JS
-            </NavLogo>
+            <NavLogo issticky={sticky.toString()} to="/"></NavLogo>
           </Logo>
           <RightNav>
             {user ? (
-              <AccountMneu>
-                {/* <SmallAccount
-                  isToggle={isToggle}
-                  className="scrollbar-hidden"
-                  onClick={toggle}
-                >
-                  <UserIcon className="fa-solid fa-user"></UserIcon>
-                  <Ul isToggle={isToggle} className="scrollbar-hidden">
-                    <Li mone="1" bbottom="true" to={`/profile/${user.id}`}>
-                      {user.username}
-                    </Li>
-                    <Li to="/dashboard">Dashboard</Li>
-                    <Li to="/createpost">Create Post</Li>
-                    <Li to="/setting">Setting</Li>
-
-                    <Li to="" onClick={logout}>
-                      Logout
-                    </Li>
-                  </Ul>
-                </SmallAccount> */}
-              </AccountMneu>
+              <AccountMneu></AccountMneu>
             ) : (
               <>
                 <CreatrAccount to="/register">Create Account</CreatrAccount>
@@ -163,19 +135,6 @@ const SmallNavbar = () => {
         </NavbarContainer>
 
         <MobileMenu />
-        {/* <NavbarContainer>
-          <SmallForm smNav="true" onSubmit={submitHandler}>
-            <SearchInput
-              type="search"
-              placeholder="Search"
-              name="text"
-              onChange={changeHandler}
-            />
-            <Button type="submit">
-              <i className="fa-solid fa-magnifying-glass"></i>
-            </Button>
-          </SmallForm>
-        </NavbarContainer> */}
       </Nav>
     </NavSm>
   );
