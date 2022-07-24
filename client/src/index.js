@@ -22,6 +22,8 @@ import { ThemeProvider } from "styled-components";
 
 import { theme } from "./components/Theme/index";
 
+import 'react-toastify/dist/ReactToastify.css';
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>

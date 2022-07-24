@@ -85,8 +85,8 @@ aside.emoji-picker-react .content-wrapper:before {
     border: 5px solid #f3f3f3;
     border-radius: 50%;
     border-top: 5px solid #3498db;
-    width: 50px;
-    height: 50px;
+    width: 20px;
+    height: 20px;
   -webkit-animation: spin 2s linear infinite; /* Safari */
   animation: spin 2s linear infinite;
 }

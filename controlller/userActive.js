@@ -9,6 +9,12 @@ module.exports = {
     if (email) {
       let user = await User.findOne({ email: email });
 
+      if (user.isVerified) {
+        return res.status(500).json({
+          message: "Something went wrong!",
+        });
+      }
+
       user.isVerified = true;
 
       await user.save();

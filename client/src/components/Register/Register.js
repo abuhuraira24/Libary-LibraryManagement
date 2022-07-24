@@ -14,6 +14,8 @@ import { Input } from "../../Styles/ElementsStyles";
 
 import axios from "axios";
 
+import Loading from "../Loading/index";
+
 const Register = () => {
   const context = useContext(AuthContext);
   const [errors, setErrors] = useState({});
@@ -25,6 +27,8 @@ const Register = () => {
     confirmPassword: "",
   });
 
+  const [load, setLoading] = useState(false);
+
   const onChange = (e) => {
     setValues({
       ...values,
@@ -34,20 +38,25 @@ const Register = () => {
 
   const navigate = useNavigate();
   const [addUser, { loading }] = useMutation(REGISTER_USER, {
-    update(_, result) {
+    update(_, { data }) {
       axios
-        .post("http://localhost:5000/verify", { email: values.email })
+        .post(`http://localhost:5000/verify`, {
+          email: values.email,
+          subject: "Email Verification",
+          url: `http://localhost:3000/confirm/${data.register.token}`,
+          token: data.register.token,
+        })
         .then((res) => {
-          console.log(res);
+          setLoading(false);
+          navigate(`/verify`);
         })
         .catch((error) => {
           console.log(error);
         });
-
-      navigate("/verify");
     },
     onError(err) {
       if (err.graphQLErrors) {
+        setLoading(false);
         setErrors(err.graphQLErrors[0].extensions.errors);
       }
     },
@@ -56,7 +65,7 @@ const Register = () => {
 
   const submitHandle = (e) => {
     e.preventDefault();
-
+    setLoading(true);
     addUser();
   };
 
@@ -142,9 +151,15 @@ const Register = () => {
             )}
         </Form.Group>
 
-        <Button variant="primary" type="submit">
-          Join
-        </Button>
+        {load ? (
+          <Button variant="primary" type="submit">
+            <Loading />
+          </Button>
+        ) : (
+          <Button variant="primary" type="submit">
+            Join
+          </Button>
+        )}
       </Form>
       <NavLink to="/login">
         <H5>Have already an Account? Login.</H5>

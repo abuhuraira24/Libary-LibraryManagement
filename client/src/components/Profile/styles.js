@@ -65,6 +65,7 @@ export const Avatar = styled.div`
   align-items: center;
   border: 5px solid #fff;
   overflow: hidden;
+
   img {
     max-width: 100%;
   }

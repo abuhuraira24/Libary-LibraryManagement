@@ -62,13 +62,12 @@ module.exports = {
         password,
         avatars: [
           {
-            avatar:
-              "https://res.cloudinary.com/dza2t1htw/image/upload/v1657947216/male-placeholder-image_oyidgh.jpg",
+            avatar: process.env.AVATAR,
           },
         ],
         cover: [
           {
-            url: "https://res.cloudinary.com/dza2t1htw/image/upload/v1657947768/gray-abstract-wireframe-technology-background_ugm1ag.jpg",
+            url: process.env.COVER,
           },
         ],
         bio: "",
@@ -82,13 +81,14 @@ module.exports = {
       const user = await newUser.save();
 
       // token genaret
-      const token = await jwt.sign(
+      const token = jwt.sign(
         {
           id: user.id,
           firstName,
           lastName,
           username: user.username,
           email,
+          isVerified: user.isVerified,
         },
         SECRET_KEY,
         { expiresIn: "2h" }

@@ -30,9 +30,16 @@ const User = (user) => {
 
   let avatar = getAvatarById(data, loading);
 
-  let [addFollower, { data: info }] = useMutation(ADD_FOLLOWER);
+  let [addFollower, { data: info }] = useMutation(ADD_FOLLOWER, {
+    onCompleted: (data) => {
+      console.log(data);
+    },
+    onError(err) {
+      console.log(err.graphQLErrors[0]);
+    },
+  });
   let followHandler = (id) => {
-    addFollower({ variables: { userId: id } });
+    addFollower({ variables: { receiverId: id } });
     if (isFollow) {
       setFollow(false);
     } else {
@@ -40,10 +47,12 @@ const User = (user) => {
     }
   };
 
+  console.log(user);
+
   return (
     <Users>
       <Avatars>
-        <NavLink to={`profile/${user.id}`}>
+        <NavLink to={`profile/${user.user.id}`}>
           <Avatar>
             {avatar.images && <Img src={avatar.images.avatar} alt="user" />}
 
@@ -54,7 +63,7 @@ const User = (user) => {
         </NavLink>
       </Avatars>
       <Name>
-        <NavLink to={`profile/${user.id}`}>
+        <NavLink to={`profile/${user.user.id}`}>
           <H5>
             {user.user.firstName} {user.user.lastName}
           </H5>
@@ -79,8 +88,8 @@ const User = (user) => {
 };
 
 const ADD_FOLLOWER = gql`
-  mutation ($userId: String!) {
-    addFollow(userId: $userId) {
+  mutation ($receiverId: String!) {
+    addFollow(receiverId: $receiverId) {
       name
       userId
     }

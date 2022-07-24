@@ -42,6 +42,10 @@ import PrivateProfile from "./components/Profile/PrivateProfile";
 import PublicProfile from "./components/Profile/PublicProfile";
 import CheckMail from "./components/Email/CheckMail";
 import ConfirmAccount from "./components/Email/ConfirmAccount";
+import NotFound from "./components/Email/NotFound/NotFound";
+import Forgot from "./components/ForgotPassword";
+import SuccessMail from "./components/ForgotPassword/SuccessMail";
+import SetNewPassword from "./components/ForgotPassword/SetPassword";
 
 function App() {
   const [user, setUser] = useState();
@@ -85,11 +89,15 @@ function App() {
           <Route path="/search/people" element={<People />} />
           <Route path="/post/:id" element={<PostDetails />} />
           <Route path="/search/post/:id" element={<PostDetails />} />
-          <Route path="/verify" element={<CheckMail />} />
+          <Route path="/verify/" element={<CheckMail />} />
           <Route path="/confirm/:text" element={<ConfirmAccount />} />
-          {/* <Route path="profile/:id" element={PublicProfile} /> */}
-          {/* <Route path="profile/:id" element={PrivateProfile} /> */}
-          {/* <Route path='*' element={<NotFound />} /> */}
+          <Route path="/notfound" element={<NotFound />} />
+          <Route path="/forgot" element={<Forgot />} />
+          <Route path="/successmail" element={<SuccessMail />} />
+          <Route
+            path="/recovery_password/:token"
+            element={<SetNewPassword />}
+          />
           <Route
             path="/register"
             element={

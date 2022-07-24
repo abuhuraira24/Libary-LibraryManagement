@@ -11,7 +11,7 @@ export const Wrapper = styled.div`
 `;
 
 export const Container = styled.div`
-  width: 200px;
+  width: 400px;
 `;
 
 export const Img = styled.img`

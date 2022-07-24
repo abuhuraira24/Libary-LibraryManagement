@@ -33,7 +33,7 @@ import {
 const Profile = () => {
   const [cover, setCover] = useState();
   const [avatar, setAvatar] = useState();
-
+  const [loading, setLoading] = useState(false);
   // File Upload Mutation
   let [mutedCover] = useMutation(COVER_UPLOAD);
   // Cover Photo Upload
@@ -76,21 +76,27 @@ const Profile = () => {
 
       let formData = new FormData();
 
+      setLoading(true);
       formData.append("file", file);
       formData.append("upload_preset", "ml_default");
 
       Axios.post(
         "https://api.cloudinary.com/v1_1/dza2t1htw/image/upload",
         formData
-      ).then((res) => {
-        console.log(res);
-        mutate({
-          variables: {
-            url: res.data.url,
-            userId: user.id,
-          },
+      )
+        .then((res) => {
+          mutate({
+            variables: {
+              url: res.data.url,
+              userId: user.id,
+            },
+          });
+
+          setLoading(false);
+        })
+        .catch((error) => {
+          setLoading(false);
         });
-      });
     }
   };
 
@@ -117,7 +123,7 @@ const Profile = () => {
             </CoverPic>
 
             <Avatars>
-              <Avatar file={avatar}>
+              <Avatar loading={loading} file={avatar}>
                 {!avatar && <UserIcon className="fa-solid fa-user"></UserIcon>}
                 {avatar && <img src={avatar} alt="me" />}
               </Avatar>

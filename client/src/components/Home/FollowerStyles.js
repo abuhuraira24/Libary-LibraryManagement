@@ -54,7 +54,7 @@ export const Name = styled.div`
 export const Span = styled.span`
   color: ${(props) => props.theme.text};
   margin-bottom: 4px;
-  display: inline-block;
+  display: block;
 `;
 
 export const Button = styled.button`

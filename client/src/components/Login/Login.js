@@ -12,7 +12,7 @@ import { H2, H5, LogginWrapper } from "./Styles";
 
 import { Input, Button } from "../../Styles/ElementsStyles";
 
-import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 const Login = () => {
   const context = useContext(AuthContext);
@@ -29,6 +29,9 @@ const Login = () => {
     });
   };
 
+  // React toastify
+  const notify = () => toast("Please Verify your Account!");
+
   const navigate = useNavigate();
   const [addUser, { loading }] = useMutation(LOGIN_USER, {
     update(_, result) {
@@ -37,20 +40,8 @@ const Login = () => {
         context.login(token);
         navigate("/");
       } else {
-        axios
-          .post("http://localhost:5000/verify", { email: values.email })
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-        navigate("/verify");
+        notify();
       }
-
-      // const token = result.data.login.token;
-      // context.login(token);
-      // navigate("/");
     },
     onError(err) {
       if (err.graphQLErrors[0]) {
@@ -65,8 +56,13 @@ const Login = () => {
     addUser();
   };
 
+  const forgot = () => {
+    navigate("/forgot");
+  };
+
   return (
     <LogginWrapper>
+      <ToastContainer position="top-center" hideProgressBar={true} />
       <H2>Welcome back</H2>
       <Form onSubmit={submitHandle}>
         <Form.Group className="mb-3">
@@ -99,7 +95,9 @@ const Login = () => {
           )}
         </Form.Group>
 
-        <H5>Forgot Password?</H5>
+        <H5 type="button" onClick={forgot}>
+          Forgot Password?
+        </H5>
         <Button bg="#2c51ca" color="#fff" type="submit">
           Submit
         </Button>

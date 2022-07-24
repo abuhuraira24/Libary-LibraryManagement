@@ -2,22 +2,7 @@ import { useContext, useState } from "react";
 
 import { gql, useMutation, useQuery } from "@apollo/client";
 
-import {
-  H5,
-  Title,
-  Wrapper,
-  Followers,
-  Users,
-  Avatar,
-  Img,
-  Name,
-  Span,
-  Button,
-  Icon,
-  UserIcon,
-  Empty,
-  Avatars,
-} from "./FollowerStyles";
+import { H5, Title, Wrapper, Followers } from "./FollowerStyles";
 
 import { AuthContext } from "../../context/auth";
 import { NavLink } from "react-router-dom";
