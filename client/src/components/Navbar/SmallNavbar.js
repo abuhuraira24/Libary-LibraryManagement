@@ -100,7 +100,7 @@ const SmallNavbar = () => {
                 <CreatrAccount to="/register">Create Account</CreatrAccount>
               </>
             )}
-            <MenuIcon>
+            {/* <MenuIcon>
               {open ? (
                 <span onClick={() => isClose()}>
                   <i class="fa-solid fa-xmark"></i>
@@ -110,7 +110,7 @@ const SmallNavbar = () => {
                   <Icon className="fa-solid fa-bars"></Icon>
                 </span>
               )}
-            </MenuIcon>
+            </MenuIcon> */}
           </RightNav>
 
           {/* Menu */}

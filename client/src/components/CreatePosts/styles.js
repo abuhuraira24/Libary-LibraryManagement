@@ -1,11 +1,10 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-  background: ${(props) => props.theme.white};
+  background: ${(props) => props.theme.gray};
   margin-bottom: 0.5rem;
   padding: 1rem;
   border-radius: 10px;
-  border: 1px solid #ddd;
 `;
 
 export const PostWrapper = styled.div`
@@ -59,11 +58,13 @@ export const ClosedModal = styled.div`
 export const H4 = styled.span`
   font-size: 20px;
   font-weight: 500;
+  color: ${(props) => props.theme.text};
 `;
 
 export const Close = styled.i`
   font-size: 22px;
   cursor: pointer;
+  color: ${(props) => props.theme.text};
 `;
 
 export const Header = styled.div`
@@ -75,10 +76,16 @@ export const Header = styled.div`
 
 export const Privacy = styled.div``;
 
-export const Name = styled.div``;
-export const H5 = styled.h5``;
+export const Name = styled.div`
+  color: ${(props) => props.theme.text};
+`;
+export const H5 = styled.h5`
+  color: ${(props) => props.theme.text};
+`;
 
-export const Privat = styled.span``;
+export const Privat = styled.span`
+  color: ${(props) => props.theme.text};
+`;
 
 export const Global = styled.i`
   margin-right: 0.5rem;
@@ -107,7 +114,8 @@ export const TextArea = styled.textarea`
   resize: none;
   width: 100%;
   border: none;
-  background: ${(props) => props.theme.white};
+  background: ${(props) => props.theme.input};
+  color: ${(props) => props.theme.text};
 `;
 
 export const Footer = styled.div`
@@ -136,6 +144,7 @@ export const EmoiIcon = styled.i`
   font-size: 36px;
   font-weight: bold;
   cursor: pointer;
+  color: ${(props) => props.theme.text};
 `;
 
 export const Text = styled.p``;

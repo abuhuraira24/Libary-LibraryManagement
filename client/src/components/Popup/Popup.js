@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+
 import Modal from "react-modal";
 import { Buttons, Close, H4, Icon, Login } from "./Styles";
 import { CreateButton } from "../Popup/Styles";
@@ -21,7 +21,6 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 const Popup = ({ children }) => {
-  let subtitle;
   const [modalIsOpen, setIsOpen] = React.useState(false);
 
   const openModal = () => {

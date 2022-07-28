@@ -70,4 +70,7 @@ const userSchema = new Schema({
   isVerified: { type: Boolean, default: false },
 });
 
-module.exports = model("User", userSchema);
+module.exports = model(
+  "User",
+  userSchema.index({ name: "text", username: "text" })
+);

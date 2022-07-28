@@ -93,6 +93,7 @@ export const Input = styled.input`
   width: 100%;
   border: none;
   padding: 1rem;
+  color: ${(props) => props.theme.text};
   background: ${(props) => props.theme.gray};
 `;
 

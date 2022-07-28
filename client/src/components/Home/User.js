@@ -47,8 +47,6 @@ const User = (user) => {
     }
   };
 
-  console.log(user);
-
   return (
     <Users>
       <Avatars>

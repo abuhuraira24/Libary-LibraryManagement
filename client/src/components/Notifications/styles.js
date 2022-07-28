@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Wrapper = styled.div`
   position: absolute;
-  background: #fff;
+  background: ${(props) => props.theme.gray};
   top: 100%;
   width: 400px;
   box-shadow: 0px 5px 20px rgb(0 0 0 / 15%);
@@ -17,6 +17,7 @@ export const Header = styled.header``;
 export const Title = styled.h4`
   font-weight: 700;
   font-size: 18px;
+  color: ${(props) => props.theme.text};
 `;
 
 export const SubHeader = styled.div`
@@ -25,9 +26,13 @@ export const SubHeader = styled.div`
   justify-content: space-between;
 `;
 
-export const New = styled.span``;
+export const New = styled.span`
+  color: ${(props) => props.theme.text};
+`;
 
-export const SeeAll = styled.span``;
+export const SeeAll = styled.span`
+  color: ${(props) => props.theme.text};
+`;
 
 export const NotWrapper = styled.div`
   margin-top: 1rem;
@@ -62,7 +67,7 @@ export const Name = styled.span`
 `;
 
 export const Text = styled.span`
-  color: ${(props) => props.theme.color};
+  color: ${(props) => props.theme.text};
 `;
 
 export const Time = styled.div`
@@ -72,4 +77,5 @@ export const Time = styled.div`
 
 export const Empty = styled.p`
   text-align: center;
+  color: ${(props) => props.theme.text};
 `;

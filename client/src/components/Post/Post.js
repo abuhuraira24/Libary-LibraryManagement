@@ -16,6 +16,7 @@ import {
   UserPic,
   More,
   CommentsArea,
+  CardText,
 } from "./CartStyles";
 
 import LikeButton from "../LikeButton";
@@ -23,8 +24,6 @@ import LikeButton from "../LikeButton";
 import Popup from "../Popup/Popup";
 
 import { NavLink } from "react-router-dom";
-
-import { CardText } from "reactstrap";
 
 import moment from "moment";
 
@@ -76,10 +75,6 @@ const Post = ({ ...props }) => {
     getCommnetAvatar(data.comments);
   }, [data.comments]);
 
-  // useEffect(() => {
-  //   // getComments(data.comments);
-  // }, []);
-
   return (
     <CardBody className="mb-4 ">
       <div>
@@ -95,15 +90,10 @@ const Post = ({ ...props }) => {
           </NavLink>
         </div>
       </div>
-      <CardSubtitle
-        className="mb-2 mt-2 text-muted border-bottom pb-1"
-        tag="h6"
-      >
+      <CardSubtitle className="mb-2 mt-2 text-muted pb-1" tag="h6">
         {moment(data.createdAt).fromNow(true)}
       </CardSubtitle>
-      {/* <CardTitle>
-        <NavLink to={`/post/${data._id}`}>{data.title}</NavLink>
-      </CardTitle> */}
+
       <CardText id="post">
         {sortText}
         {text}
@@ -164,12 +154,4 @@ const GET_USER_PIC = gql`
   }
 `;
 
-const GET_USER = gql`
-  query {
-    getUsers {
-      id
-      avatars
-    }
-  }
-`;
 export default Post;

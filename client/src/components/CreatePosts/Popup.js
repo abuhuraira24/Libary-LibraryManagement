@@ -31,7 +31,7 @@ import {
   Emoji,
   EmoiIcon,
 } from "./styles";
-import styled from "styled-components";
+import { useTheme } from "styled-components";
 
 Modal.setAppElement("#root");
 
@@ -101,6 +101,7 @@ const Popup = ({ children }) => {
   };
 
   // Modal Styles
+  let theme = useTheme();
 
   const customStyles = {
     content: {
@@ -109,6 +110,8 @@ const Popup = ({ children }) => {
       right: "auto",
       bottom: "auto",
       marginRight: "-50%",
+      border: "none",
+      background: theme.gray,
       transform: "translate(-50%, -50%)",
       // width: "40%",
       borderRadius: "15px",

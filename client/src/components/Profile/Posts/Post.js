@@ -16,6 +16,7 @@ import {
   UserPic,
   More,
   CommentsArea,
+  CardText,
 } from "./CartStyles";
 
 import LikeButton from "../../LikeButton/index";
@@ -23,8 +24,6 @@ import LikeButton from "../../LikeButton/index";
 import Popup from "../../Popup/Popup";
 
 import { NavLink } from "react-router-dom";
-
-import { CardText } from "reactstrap";
 
 import moment from "moment";
 
@@ -97,9 +96,7 @@ const Post = ({ ...props }) => {
       >
         {moment(data.createdAt).fromNow(true)}
       </CardSubtitle>
-      {/* <CardTitle>
-        <NavLink to={`/post/${data._id}`}>{data.title}</NavLink>
-      </CardTitle> */}
+
       <CardText id="post">
         {sortText}
         {text}

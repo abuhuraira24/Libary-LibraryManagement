@@ -11,6 +11,7 @@ export const RegisterWrapper = styled.div`
 
 export const H2 = styled.h2`
   margin-bottom: 2rem;
+  color: ${(props) => props.theme.text};
 `;
 
 export const H5 = styled.h5`
@@ -19,4 +20,7 @@ export const H5 = styled.h5`
   font-size: 16px;
   margin: 1rem 0;
   cursor: pointer;
+  a {
+    color: ${(props) => props.theme.text};
+  }
 `;

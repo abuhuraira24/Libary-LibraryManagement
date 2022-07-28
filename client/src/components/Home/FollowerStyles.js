@@ -1,11 +1,12 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-  background: ${(props) => props.theme.white};
+  background: ${(props) => props.theme.gray};
   padding: 1rem;
   border-radius: 10px;
-  border: 1px solid #ddd;
   position: fixed;
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 10%),
+    0 8px 10px -6px rgb(0 0 0 / 10%);
 `;
 
 export const Followers = styled.div``;
@@ -17,7 +18,7 @@ export const Title = styled.div`
 export const H5 = styled.h5`
   font-weight: 600;
   font-size: 16px;
-  color: ${(props) => props.theme.color};
+  color: ${(props) => props.theme.text};
   margin: 0;
 `;
 
@@ -61,6 +62,7 @@ export const Button = styled.button`
   padding: 4px 10px;
   border: 1px solid #ddd;
   border-radius: 50px;
+  color: ${(props) => props.theme.text};
 `;
 
 export const Icon = styled.i`

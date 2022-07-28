@@ -1,9 +1,10 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-  background: ${(props) => props.theme.white};
+  background: ${(props) => props.theme.gray};
   border-radius: 10px;
-  border: 1px solid #ddd;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1);
 `;
 
 export const Cover = styled.div`
@@ -44,11 +45,13 @@ export const BioNames = styled.div`
   flex-direction: column;
   padding-top: 4rem;
   padding-bottom: 1rem;
+  color: ${(props) => props.theme.text};
 `;
 
 export const Name = styled.h4`
   font-weight: 600;
   margin-top: 1rem;
+  color: ${(props) => props.theme.text};
 `;
 
 export const Bio = styled.h5`

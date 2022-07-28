@@ -46,16 +46,12 @@ import NotFound from "./components/Email/NotFound/NotFound";
 import Forgot from "./components/ForgotPassword";
 import SuccessMail from "./components/ForgotPassword/SuccessMail";
 import SetNewPassword from "./components/ForgotPassword/SetPassword";
+import { ThemeProvider } from "styled-components";
+import { dark, light } from "./components/Theme/index";
+import Theme from "./components/Theme/Theme";
 
 function App() {
   const [user, setUser] = useState();
-
-  const theme = useTheme();
-
-  useEffect(() => {
-    const body = document.getElementsByTagName("body");
-    body[0].style.backgroundColor = theme.bg;
-  });
 
   useEffect(() => {
     let toke = localStorage.getItem("jwtToken");
@@ -73,50 +69,52 @@ function App() {
 
   return (
     <AuthProvider>
-      <Router>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <PrivatRouter rediredct="/login">
-                <Home />
-              </PrivatRouter>
-            }
-          />
-          {/* <Route path="/" element={<Home />} /> */}
-          <Route path="/profile/:id" element={<Profile />} />
-          <Route path="/search" element={<QueryPage />} />
-          <Route path="/search/people" element={<People />} />
-          <Route path="/post/:id" element={<PostDetails />} />
-          <Route path="/search/post/:id" element={<PostDetails />} />
-          <Route path="/verify/" element={<CheckMail />} />
-          <Route path="/confirm/:text" element={<ConfirmAccount />} />
-          <Route path="/notfound" element={<NotFound />} />
-          <Route path="/forgot" element={<Forgot />} />
-          <Route path="/successmail" element={<SuccessMail />} />
-          <Route
-            path="/recovery_password/:token"
-            element={<SetNewPassword />}
-          />
-          <Route
-            path="/register"
-            element={
-              <PublicRouter rediredct="/">
-                <Register />
-              </PublicRouter>
-            }
-          />
-          <Route
-            path="/login"
-            element={
-              <PublicRouter rediredct="/">
-                <Login />
-              </PublicRouter>
-            }
-          />
-        </Routes>
-        {/* <MobileMenu /> */}
-      </Router>
+      <Theme>
+        <Router>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <PrivatRouter rediredct="/login">
+                  <Home />
+                </PrivatRouter>
+              }
+            />
+            {/* <Route path="/" element={<Home />} /> */}
+            <Route path="/profile/:id" element={<Profile />} />
+            <Route path="/search" element={<QueryPage />} />
+            <Route path="/search/people" element={<People />} />
+            <Route path="/post/:id" element={<PostDetails />} />
+            <Route path="/search/post/:id" element={<PostDetails />} />
+            <Route path="/verify/" element={<CheckMail />} />
+            <Route path="/confirm/:text" element={<ConfirmAccount />} />
+            <Route path="/notfound" element={<NotFound />} />
+            <Route path="/forgot" element={<Forgot />} />
+            <Route path="/successmail" element={<SuccessMail />} />
+            <Route
+              path="/recovery_password/:token"
+              element={<SetNewPassword />}
+            />
+            <Route
+              path="/register"
+              element={
+                <PublicRouter rediredct="/">
+                  <Register />
+                </PublicRouter>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <PublicRouter rediredct="/">
+                  <Login />
+                </PublicRouter>
+              }
+            />
+          </Routes>
+          {/* <MobileMenu /> */}
+        </Router>
+      </Theme>
     </AuthProvider>
   );
 }

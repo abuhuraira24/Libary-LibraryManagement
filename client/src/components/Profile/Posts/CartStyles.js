@@ -42,7 +42,7 @@ export const Comment = styled.div`
 
 export const Span = styled.span`
   margin-left: 8px;
-  color: ${(props) => props.theme.color};
+  color: ${(props) => props.theme.text};
 `;
 
 export const CommentBox = styled.div`
@@ -71,7 +71,7 @@ export const CardBody = styled.div`
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  background: ${(props) => props.theme.white};
+  background: ${(props) => props.theme.gray};
   background-clip: border-box;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 10px;
@@ -93,7 +93,7 @@ export const CardTitle = styled.div`
 `;
 
 export const CardSubtitle = styled.h6`
-  color: ${(props) => props.theme.color} !important;
+  color: ${(props) => props.theme.text};
 `;
 export const CircleImage = styled.img`
   width: 100%;
@@ -127,10 +127,15 @@ export const Load = styled.span`
   color: #fff;
   padding: 8px 21px;
   border-radius: 10px;
+  color: ${(props) => props.theme.text};
 `;
 
 export const CommentsArea = styled.div`
   display: flex;
   justify-content: start;
   align-items: center;
+`;
+
+export const CardText = styled.p`
+  color: ${(props) => props.theme.text};
 `;

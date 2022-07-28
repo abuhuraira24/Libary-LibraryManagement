@@ -115,8 +115,8 @@ export const EdidButton = styled(Link)`
 
 export const FollowButton = styled.button`
   margin-top: 2rem;
-  background: #fff;
-  color: #000;
+  background: ${(props) => props.theme.gray};
+  color: ${(props) => props.theme.text};
   padding: 0.5rem 1rem;
   border-radius: 5px;
   margin-left: 0.8rem;
@@ -198,15 +198,16 @@ export const Header = styled.div`
 export const Photos = styled.span`
   font-weight: 700;
   font-size: 22px;
+  color: ${(props) => props.theme.text};
 `;
 
 export const SeeAll = styled.span`
-  color: #216fdb;
+  color: ${(props) => props.theme.text};
   cursor: pointer;
 `;
 
 export const ImageWrapper = styled.div`
-  background: #fff;
+  background: ${(props) => props.theme.gray};
   padding: 1rem 0;
   border-radius: 10px;
 `;

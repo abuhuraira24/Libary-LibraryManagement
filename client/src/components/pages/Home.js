@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 
 import Posts from "../Post";
 
+import { useTheme } from "styled-components";
+
 import { Container, Row, Col } from "../../Styles/ElementsStyles";
 import { PostWrapper } from "./styles";
 
@@ -26,6 +28,13 @@ const Home = () => {
     });
   }, []);
 
+  const theme = useTheme();
+
+  useEffect(() => {
+    const body = document.getElementsByTagName("body");
+    body[0].style.backgroundColor = theme.bg;
+  });
+
   return (
     <>
       <SmallNavbar />
@@ -37,7 +46,7 @@ const Home = () => {
               <Profile />
             </Col>
             <Col w="50" md="40" sm="100">
-              <Story />
+              {/* <Story /> */}
               <CreatePost />
               <Posts />
             </Col>

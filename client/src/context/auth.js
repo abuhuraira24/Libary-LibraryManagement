@@ -21,6 +21,7 @@ const AuthContext = createContext({
   getPosts: (data) => {},
   getNotification: (data) => {},
   getRealTimeNoti: (data) => {},
+  themeMode: () => {},
 });
 
 const init = {
@@ -29,6 +30,7 @@ const init = {
   comments: null,
   posts: null,
   notification: null,
+  isDark: "",
 };
 
 if (localStorage.getItem("jwtToken")) {
@@ -88,6 +90,11 @@ const authReducer = (state, action) => {
       return {
         ...state,
         notification: action.payload,
+      };
+    case "THEME":
+      return {
+        ...state,
+        isDark: action.payload,
       };
     default:
       return state;
@@ -173,6 +180,15 @@ const AuthProvider = (props) => {
       payload: data,
     });
   };
+  const themeMode = (dark) => {
+    localStorage.setItem("theme", dark);
+
+    console.log(dark);
+    dispatch({
+      type: "THEME",
+      payload: dark,
+    });
+  };
   return (
     <AuthContext.Provider
       value={{
@@ -191,6 +207,8 @@ const AuthProvider = (props) => {
         getPosts,
         posts: state.posts,
         notification: state.notification,
+        themeMode,
+        isDark: state.isDark,
       }}
       {...props}
     />

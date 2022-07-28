@@ -15,22 +15,20 @@ export const Nav = styled.div`
   z-index: 999;
   padding: 0 1rem;
   @media (max-width: 991px) {
-    background: #fff;
+    background: ${(props) => props.theme.gray};
     z-index: 99;
   }
   @media (max-width: 768px) {
     display: ${(props) => props.smNav && "block"};
   }
-  background: ${(props) => props.theme.white};
-  /* box-shadow: ${(props) =>
-    props.issticky ? "0px 5px 20px rgb(0 0 0 / 15%)" : null}; */
+  background: ${(props) => props.theme.gray};
   position: ${(props) => (props.issticky ? "fixed" : "absolute")};
 `;
 
 export const NavbarContainer = styled.div`
   display: flex;
   align-items: center;
-  background: ${(props) => props.theme.white};
+  background: ${(props) => props.theme.gray};
   @media (max-width: 1200px) {
     max-width: 960px;
     padding: 0px 28px;
@@ -151,6 +149,7 @@ export const SmallForm = styled.form`
 `;
 export const SearchInput = styled.input`
   background: ${(props) => props.theme.gray};
+
   border: none;
   /* @media (max-width : 558px) {
     visibility: ${(props) => (props.showSearch ? "visible" : "hidden")};
@@ -168,7 +167,7 @@ export const Button = styled.button`
   i {
     font-size: 14px;
     margin-right: 1rem;
-    color: ${(props) => props.theme.color};
+    color: ${(props) => props.theme.text};
   }
   @media (max-width: 558px) {
     margin-right: 1rem;
@@ -199,10 +198,12 @@ export const SmallAccount = styled.div`
 
 export const UserIcon = styled.i`
   cursor: pointer;
+  color: ${(props) => props.theme.text};
 `;
 
 export const Icon = styled.i`
   font-size: 26px;
+  color: ${(props) => props.theme.text};
 `;
 
 export const CreatrAccount = styled(Link)`
@@ -226,7 +227,7 @@ export const AccountMneu = styled.div``;
 
 export const Ul = styled.ul`
   position: absolute;
-  background: ${(props) => props.theme.white};
+  background: ${(props) => props.theme.gray};
   width: 336px;
   height: ${(props) => (props.isToggle ? "300px" : "0")};
   top: 145%;
@@ -236,7 +237,6 @@ export const Ul = styled.ul`
   overflow-y: scroll;
   scrollbar-width: none;
   z-index: 9;
-  border: 1px solid #ddd;
   right: 0;
 `;
 export const Li = styled(Link)`
@@ -250,7 +250,7 @@ export const Li = styled(Link)`
   display: block;
   color: ${(props) => props.theme.color};
   &&:hover {
-    background: ${(props) => props.theme.bg};
+    background: ${(props) => props.theme.gray};
     color: ${(props) => props.theme.color};
   }
 `;
@@ -261,6 +261,7 @@ export const SearchBar = styled.input`
   padding: 6px 27px;
   border-radius: 50px;
   background: ${(props) => props.theme.input};
+  color: ${(props) => props.theme.text};
 `;
 
 export const Avatar = styled.div`
@@ -274,7 +275,9 @@ export const NavAvatar = styled.img`
   cursor: pointer;
 `;
 
-export const UserIconn = styled.i``;
+export const UserIconn = styled.i`
+  color: ${(props) => props.theme.text};
+`;
 
 export const NavLarge = styled.div`
   display: block;
@@ -303,7 +306,7 @@ export const RightMenu = styled.div`
 `;
 
 export const Icons = styled.div`
-  background: ${(props) => props.theme.input};
+  background: ${(props) => (props.theme.dark ? "#43536f" : "#fff")};
   width: 40px;
   height: 40px;
   border-radius: 50px;
@@ -318,6 +321,7 @@ export const Icons = styled.div`
 export const Iconn = styled.i`
   display: inline-block;
   font-size: 16px;
+  color: ${(props) => props.theme.light};
 `;
 
 export const Count = styled.span`

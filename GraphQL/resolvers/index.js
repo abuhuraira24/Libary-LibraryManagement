@@ -37,6 +37,8 @@ const getFollowing = require("../resolvers/user");
 
 const publicUsers = require("../resolvers/user");
 
+const search = require("../resolvers/search");
+
 module.exports = {
   Query: {
     ...createPost.Query,
@@ -62,5 +64,6 @@ module.exports = {
     ...cleateLikeNotification.Mutation,
     ...seenNotifications.Mutation,
     ...addFollow.Mutation,
+    ...search.Mutation,
   },
 };

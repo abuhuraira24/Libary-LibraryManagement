@@ -148,5 +148,8 @@ module.exports = gql`
     # addFriend(senderId : ID! recieverId : ID!):
     seenNotifications: SingleUser!
     addFollow(receiverId: String!): [Follow]!
+
+    #Search
+    search(name: String!): [Users]
   }
 `;

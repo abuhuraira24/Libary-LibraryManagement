@@ -2,8 +2,6 @@ import React, { useContext, useState, useEffect } from "react";
 
 import "../Sidebar/index.scss";
 
-import { useNavigate, createSearchParams } from "react-router-dom";
-
 import { AuthContext } from "../../context/auth";
 
 import { NavLink } from "react-router-dom";
@@ -19,15 +17,12 @@ import {
   LargeSearch,
   MenuIcon,
   NavLarge,
-  Form,
-  Button,
   Icon,
   SmallAccount,
   Ul,
   Li,
   NavAvatar,
   Avatar,
-  SearchBar,
   UserIconn,
   LeftBar,
   Logo,
@@ -47,9 +42,12 @@ import logo from "../Navbar/logo.png";
 
 import useAvatar from "../../hooks/useAvatar";
 
-import notiHook from "../../hooks/userNotification";
+import SearchPanel from "../SearchBar";
 
 const Navbar = () => {
+  // Theme
+  const [dark, setDark] = useState("light");
+
   const [open, setOpen] = useState(false);
 
   // Toggler
@@ -57,9 +55,6 @@ const Navbar = () => {
 
   // Stickey Hader
   const [sticky, setSticky] = useState(false);
-
-  // Search query Handler
-  const [searchQuery, setQuery] = useState("");
 
   // Toggler Notification
   const [toggleNoti, setToggleNoti] = useState(false);
@@ -73,21 +68,16 @@ const Navbar = () => {
   // Get Notification
   const [notifications, setNotifications] = useState([]);
 
-  const { user, logout, notification, getRealTimeNoti } =
-    useContext(AuthContext);
+  const { user, logout, themeMode } = useContext(AuthContext);
   let noti = useQuery(GET_NOTIFICATIONS, {
     onCompleted: (data) => {
       if (data) {
-        // console.log(data.notifications);
         setNotifications(...notifications, data.notifications);
       }
-      // if (data && notifications) {
-      //   getNotification(data.notifications);
-      // }
     },
   });
 
-  let [seenNotification, { loading }] = useMutation(SEE_NOTIFICATION, {
+  let [seenNotification] = useMutation(SEE_NOTIFICATION, {
     onCompleted: (data) => {
       setNotificationCount(data);
     },
@@ -147,22 +137,21 @@ const Navbar = () => {
 
   window.addEventListener("scroll", isHeaderSticky);
 
-  const changeHandler = (e) => {
-    setQuery({
-      ...searchQuery,
-      [e.target.name]: e.target.value,
-    });
+  const theme = () => {
+    console.log(dark);
+    if (dark === "light") {
+      themeMode("dark");
+      setDark("dark");
+    } else {
+      themeMode("light");
+      setDark("light");
+    }
   };
-  const context = useContext(AuthContext);
-
-  const navigate = useNavigate();
-
-  const submitHandler = (e) => {
-    e.preventDefault();
-
-    context.queryText(searchQuery.text, navigate, createSearchParams);
-  };
-
+  useEffect(() => {
+    const isLight = localStorage.getItem("theme");
+    setDark(isLight);
+    themeMode(isLight);
+  }, []);
   return (
     <NavLarge>
       <Nav issticky={sticky.toString()}>
@@ -175,22 +164,21 @@ const Navbar = () => {
 
           <LeftBar>
             <LargeSearch>
-              <Form onSubmit={submitHandler}>
-                <SearchBar
-                  type="text"
-                  placeholder="Search"
-                  name="text"
-                  onChange={changeHandler}
-                  autocomplete="false"
-                />
-                <Button type="submit">
-                  <i className="fa-solid fa-magnifying-glass"></i>
-                </Button>
-              </Form>
+              <SearchPanel />
             </LargeSearch>
           </LeftBar>
 
           <RightMenu>
+            {dark === "dark" ? (
+              <Icons onClick={theme}>
+                <Iconn className="fa-solid fa-sun"></Iconn>
+              </Icons>
+            ) : (
+              <Icons onClick={theme}>
+                <Iconn className="fa-solid fa-moon"></Iconn>
+              </Icons>
+            )}
+
             <Icons>
               <Count>1</Count>
 
@@ -206,10 +194,7 @@ const Navbar = () => {
                 <Iconn className="fa-solid fa-bell"></Iconn>
               </Icons>
               {toggleNoti && (
-                <Notification
-                  // realtTimeNoti={realtTimeNoti}
-                  notification={noti.data ? noti : []}
-                />
+                <Notification notification={noti.data ? noti : []} />
               )}
             </HeaderItem>
 
@@ -220,12 +205,12 @@ const Navbar = () => {
                     {images.avatar && (
                       <NavAvatar src={images.avatar} alt="user" />
                     )}
-                    {/* <i class="fa-solid fa-user"></i> */}
+
                     {!images.avatar && (
                       <UserIconn className="fa-solid fa-user"></UserIconn>
                     )}
                   </Avatar>
-                  {/* <UserIcon className="fa-solid fa-user"></UserIcon> */}
+
                   <Ul isToggle={isToggle} className="scrollbar-hidden">
                     <Li mone="1" bbottom="true" to={`/profile/${user.id}`}>
                       {user.username}
@@ -243,17 +228,6 @@ const Navbar = () => {
             )}
           </RightMenu>
 
-          <MenuIcon>
-            {open ? (
-              <span onClick={isClose}>
-                <i class="fa-solid fa-xmark"></i>
-              </span>
-            ) : (
-              <span onClick={isOpen}>
-                <Icon className="fa-solid fa-bars"></Icon>
-              </span>
-            )}
-          </MenuIcon>
           <NavbarMenu issticky={sticky} toggle={open}>
             <NavItem>
               {user ? (
