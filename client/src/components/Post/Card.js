@@ -14,8 +14,6 @@ const PostCart = () => {
     offset: 0,
   });
 
-  const [allPost, setPosts] = useState();
-
   let { getPosts, posts } = useContext(AuthContext);
 
   // Lazy Query

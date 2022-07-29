@@ -94,7 +94,7 @@ export const Input = styled.input`
   border: none;
   padding: 1rem;
   color: ${(props) => props.theme.text};
-  background: ${(props) => props.theme.gray};
+  background: #eef3f8;
 `;
 
 export const FormTitle = styled.h2`

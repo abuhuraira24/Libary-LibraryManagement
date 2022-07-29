@@ -114,6 +114,18 @@ module.exports = {
         readNotification: userInfo.readNotification,
       };
     },
+
+    async deletePost(_, { postId }, context) {
+      const user = authChecker(context);
+
+      let post = await Post.findByIdAndDelete({ _id: postId });
+
+      let posts = await Post.find();
+
+      if (post && posts) {
+        return posts;
+      } else throw new UserInputError("Post not found");
+    },
   },
 
   Query: {

@@ -306,7 +306,7 @@ export const RightMenu = styled.div`
 `;
 
 export const Icons = styled.div`
-  background: ${(props) => (props.theme.dark ? "#43536f" : "#fff")};
+  background: ${(props) => (props.theme.dark ? "#43536f" : "#ddd")};
   width: 40px;
   height: 40px;
   border-radius: 50px;
@@ -321,7 +321,7 @@ export const Icons = styled.div`
 export const Iconn = styled.i`
   display: inline-block;
   font-size: 16px;
-  color: ${(props) => props.theme.light};
+  color: ${(props) => (props.theme.dark ? "#fff" : "#000")};
 `;
 
 export const Count = styled.span`

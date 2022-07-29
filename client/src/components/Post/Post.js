@@ -5,18 +5,26 @@ import {
   Comments,
   LikeComments,
   Comment,
-  SaveRead,
   Span,
-  Card,
   CardBody,
   UserName,
-  CardTitle,
   CardSubtitle,
   CircleImage,
   UserPic,
   More,
   CommentsArea,
   CardText,
+  Users,
+  Left,
+  Right,
+  PostSetting,
+  Dot,
+  Edit,
+  UpdatePost,
+  DeletePost,
+  Icon,
+  H6,
+  Report,
 } from "./CartStyles";
 
 import LikeButton from "../LikeButton";
@@ -39,12 +47,20 @@ import SingleComment from "../Comments";
 
 import { getCommnetAvatar } from "../Helper/helper";
 
+import DeletePopup from "./DeletePopup";
+
+import Delete from "./DeletePost";
+
 const Post = ({ ...props }) => {
   let [toggleComment, setToggleComment] = useState(false);
 
-  let [image, setImage] = useState(null);
+  const [image, setImage] = useState(null);
 
-  const { user, getComments, comments } = useContext(AuthContext);
+  const [toggle, setTogle] = useState(false);
+
+  const [isOpen, setOpen] = useState(false);
+
+  const { user } = useContext(AuthContext);
 
   let { data } = props;
 
@@ -75,21 +91,71 @@ const Post = ({ ...props }) => {
     getCommnetAvatar(data.comments);
   }, [data.comments]);
 
+  const toggler = () => {
+    if (toggle) {
+      setTogle(false);
+    } else {
+      setTogle(true);
+    }
+  };
+
+  const isOpenHandler = () => {
+    setOpen(true);
+  };
+
+  const closeModal = () => {
+    setOpen(false);
+    setTogle(false);
+  };
+
+  console.log(data.userId === user.id);
   return (
     <CardBody className="mb-4 ">
-      <div>
-        <div className="users">
+      <Users>
+        <Left>
           <UserPic>
             {typeof avatar !== "function" && (
               <CircleImage src={avatar} alt="user" />
             )}
           </UserPic>
-
           <NavLink to={`profile/${data.userId}`}>
             <UserName>{data.firstName + " " + data.lastName}</UserName>
           </NavLink>
-        </div>
-      </div>
+        </Left>
+        <Right>
+          <Dot onClick={toggler} className="fa-solid fa-ellipsis"></Dot>
+          {toggle && (
+            <PostSetting>
+              {data.userId === user.id ? (
+                <>
+                  <UpdatePost>
+                    <Edit>
+                      <Icon className="fa-solid fa-pen"></Icon>
+                      <H6>Edit</H6>
+                    </Edit>
+                  </UpdatePost>
+                  <DeletePost>
+                    <Icon
+                      onClick={isOpenHandler}
+                      className="fa-solid fa-trash-can"
+                    ></Icon>
+                    <H6 onClick={isOpenHandler}>Delete</H6>
+                    <DeletePopup isOpen={isOpen} closeModal={closeModal}>
+                      <Delete closeModal={closeModal} postId={data._id} />
+                    </DeletePopup>
+                  </DeletePost>
+                </>
+              ) : (
+                <Report>
+                  <Icon className="fa-solid fa-bug"></Icon>
+                  <H6>Report Post</H6>
+                </Report>
+              )}
+            </PostSetting>
+          )}
+        </Right>
+      </Users>
+
       <CardSubtitle className="mb-2 mt-2 text-muted pb-1" tag="h6">
         {moment(data.createdAt).fromNow(true)}
       </CardSubtitle>

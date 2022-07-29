@@ -134,7 +134,68 @@ export const CommentsArea = styled.div`
   align-items: center;
 `;
 
+export const Users = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+export const Left = styled.div`
+  display: flex;
+`;
+
+export const Right = styled.div`
+  position: relative;
+  i {
+    color: ${(props) => props.theme.text};
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+`;
+
+export const Dot = styled.i``;
+
 export const Empty = styled.h4`
   text-align: center;
   margin: 1rem 0;
 `;
+
+export const PostSetting = styled.div`
+  position: absolute;
+  background: ${(props) => props.theme.bg};
+  color: ${(props) => props.theme.text};
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  width: 200px;
+  left: -168px;
+  padding: 1rem;
+`;
+
+export const Edit = styled.div`
+  display: flex;
+  justify-content: start;
+  align-items: center;
+`;
+
+export const UpdatePost = styled.div``;
+
+export const DeletePost = styled.div`
+  display: flex;
+  justify-content: start;
+  align-items: center;
+`;
+
+export const Report = styled.div`
+  display: flex;
+  justify-content: start;
+  align-items: center;
+`;
+export const Icon = styled.i`
+  margin-right: 0.4rem;
+`;
+
+export const H6 = styled.h6`
+  margin: 0;
+  cursor: pointer;
+`;
+
+export const Delete = styled.div``;

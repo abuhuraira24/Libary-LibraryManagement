@@ -39,6 +39,8 @@ const publicUsers = require("../resolvers/user");
 
 const search = require("../resolvers/search");
 
+const deletePost = require("../resolvers/Post");
+
 module.exports = {
   Query: {
     ...createPost.Query,
@@ -65,5 +67,6 @@ module.exports = {
     ...seenNotifications.Mutation,
     ...addFollow.Mutation,
     ...search.Mutation,
+    ...deletePost.Mutation,
   },
 };

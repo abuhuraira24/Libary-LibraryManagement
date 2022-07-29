@@ -150,6 +150,9 @@ module.exports = gql`
     addFollow(receiverId: String!): [Follow]!
 
     #Search
-    search(name: String!): [Users]
+    search(name: String!): [Users]!
+
+    #Delete post
+    deletePost(postId: ID!): [Post]
   }
 `;
