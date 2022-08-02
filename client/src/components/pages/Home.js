@@ -13,8 +13,6 @@ import CreatePost from "../CreatePosts";
 
 import Follower from "../Home/Followers";
 
-import socket from "../../hooks/socketio";
-
 import Navbar from "../Navbar/NavBar";
 
 import SmallNavbar from "../Navbar/SmallNavbar";
@@ -22,12 +20,6 @@ import SmallNavbar from "../Navbar/SmallNavbar";
 import Story from "../Story";
 
 const Home = () => {
-  useEffect(() => {
-    socket.on("getMessage", (data) => {
-      console.log(data);
-    });
-  }, []);
-
   const theme = useTheme();
 
   useEffect(() => {

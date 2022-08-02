@@ -139,7 +139,6 @@ const Navbar = () => {
   window.addEventListener("scroll", isHeaderSticky);
 
   const theme = () => {
-    console.log(dark);
     if (dark === "light") {
       themeMode("dark");
       setDark("dark");

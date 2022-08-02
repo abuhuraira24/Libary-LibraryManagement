@@ -40,7 +40,6 @@ const PostCart = () => {
     getDog();
   };
 
-  console.log(posts);
   return (
     <div>
       <Card className="mb-4">

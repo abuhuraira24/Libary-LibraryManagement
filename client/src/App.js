@@ -28,8 +28,6 @@ import Profile from "./components/Profile/Profile";
 
 import PrivatRouter from "./hooks/PrivetRouter";
 
-import socket from "./hooks/socketio";
-
 import decoder from "jwt-decode";
 
 import CheckMail from "./components/Email/CheckMail";
@@ -55,12 +53,6 @@ function App() {
       setUser(decoded);
     }
   }, []);
-
-  useEffect(() => {
-    if (user) {
-      socket.emit("join", { userId: user.id });
-    }
-  }, [user]);
 
   return (
     <AuthProvider>
