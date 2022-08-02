@@ -9,7 +9,7 @@ export const CoverWrapper = styled.div`
   padding-top: 4rem;
   padding-bottom: 2rem;
   @media (max-width: 768px) {
-    margin-top: 13rem;
+    margin-top: -3rem;
   }
 `;
 
@@ -17,6 +17,9 @@ export const H3 = styled.h3`
   color: ${(props) => props.theme.color};
   font-size: 44px;
   font-weight: 600;
+  @media (max-width: 558px) {
+    font-size: 32px;
+  }
 `;
 
 export const Bio = styled.h5`
@@ -47,12 +50,20 @@ export const ProfileAvatar = styled.div`
   flex-direction: column;
   padding-top: 12rem;
   padding-bottom: 1rem;
+  @media (max-width: 558px) {
+    padding-top: 4rem;
+  }
 `;
 
 export const Avatars = styled.div`
   position: absolute;
   top: 32%;
   left: 42%;
+
+  @media (max-width: 558px) {
+    top: 28%;
+    left: 30%;
+  }
 `;
 
 export const Avatar = styled.div`
@@ -65,7 +76,10 @@ export const Avatar = styled.div`
   align-items: center;
   border: 5px solid #fff;
   overflow: hidden;
-
+  @media (max-width: 558px) {
+    width: 150px;
+    height: 150px;
+  }
   img {
     max-width: 100%;
   }
@@ -102,7 +116,7 @@ export const Span = styled.span`
   color: ${(props) => props.theme.color};
 `;
 
-export const EdidButton = styled(Link)`
+export const EdidButton = styled.button`
   margin-top: 2rem;
   background: #0d6efd;
   color: #fff;
@@ -221,7 +235,7 @@ export const Images = styled.div`
 `;
 
 export const Image = styled.div`
-  width: 110px;
+  width: 60px;
   margin: 8px;
   border-radius: 10px;
   overflow: hidden;

@@ -1,4 +1,5 @@
-import img from "../Profile/avatar.jpg";
+import { Link } from "react-router-dom";
+
 import { H6 } from "./Styles";
 
 import {
@@ -15,18 +16,22 @@ const User = ({ user }) => {
   return (
     <Users>
       <Avatars>
-        <Avatar>
-          <Img src={user.avatars[0].avatar} alt="user" />
+        <Link to={`/profile/${user.id}`}>
+          <Avatar>
+            <Img src={user.avatars[0].avatar} alt="user" />
 
-          <Empty>
-            <UserIcon className="fa-solid fa-user"></UserIcon>
-          </Empty>
-        </Avatar>
+            <Empty>
+              <UserIcon className="fa-solid fa-user"></UserIcon>
+            </Empty>
+          </Avatar>
+        </Link>
       </Avatars>
       <Name>
-        <H6>
-          {user.firstName} {user.lastName}
-        </H6>
+        <Link to={`/profile/${user.id}`}>
+          <H6>
+            {user.firstName} {user.lastName}
+          </H6>
+        </Link>
       </Name>
     </Users>
   );

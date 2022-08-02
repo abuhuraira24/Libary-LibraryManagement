@@ -5,7 +5,9 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { H5, Title, Wrapper, Followers } from "./FollowerStyles";
 
 import { AuthContext } from "../../context/auth";
-import { NavLink } from "react-router-dom";
+
+import SmallNavbar from "../Navbar/SmallNavbar";
+
 import User from "./User";
 
 const Follower = () => {
@@ -14,6 +16,7 @@ const Follower = () => {
 
   return (
     <Wrapper>
+      <SmallNavbar />
       <Followers>
         <Title>
           <H5>Add to your feed</H5>

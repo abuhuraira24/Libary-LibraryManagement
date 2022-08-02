@@ -10,6 +10,13 @@ export const Wrapper = styled.div`
   padding: 1rem;
   right: 0px;
   padding-bottom: 2rem;
+  @media (max-width: 768px) {
+    position: relative;
+    width: 100%;
+    margin-top: 1rem;
+    background: ${(props) => props.theme.bg};
+    box-shadow: none;
+  }
 `;
 
 export const Header = styled.header``;

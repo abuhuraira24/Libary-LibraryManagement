@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 
 import { useParams } from "react-router-dom";
 
-import { CommentBox, Button, CommentInput, Form } from "../Post/CartStyles";
+import { useTheme } from "styled-components";
 
 import { gql, useQuery, useMutation } from "@apollo/client";
 
@@ -90,6 +90,13 @@ const PostDetails = () => {
 
   let avatar = Avatar(post && post.userId);
 
+  const theme = useTheme();
+
+  useEffect(() => {
+    const body = document.getElementsByTagName("body");
+    body[0].style.backgroundColor = theme.bg;
+    body[0].style.overflow = "auto";
+  });
   return (
     <Wrapper>
       <NavBar />
@@ -107,41 +114,11 @@ const PostDetails = () => {
                 <Span>{post && moment(post.createdAt).fromNow(true)}</Span>
               </AuthorName>
             </UserProfile>
-            {/* <PostTitle>{typeof post !== "undefined" && post.title}</PostTitle> */}
+
             <PostBody>
               <P>{post && post.body}</P>
             </PostBody>
             <Comments>
-              {/* <h2>
-                Discussion (
-                {comments && typeof comments !== "undefined" && comments.length}
-                )
-              </h2> */}
-              {/* <CommentBox>
-                <Form>
-                  {!user && (
-                    <CommentInput
-                      type="body"
-                      disabled
-                      placeholder="Write an answere..."
-                      name="body"
-                      value={value.body}
-                    />
-                  )}
-                  {user && (
-                    <CommentInput
-                      type="body"
-                      placeholder="Write an answere..."
-                      name="body"
-                      value={value.body}
-                    />
-                  )}
-
-                  <Button type="submit"></Button>
-                </Form>
-              </CommentBox> */}
-
-              {/* <CommentBar postId={postId} /> */}
               <CommentsArea>
                 <UserPic>
                   {image && image.avatar && (
@@ -151,28 +128,12 @@ const PostDetails = () => {
                 <CommentBar postId={postId} />
               </CommentsArea>
 
-              {/* {comments &&
-                typeof comments !== "undefined" &&
-                comments.map((itm, index) => (
-                  <SingleComment key={index} data={itm} />
-                ))} */}
               {comments?.map((c, index) => (
                 <SingleComment key={index} c={c} />
               ))}
             </Comments>
           </Col>
-          <Col w="30" sm="100">
-            {/* <Profile
-              // data={post}
-              avata={typeof avatar !== "function" && avatar}
-            /> */}
-            {/* {typeof avatar !== "function" && (
-              <Profile
-                // data={post}
-                avata={typeof avatar !== "function" && avatar}
-              />
-            )} */}
-          </Col>
+          <Col w="30" sm="100"></Col>
         </Row>
       </Container>
     </Wrapper>

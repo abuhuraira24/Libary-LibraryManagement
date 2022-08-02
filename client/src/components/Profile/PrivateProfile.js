@@ -2,6 +2,8 @@ import { useState, useContext, useEffect } from "react";
 
 import { gql, useMutation, useQuery } from "@apollo/client";
 
+import { useTheme } from "styled-components";
+
 import { Container, Col, Row } from "../../Styles/ElementsStyles";
 
 import Axios from "axios";
@@ -48,11 +50,15 @@ import CreatePost from "../CreatePosts";
 
 import Friends from "./Friends";
 
+import UpdatedModale from "./UpdateProfile/Modal";
+
 const PrivateProfile = () => {
   const [cover, setCover] = useState();
   const [avatar, setAvatar] = useState();
   const [profileUser, setProfileUser] = useState(null);
   const [posts, setPosts] = useState(null);
+  // Open Modal
+  const [isOpen, setIsOpen] = useState(false);
   // File Upload Mutation
   let [mutedCover] = useMutation(COVER_UPLOAD);
   // Cover Photo Upload
@@ -143,6 +149,25 @@ const PrivateProfile = () => {
     }
   }, [data]);
 
+  // Open Modal
+  const modalIsOpen = () => {
+    setIsOpen(true);
+    document.body.setAttribute("style", "overflow: hidden");
+  };
+  // Close Modal
+  const closeModal = () => {
+    setIsOpen(false);
+    document.body.setAttribute("style", "overflow: auto");
+  };
+
+  const theme = useTheme();
+
+  useEffect(() => {
+    const body = document.getElementsByTagName("body");
+    body[0].style.backgroundColor = theme.bg;
+    body[0].style.overflow = "auto";
+  });
+
   return (
     <CoverWrapper>
       <Container>
@@ -188,17 +213,22 @@ const PrivateProfile = () => {
               </Li>
             </Ul>
             <Buttons>
-              <EdidButton to="/">
+              <EdidButton onClick={modalIsOpen}>
                 <EditIcon className="fa-solid fa-pen"></EditIcon>
                 Edit Profile
               </EdidButton>
+              <UpdatedModale
+                avatar={avatar}
+                modalIsOpen={isOpen}
+                closeModal={closeModal}
+              />
             </Buttons>
           </Followers>
         </Col>
       </Container>
       <Container>
         <Row>
-          <Col w="30">
+          <Col w="30" md="40" sm="100">
             <ImageWrapper>
               <Header>
                 <Photos>Photos</Photos>
@@ -224,11 +254,11 @@ const PrivateProfile = () => {
 
             <Friends />
           </Col>
-          <Col w="50">
+          <Col w="50" md="60" sm="100">
             <CreatePost />
             <PostCart />
           </Col>
-          <Col w="20"></Col>
+          <Col w="20" mdnone="true" none="true"></Col>
         </Row>
       </Container>
     </CoverWrapper>

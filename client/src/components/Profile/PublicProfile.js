@@ -1,5 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 
+import { useTheme } from "styled-components";
+
 import { gql, useMutation, useQuery } from "@apollo/client";
 
 import { Container, Col, Row } from "../../Styles/ElementsStyles";
@@ -109,7 +111,14 @@ const PublicProfile = () => {
     }
   };
 
-  console.log(profileUser);
+  const theme = useTheme();
+
+  useEffect(() => {
+    const body = document.getElementsByTagName("body");
+    body[0].style.backgroundColor = theme.bg;
+    body[0].style.overflow = "auto";
+  });
+
   return (
     <CoverWrapper>
       <Container>

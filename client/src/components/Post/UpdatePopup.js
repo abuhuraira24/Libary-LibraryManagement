@@ -5,7 +5,14 @@ import { useTheme } from "styled-components";
 
 import { Close, H5, P } from "./PopupStyles";
 
-const DeletePopup = ({ isOpen, closeModal, children, title, text }) => {
+const PostUpdatePopup = ({
+  isOpen,
+  closeModal,
+  children,
+  title,
+  text,
+  toggler,
+}) => {
   const theme = useTheme();
   // Popup stye
   const customStyles = {
@@ -23,6 +30,7 @@ const DeletePopup = ({ isOpen, closeModal, children, title, text }) => {
       transition: ".5s",
       transitionDelay: "2s",
       overflow: "inherit",
+      width: "400px",
     },
   };
 
@@ -33,9 +41,9 @@ const DeletePopup = ({ isOpen, closeModal, children, title, text }) => {
       style={customStyles}
       contentLabel="Example Modal"
     >
-      <Close onClick={closeModal}>
+      <Close>
         <H5>{title}</H5>
-        <i className="fa-solid fa-xmark"></i>
+        <i onClick={closeModal} className="fa-solid fa-xmark"></i>
       </Close>
       <P>{text}</P>
       {children}
@@ -43,4 +51,4 @@ const DeletePopup = ({ isOpen, closeModal, children, title, text }) => {
   );
 };
 
-export default DeletePopup;
+export default PostUpdatePopup;

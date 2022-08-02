@@ -11,15 +11,12 @@ import { AuthContext } from "../../context/auth";
 const DeletePost = ({ postId, closeModal }) => {
   const navigate = useNavigate();
 
-  const { getPosts } = useContext(AuthContext);
+  const { getPosts, deletedPostId } = useContext(AuthContext);
 
   const [deletePost, { loading }] = useMutation(DELETE, {
     onCompleted: (data) => {
-      console.log(data.deletePost);
-
-      getPosts(data.deletePost);
+      deletedPostId(postId);
       closeModal();
-      navigate("/");
     },
     onError(error) {
       console.log(error);
@@ -30,9 +27,13 @@ const DeletePost = ({ postId, closeModal }) => {
     deletePost({ variables: { postId } });
   };
 
+  const dontDelete = () => {
+    closeModal();
+  };
+
   return (
     <Buttons>
-      <Button>No</Button>
+      <Button onClick={dontDelete}>No</Button>
       <Button onClick={deleteHandler}>Yes</Button>
     </Buttons>
   );

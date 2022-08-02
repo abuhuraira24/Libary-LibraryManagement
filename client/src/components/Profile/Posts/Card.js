@@ -1,13 +1,14 @@
 import { useContext, useState, useEffect } from "react";
 
-import { gql, useQuery, useLazyQuery } from "@apollo/client";
+import { gql, useLazyQuery } from "@apollo/client";
 
-import Post from "./Post";
+import { useParams } from "react-router-dom";
 
-import { Card, Load, LoadMore } from "./CartStyles";
+import Post from "../../Post/Post";
+
+import { Card, Empty, Load, LoadMore } from "../../Post/CartStyles";
 
 import { AuthContext } from "../../../context/auth";
-import { useParams } from "react-router-dom";
 
 const PostCart = () => {
   const [values, setValues] = useState({
@@ -15,16 +16,15 @@ const PostCart = () => {
     offset: 0,
   });
 
-  const [allPost, setPosts] = useState();
+  let { user, getPosts, posts } = useContext(AuthContext);
 
-  let userParams = useParams();
-
-  let { getPosts, posts, user } = useContext(AuthContext);
+  // userId
+  const { id } = useParams();
 
   // Lazy Query
   let [getDog, { loading }] = useLazyQuery(FETCH_POSTT, {
     onCompleted: (data) => {
-      getPosts(data.infinitePost);
+      getPosts(data.getPostsByUserId);
     },
 
     variables: {
@@ -34,8 +34,8 @@ const PostCart = () => {
   });
 
   useEffect(() => {
-    getDog();
-  }, [getDog]);
+    getDog({ variables: { userId: id } });
+  }, [id, getDog]);
 
   const morePost = () => {
     setValues({
@@ -46,53 +46,27 @@ const PostCart = () => {
   };
 
   return (
-    <div className="i">
+    <div>
       <Card className="mb-4">
         {posts &&
           typeof posts !== "undefined" &&
           Object.keys(posts).length !== 0 &&
-          posts.map(
-            (post, index) =>
-              post.userId === userParams.id && <Post key={index} data={post} />
-          )}
+          posts.map((post, index) => <Post key={index} data={post} />)}
       </Card>
-      {posts && typeof posts !== "undefined" && posts.length > 9 && (
+      {/* {posts && typeof posts !== "undefined" && posts.length > 9 && (
         <LoadMore>
           <Load type="button" onClick={morePost}>
             See more post
           </Load>
         </LoadMore>
-      )}
+      )} */}
     </div>
   );
 };
 
-// const FETCH_POST = gql`
-//   query {
-//     getPosts {
-//       firstName
-//       userId
-//       lastName
-//       _id
-//       body
-//       comments {
-//         username
-//         body
-//         createdAt
-//       }
-//       likes {
-//         userId
-//         createdAt
-//       }
-//       readTime
-//       createdAt
-//     }
-//   }
-// `;
-
 const FETCH_POSTT = gql`
-  query ($limit: Int!, $offset: Int!) {
-    infinitePost(limit: $limit, offset: $offset) {
+  query ($userId: ID!) {
+    getPostsByUserId(userId: $userId) {
       firstName
       userId
       lastName

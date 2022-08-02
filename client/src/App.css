@@ -199,7 +199,8 @@ cursor: pointer;
   }
 
   .ReactModal__Overlay.ReactModal__Overlay--after-open {
-    background: #41464bb5 !important;
+    background: #0e0e0ee0 !important;
+    z-index: 99;
 }
 
   .share  svg{

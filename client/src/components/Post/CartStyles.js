@@ -38,7 +38,10 @@ export const Comment = styled.div`
 
 export const Span = styled.span`
   margin-left: 8px;
-  color: ${(props) => props.theme.light};
+  color: ${(props) => props.theme.text};
+  @media (max-width: 558px) {
+    display: none;
+  }
 `;
 
 export const CommentBox = styled.div`
@@ -52,6 +55,7 @@ export const CommentInput = styled.input`
   background: ${(props) => props.theme.gray};
   border: none;
   border-radius: 50px;
+  color: ${(props) => props.theme.text};
   height: 32px;
 `;
 

@@ -7,12 +7,20 @@ export const Wrapper = styled.div`
   position: fixed;
   box-shadow: 0 20px 25px -5px rgb(0 0 0 / 10%),
     0 8px 10px -6px rgb(0 0 0 / 10%);
+  @media (max-width: 768px) {
+    background: ${(props) => props.theme.bg};
+    width: 100%;
+    box-shadow: none;
+  }
 `;
 
 export const Followers = styled.div``;
 
 export const Title = styled.div`
   margin-bottom: 2rem;
+  @media (max-width: 768px) {
+    margin-top: 1rem;
+  }
 `;
 
 export const H5 = styled.h5`

@@ -39,6 +39,13 @@ const startServer = async () => {
   app.use(express.json());
   app.use("/", require("./router/index"));
 
+  if (process.env.NODE_ENV === "production") {
+    app.use(express.static("client/build"));
+    app.get("*", (req, res) => {
+      res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+    });
+  }
+
   app.use(graphqlUploadExpress());
 
   apolloServer.applyMiddleware({

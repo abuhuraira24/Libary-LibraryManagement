@@ -69,6 +69,7 @@ const Navbar = () => {
   const [notifications, setNotifications] = useState([]);
 
   const { user, logout, themeMode } = useContext(AuthContext);
+
   let noti = useQuery(GET_NOTIFICATIONS, {
     onCompleted: (data) => {
       if (data) {
@@ -158,7 +159,8 @@ const Navbar = () => {
         <NavbarContainer>
           <Logo>
             <NavLogo issticky={sticky.toString()} to="/">
-              <LogoImg src={logo} alt="logo" />
+              {/* <LogoImg src={logo} alt="logo" /> */}
+              <i class="fa-brands fa-facebook"></i>
             </NavLogo>
           </Logo>
 
@@ -193,9 +195,7 @@ const Navbar = () => {
                 )}
                 <Iconn className="fa-solid fa-bell"></Iconn>
               </Icons>
-              {toggleNoti && (
-                <Notification notification={noti.data ? noti : []} />
-              )}
+              {toggleNoti && <Notification />}
             </HeaderItem>
 
             {user && (

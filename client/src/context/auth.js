@@ -22,6 +22,7 @@ const AuthContext = createContext({
   getNotification: (data) => {},
   getRealTimeNoti: (data) => {},
   themeMode: () => {},
+  deletedPostId: (data) => {},
 });
 
 const init = {
@@ -95,6 +96,14 @@ const authReducer = (state, action) => {
       return {
         ...state,
         isDark: action.payload,
+      };
+
+    case "DELETEDPOST":
+      let posts = state.posts.filter((post) => post._id !== action.payload);
+
+      return {
+        ...state,
+        posts: posts,
       };
     default:
       return state;
@@ -189,6 +198,13 @@ const AuthProvider = (props) => {
       payload: dark,
     });
   };
+
+  const deletedPostId = (postId) => {
+    dispatch({
+      type: "DELETEDPOST",
+      payload: postId,
+    });
+  };
   return (
     <AuthContext.Provider
       value={{
@@ -209,6 +225,7 @@ const AuthProvider = (props) => {
         notification: state.notification,
         themeMode,
         isDark: state.isDark,
+        deletedPostId,
       }}
       {...props}
     />

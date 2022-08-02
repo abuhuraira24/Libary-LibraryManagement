@@ -26,29 +26,24 @@ import SmallNavbar from "./components/Navbar/SmallNavbar";
 
 import Profile from "./components/Profile/Profile";
 
-import { useTheme } from "styled-components";
-import MobileMenu from "./components/Navbar/MobileMenu";
-
 import PrivatRouter from "./hooks/PrivetRouter";
-
-import { AuthContext } from "./context/auth";
 
 import socket from "./hooks/socketio";
 
 import decoder from "jwt-decode";
 
-import PrivateProfile from "./components/Profile/PrivateProfile";
-
-import PublicProfile from "./components/Profile/PublicProfile";
 import CheckMail from "./components/Email/CheckMail";
 import ConfirmAccount from "./components/Email/ConfirmAccount";
 import NotFound from "./components/Email/NotFound/NotFound";
 import Forgot from "./components/ForgotPassword";
 import SuccessMail from "./components/ForgotPassword/SuccessMail";
 import SetNewPassword from "./components/ForgotPassword/SetPassword";
-import { ThemeProvider } from "styled-components";
-import { dark, light } from "./components/Theme/index";
+
 import Theme from "./components/Theme/Theme";
+
+import Follower from "./components/Home/Followers";
+
+import Notification from "./components/Notifications";
 
 function App() {
   const [user, setUser] = useState();
@@ -91,6 +86,8 @@ function App() {
             <Route path="/notfound" element={<NotFound />} />
             <Route path="/forgot" element={<Forgot />} />
             <Route path="/successmail" element={<SuccessMail />} />
+            <Route path="/friends" element={<Follower />} />
+            <Route path="/notifications" element={<Notification />} />
             <Route
               path="/recovery_password/:token"
               element={<SetNewPassword />}

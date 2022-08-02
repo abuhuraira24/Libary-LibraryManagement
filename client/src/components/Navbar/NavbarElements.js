@@ -62,6 +62,9 @@ export const NavLogo = styled(NavLinks)`
   &&:hover {
     color: ${(props) => props.theme.color};
   }
+  /* i {
+    color: #0573e7;
+  } */
 `;
 
 export const RightNav = styled.div`

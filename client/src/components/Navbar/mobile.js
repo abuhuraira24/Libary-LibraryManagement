@@ -13,13 +13,11 @@ export const Link = styled.span`
 `;
 
 export const Main = styled.div`
-  background: ${(props) => props.theme.white};
-
   display: flex;
   justify-content: space-around;
   align-items: center;
 `;
 
 export const Icon = styled.i`
-  color: #41464b;
+  color: ${(props) => props.theme.text};
 `;

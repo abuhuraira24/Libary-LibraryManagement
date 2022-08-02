@@ -104,6 +104,7 @@ const SEARCH = gql`
     search(name: $name) {
       firstName
       lastName
+      id
       avatars {
         avatar
       }

@@ -32,4 +32,5 @@ export const User = styled.div`
 
 export const Name = styled.h5`
   font-size: 14px;
+  color: ${(props) => props.theme.text};
 `;

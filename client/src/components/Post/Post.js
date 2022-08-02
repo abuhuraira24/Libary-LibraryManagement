@@ -47,7 +47,11 @@ import SingleComment from "../Comments";
 
 import { getCommnetAvatar } from "../Helper/helper";
 
-import DeletePopup from "./DeletePopup";
+import PostPopup from "./DeletePopup";
+
+import PostUpdatePopup from "./UpdatePopup";
+
+import PostUpdateForm from "./UpdatePost";
 
 import Delete from "./DeletePost";
 
@@ -59,6 +63,8 @@ const Post = ({ ...props }) => {
   const [toggle, setTogle] = useState(false);
 
   const [isOpen, setOpen] = useState(false);
+
+  const [isUpdate, setUpdate] = useState(false);
 
   const { user } = useContext(AuthContext);
 
@@ -108,7 +114,14 @@ const Post = ({ ...props }) => {
     setTogle(false);
   };
 
-  console.log(data.userId === user.id);
+  const updateOpen = () => {
+    setUpdate(true);
+  };
+
+  const updateClose = () => {
+    setUpdate(false);
+    setTogle(false);
+  };
   return (
     <CardBody className="mb-4 ">
       <Users>
@@ -130,9 +143,15 @@ const Post = ({ ...props }) => {
                 <>
                   <UpdatePost>
                     <Edit>
-                      <Icon className="fa-solid fa-pen"></Icon>
-                      <H6>Edit</H6>
+                      <Icon
+                        onClick={updateOpen}
+                        className="fa-solid fa-pen"
+                      ></Icon>
+                      <H6 onClick={updateOpen}>Edit</H6>
                     </Edit>
+                    <PostUpdatePopup closeModal={updateClose} isOpen={isUpdate}>
+                      <PostUpdateForm post={data.body} />
+                    </PostUpdatePopup>
                   </UpdatePost>
                   <DeletePost>
                     <Icon
@@ -140,9 +159,14 @@ const Post = ({ ...props }) => {
                       className="fa-solid fa-trash-can"
                     ></Icon>
                     <H6 onClick={isOpenHandler}>Delete</H6>
-                    <DeletePopup isOpen={isOpen} closeModal={closeModal}>
+                    <PostPopup
+                      title="Delete Post"
+                      text="Are you sure you want to delete?"
+                      isOpen={isOpen}
+                      closeModal={closeModal}
+                    >
                       <Delete closeModal={closeModal} postId={data._id} />
-                    </DeletePopup>
+                    </PostPopup>
                   </DeletePost>
                 </>
               ) : (

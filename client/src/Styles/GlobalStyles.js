@@ -9,7 +9,7 @@ export const GlobalStyles = createGlobalStyle`
 body{
     font-family: 'Lato', sans-serif;
     user-select: none;
-    overflow: auto !important;
+    overflow: auto ;
 }
 a{
     text-decoration: none;

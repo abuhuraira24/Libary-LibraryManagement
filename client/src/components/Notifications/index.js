@@ -3,45 +3,57 @@ import { gql, useQuery } from "@apollo/client";
 import SingleNoti from "./SingleNoti";
 import { Empty, Wrapper } from "./styles";
 
-import socket from "../../hooks/socketio";
-
-import RealTimeNotification from "./RealTimeNotification";
+import SmallNavbar from "../Navbar/SmallNavbar";
 
 import { Header, New, SeeAll, SubHeader, Title } from "./styles";
-const Notification = ({ realtTimeNoti, notification }) => {
-  const [noti, setNoti] = useState([]);
+const Notification = () => {
+  // Get Notification
+  const [notifications, setNotifications] = useState([]);
 
-  const [realTimeNoti, setRealTimeNoti] = useState([]);
-
-  useEffect(() => {
-    if (notification) {
-      setNoti(notification.data.notifications);
-    }
-  }, [notification]);
+  useQuery(GET_NOTIFICATIONS, {
+    onCompleted: (data) => {
+      if (data) {
+        setNotifications(...notifications, data.notifications);
+      }
+    },
+  });
 
   return (
-    <Wrapper>
-      <Header>
-        <Title>Notifications</Title>
-        <SubHeader>
-          <New>New</New>
-          <SeeAll>See All</SeeAll>
-        </SubHeader>
+    <>
+      <SmallNavbar />
+      <Wrapper>
+        <Header>
+          <Title>Notifications</Title>
+          <SubHeader>
+            <New>New</New>
+            <SeeAll>See All</SeeAll>
+          </SubHeader>
 
-        <Empty>
-          {typeof noti !== "undefined" &&
-            noti.length === 0 &&
-            "There is no Notification"}
-        </Empty>
-      </Header>
-      {/* {realtTimeNoti.length !== 0 && (
-        <RealTimeNotification realtTimeNoti={realtTimeNoti} />
-      )} */}
+          <Empty>
+            {notifications &&
+              typeof notifications !== "notifications" &&
+              notifications.length === 0 &&
+              "There is no Notification"}
+          </Empty>
+        </Header>
 
-      {noti &&
-        noti.map((x, index) => <SingleNoti key={index} notification={x} />)}
-    </Wrapper>
+        {notifications &&
+          notifications.map((x, index) => (
+            <SingleNoti key={index} notification={x} />
+          ))}
+      </Wrapper>
+    </>
   );
 };
 
+const GET_NOTIFICATIONS = gql`
+  query {
+    notifications {
+      name
+      text
+      avatar
+      createdAt
+    }
+  }
+`;
 export default Notification;
